@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YU_XUAN_Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="pic/logo.svg">
+<script src="index.js"></script>
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="./js/i18n/home.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+
+  #three-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0; /* 放在底層 */
+    pointer-events: none; /* 重要：讓滑鼠事件穿透畫布，這樣你才能點擊下方的按鈕 */
+  }
+
+  #canvas-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; 
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  
+  /* PRELOADING */
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    color: #fff;
+    z-index: 10002;
+    overflow: hidden;
+    /* 使用 font-variant-numeric 確保數字跳動時不會晃動 */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 進度條：貫穿整個頁面 */
+  .loader-bar-wrapper {
+    position: absolute;
+    top: 50%; /* 你也可以設為 top: 0 或 bottom: 0 讓它在邊緣跑 */
+    left: 0;
+    width: 100%;
+    height: 2px; /* 貫穿線條通常很細比較優雅 */
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .loader-bar {
+    width: 0%; 
+    height: 100%;
+    background: var(--brand);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* 增加一點發光感 */
+  }
+
+  /* 右下角大文字 */
+  .loader-percent-wrap {
+    position: absolute;
+    bottom: 4rem; /* 距離底部 */
+    right: 4rem;  /* 距離右側 */
+    display: flex;
+    align-items: baseline;
+    line-height: 0.8;
+  }
+
+  .loader-percent {
+    font-size: 15rem; /* 超大尺寸 */
+    font-family: 'Inter', sans-serif; /* 建議用厚重的字體 */
+    font-weight: 900;
+    letter-spacing: -0.5rem;
+  }
+
+  .percent-symbol {
+    font-size: 5rem;
+    font-weight: 300;
+    margin-left: 1rem;
+  }
+
+  /* HERO */
+  #hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 4rem 5rem;
+  }
+
+  .hero-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tertiary);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    overflow: hidden;
+  }
+
+  .hero-title span {
+    display: inline-block;
+    vertical-align: top;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  #title-line1{
+    padding: 0;
+  }
+
+  .hero-subtitle {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    max-width: 320px;
+    line-height: 1.7;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 4rem;
+    writing-mode: vertical-rl;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-scroll-hint::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--muted) 50%, transparent 50%);
+    background-size: 100% 200%;
+    animation: scrollLine 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  @keyframes scrollLine {
+    0% {
+      background-position: 0% 100%;
+    }
+    50% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 0% -100%;
+    }
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 1.2rem 0;
+    background: transparent;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    white-space: nowrap;
+    animation: marqueeScroll 18s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-track span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--secondary);
+  }
+
+  .marquee-track span.dot {
+    color: var(--fg);
+    opacity: 0.3;
+  }
+
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 10rem 4rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .about-h2{
+    font-family:  'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    letter-spacing: -0.01em;
+  }
+
+  .line-wrap{
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.1em;
+  }
+
+  .line-inner{
+    display: block;
+  }
+
+  .line-wrap em{
+    color: var(--brand);
+    font-style: normal;
+  }
+
+
+
+
+  .about-text h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    letter-spacing: -0.01em;
+  }
+
+  .about-text p {
+    color: var(--tertiary);
+    font-size: 0.95rem;
+    line-height: 1.9;
+    max-width: 460px;
+  }
+
+  .about-column h3 {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    max-width: 460px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 3rem;
+    }
+
+    
+    .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        max-width: 500px;
+        list-style: none;
+    }
+
+    .skill-tags li {
+        padding: 0.4rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 50px;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        color: var(--fg);
+        margin-top: 1rem;
+    }
+
+
+  .experience-list {
+    justify-content: flex-end;
+    padding-top: 4rem;
+    max-width: 600px;
+  }
+
+
+  .experience-item {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: default;
+    transition: all 0.3s;
+    text-decoration: none;
+    color: var(--secondary);
+    cursor: pointer;
+  }
+
+  .experience-item:hover { padding-left: 1rem; }
+
+  .experience-item .num {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    min-width: 30px;
+  }
+
+  .experience-item .name {
+    flex: 1;
+    padding: 0 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .experience-item .arrow {
+    font-size: 0.8rem;
+    color: var(--muted);
+    transition: transform 0.3s;
+  }
+
+  .experience-item:hover .arrow { transform: translateX(6px); }
+
+  /* PROJECTS */
+/* PROJECTS — 長條卡牌式 */
+#projects { padding: 6rem 0 10rem; }
+
+#projects .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+  padding: 0 4rem;
+}
+
+#projects h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.view-all {
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  margin-bottom: 0.5rem;
+
+  border: 1px solid transparent;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 20px;
+}
+.view-all:hover { color: var(--fg); }
+
+/* 卡牌容器 */
+.projects-accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  cursor: pointer; /* 讓滑鼠移上去顯示手指標誌 */
+}
+
+/* 單張長條卡牌 */
+.project-card {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  border: none;
+  border-top: 1px solid var(--border);
+  background-color: rgba(10,10,10,0.6);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  cursor: none;
+  /* 收合狀態：高度只顯示 header bar */
+  min-height: 400px;
+  transition: max-height 0.7s cubic-bezier(0.19, 1, 0.22, 1),
+              border-color 0.3s;
+}
+
+/* 最後一個項目補上底部邊框 */
+.project-card:last-child { 
+  border-bottom: 1px solid var(--border); 
+}
+
+
+.project-card:hover {
+  border-top-color: var(--brand);
+}
+
+.project-card:hover .project-img-wrap img {
+  transform: scale(1.1);
+  filter: brightness(0.9); /* 稍微變亮一點，模擬 Formance 的質感 */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 左側圖片區 */
+.project-img-wrap {
+  position: relative;
+  margin: 3rem;
+  overflow: hidden;
+  height: 300px; /* 取代固定 height */
+  background: #111;
+}
+
+.project-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  object-position: center center;
+  filter: brightness(0.7);
+  transition: transform 0.8s cubic-bezier(0.6, 0.01, 0.05, 0.95);
+}
+
+
+
+/* ==================== project img btn ============================*/
+
+/*
+.project-img-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.project-card:hover .project-img-btn { 
+    opacity: 1; 
+    transform: translateY(0);
+}
+
+.project-img-btn a {
+  padding: 0.75rem 1.8rem;
+  border: 1px solid rgba(240,240,240,0.6);
+  color: var(--fg);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.3);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.project-img-btn a:hover {
+  background: rgba(240,240,240,0.15);
+  border-color: rgba(240,240,240,0.9);
+}
+*/
+
+/* 右側資訊區 */
+.project-info {
+  display: flex;
+  flex-direction: column;
+  padding: 0 4rem;
+  justify-content: center;
+  gap: 0;
+}
+
+/* 收合時只顯示的 header bar */
+.project-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88px;
+  flex-shrink: 0;
+}
+
+.project-header-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.project-num {
+  font-size: 0.9rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  font-weight: 400;
+  min-width: 28px;
+}
+
+.project-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  letter-spacing: 0.02em;
+  transition: opacity 0.3s;
+}
+
+
+
+/* 展開後顯示的詳細資訊 */
+.project-details {
+  padding: 0 0 2.5rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s, transform 0.4s;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+.project-category {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.project-desc {
+  font-size: 0.88rem;
+  color: var(--tertiary);
+  line-height: 1.8;
+  max-width: 480px;
+}
+
+.project-date {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+
+
+/* ------ SERVICES --------- */
+
+.services-container {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--bg-card);
+  z-index: 20;
+}
+
+/* 輪播視窗 */
+.carousel-viewport {
+  overflow: hidden; /* 隱藏超出範圍的卡片 */
+  margin-bottom: 30px;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.32, 1);
+  will-change: transform;
+}
+
+.no-transition {
+  transition: none !important;
+}
+
+/* 卡片設計 */
+
+.carousel-viewport { overflow: hidden; background: #0a0a0a; padding: 24px 16px; border-radius: 12px; }
+.service-card {
+  min-width: calc(33.333% - 11px);
+  background: #111;
+  border: 1px solid var(--border);
+  padding: 32px 28px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 420px;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+}
+.left-wing-container,
+.right-wing-container {
+  position: absolute;
+  top: 50%;
+  width: 90px;
+  height: 130px;
+  transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.left-wing-container {
+  left: 25%;
+  transform: translateY(-60%);
+}
+.right-wing-container {
+  right: 25%;
+  transform: translateY(-60%);
+}
+.service-card:hover .left-wing-container {
+  transform: translateY(-60%) translateX(-22px);
+}
+.service-card:hover .right-wing-container {
+  transform: translateY(-60%) translateX(22px);
+}
+.left-wing-container svg,
+.right-wing-container svg {
+  width: 100%;
+  height: 100%;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--fg);
+  margin: 0 0 auto;
+  text-align: center;
+  letter-spacing: -0.01em;
+  position: relative;
+  z-index: 1;
+}
+
+.card-num {
+  font-size: 16px;
+  font-family: var(--font-display);
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none; /* 建議加入，避免干擾滑鼠事件 */
+  z-index: 2;
+}
+
+.service-card:hover .card-num { opacity: 1; max-height: 60px; }
+
+.card-desc {
+  font-size: 16px;
+  color: var(--secondary);
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+  opacity: 0;
+  max-height: 100px;
+  overflow: hidden;
+  transition: opacity 0.4s ease 0.1s, max-height 0.4s ease 0.1s;
+  position: relative;
+  z-index: 1;
+}
+.service-card:hover .card-desc { opacity: 1; max-height: 100px; }
+
+
+/* 頁腳控制 */
+.carousel-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carousel-btns button {
+  background-color: rgba(10,10,10,0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+
+.carousel-btns button:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* 手機版適配 */
+@media (max-width: 768px) {
+  .service-card {
+    min-width: calc(100% - 0px); /* 手機版一次顯示一張 */
+  }
+}
+
+/* CONTACT */
+.home-footer-section{
+  position: relative;
+  min-height: 800px;
+  border-radius: 40px; /* 改為固定像素或較小比例，5% 有時會太圓 */
+  overflow: hidden; /* 確保跑馬燈不會超出藍色區域 */
+  display: flex;
+  align-items: center;
+}
+
+
+
+#contact {
+  border-top: 1px solid var(--border);
+  padding: 8rem 4rem 4rem 4rem !important;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  gap: 6rem;
+  padding: 0 4rem;
+}
+
+
+  @media(max-width: 900px){
+    #about {
+      grid-template-columns: 1fr;
+    }
+    .project-card { grid-template-columns: 1fr; }
+    .project-card.open { max-height: 520px; }
+    .project-img-wrap { height: 220px; }
+    .project-info { padding: 0 2rem; }
+    .project-header-bar { height: 72px; }
+    .bio-container { grid-template-columns: 1fr; }
+    #contact {
+      background-color: rgba(10,10,10,0.6);
+      backdrop-filter: blur(10px);
+      grid-template-columns: 1fr;
+      padding: 8rem 3rem 3rem;
+    }
+
+    .view-all{
+      background-color: rgba(10,10,10,0.6);
+      backdrop-filter: blur(10px);
+      color: var(--fg);
+    }
+
+    .view-all:hover{
+      color: var(--brand);
+    }
+    
+    .loader-percent-wrap {
+      bottom: 3rem; /* 距離底部 */
+      right: 3rem;  /* 距離右側 */
+    }
+
+    .loader-percent {
+      font-size: 12rem; /* 超大尺寸 */
+    }
+  }
+
+
+
+
+  /* placeholder images via SVG data URIs  */
+  .proj-ph {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+</style>
+</head>
+<body>
+
+
+<!--preloading-->
+<div class="preloader">
+  <div class="loader-bar-wrapper">
+    <div class="loader-bar"></div>
+  </div>
+  
+  <div class="preloader-content">
+    <div class="loader-percent-wrap">
+        <span class="loader-percent">0</span><span class="percent-symbol">%</span>
+    </div>
+  </div>
+</div>
+
+
+<main id="main-content">
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+
+  <div id="canvas-container">
+    <canvas id="three-canvas"></canvas>
+  </div>
+
+  <div id="magnifier"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="/index.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 724 613">
+        <path fill="#d9d9d9" fill-rule="evenodd" d="M24 15.5c43.1-36.7 129.6-6 193.1 68.7q21.3 25.3 35.5 51.7a245 245 0 0 1 16.4 7.7q-8.1-4.2-16.2-7.2c24.2 45.3 31.6 90.7 19.7 122.5 27.7 3.1 50.5-4 59.3-20.8 14-27-13.6-69.1-61.6-94 67.4 35 106.2 94 86.6 132-16 31.1-66.6 38.4-121.6 20.7-46 16.9-118-14.3-173.1-78.4 39.1 45.3 90.1 67.3 122.8 55.3-58.6-35.3-90.6-88.7-72.4-124 9.4-18.2 30.6-28.2 57.6-29.9-45-51.2-105-72-135.3-46.2-30.5 26-19.2 89.3 25 142.2C-2.7 141.4-18.8 52 24 15.5m155.1 115.3c-9.6 3.6-17 9.4-21.2 17.5-13.4 26 11.5 65.8 56 90.8 6.6-29.3-6-70.8-34.8-108.3" clip-rule="evenodd"/>
+        <path fill="#d9d9d9" fill-rule="evenodd" d="M699.9 15.5c-43.1-36.7-129.6-6-193.1 68.7a295 295 0 0 0-35.5 51.7q-8.2 3.5-16.4 7.7a172 172 0 0 1 16.2-7.2c-24.2 45.3-31.6 90.7-19.7 122.5-27.6 3.1-50.5-4-59.2-20.8-14-27 13.6-69.1 61.6-94-67.5 35-106.3 94-86.7 132 16.1 31.1 66.6 38.4 121.6 20.7 46 16.9 118-14.3 173.1-78.4-39.1 45.3-90.1 67.3-122.8 55.3 58.6-35.3 90.7-88.7 72.5-124-9.5-18.2-30.7-28.2-57.7-29.9 45-51.2 105-72 135.3-46.2 30.5 26 19.2 89.3-25 142.2 62.6-74.4 78.7-163.8 35.8-200.3M544.8 130.8c9.6 3.6 17 9.4 21.2 17.5 13.4 26-11.5 65.8-56 90.8-6.6-29.3 6-70.8 34.8-108.3M24 596.8c43.1 36.7 129.6 5.9 193.1-68.8q21.3-25.2 35.5-51.7a245 245 0 0 0 16.4-7.6q-8.1 4-16.2 7.2c24.2-45.4 31.6-90.8 19.7-122.6 27.7-3.1 50.5 4 59.3 20.9 14 27-13.6 69-61.6 93.9 67.4-34.9 106.2-94 86.6-131.9-16-31.2-66.6-38.4-121.6-20.7-46-17-118 14.3-173.1 78.4 39.1-45.3 90.1-67.4 122.8-55.4-58.6 35.4-90.6 88.7-72.4 124 9.4 18.2 30.6 28.3 57.6 30-45 51.2-105 72-135.3 46.2-30.5-26-19.2-89.4 25-142.3C-2.7 470.8-18.8 560.3 24 596.8m155.1-115.4c-9.6-3.5-17-9.3-21.2-17.4-13.4-26 11.5-65.8 56-91 6.6 29.4-6 71-34.8 108.4" clip-rule="evenodd"/>
+        <path fill="#d9d9d9" fill-rule="evenodd" d="M699.9 596.8c-43.1 36.7-129.6 5.9-193.1-68.8a295 295 0 0 1-35.5-51.7q-8.2-3.4-16.4-7.6a172 172 0 0 0 16.2 7.2c-24.2-45.4-31.6-90.8-19.7-122.6-27.6-3.1-50.5 4-59.2 20.9-14 27 13.6 69 61.6 93.9-67.5-34.9-106.3-94-86.7-131.9 16.1-31.2 66.6-38.4 121.6-20.7 46-17 118 14.3 173.1 78.4-39.1-45.3-90.1-67.4-122.8-55.4 58.6 35.4 90.7 88.7 72.5 124-9.5 18.2-30.7 28.3-57.7 30 45 51.2 105 72 135.3 46.2 30.5-26 19.2-89.4-25-142.3 62.6 74.4 78.7 163.9 35.8 200.4M544.8 481.4c9.6-3.5 17-9.3 21.2-17.4 13.4-26-11.5-65.8-56-91-6.6 29.4 6 71 34.8 108.4" clip-rule="evenodd"/>
+        
+        <defs>
+        <!-- blur 濾鏡要在 defs 裡定義 -->
+        <filter id="blur-filter">
+          <feGaussianBlur stdDeviation="6" />
+        </filter>
+        <mask id="logo-mask">
+          <!-- 必須先填黑色背景，才能讓遮罩預設「全部遮住」 -->
+          <rect width="724" height="613" fill="black"/>
+          <!-- blur 加在 circle 上，而不是 mask 元素上 -->
+          <circle id="mask-circle" cx="362" cy="306" r="0" filter="url(#blur-filter)" fill="white"/>
+        </mask>
+      </defs>
+
+      <!-- 底層：預設顏色 #d9d9d9 -->
+      <g fill="#fff">
+        <path fill-rule="evenodd" d="M24 15.5c43.1-36.7 129.6-6 193.1 68.7q21.3 25.3 35.5 51.7a245 245 0 0 1 16.4 7.7q-8.1-4.2-16.2-7.2c24.2 45.3 31.6 90.7 19.7 122.5 27.7 3.1 50.5-4 59.3-20.8 14-27-13.6-69.1-61.6-94 67.4 35 106.2 94 86.6 132-16 31.1-66.6 38.4-121.6 20.7-46 16.9-118-14.3-173.1-78.4 39.1 45.3 90.1 67.3 122.8 55.3-58.6-35.3-90.6-88.7-72.4-124 9.4-18.2 30.6-28.2 57.6-29.9-45-51.2-105-72-135.3-46.2-30.5 26-19.2 89.3 25 142.2C-2.7 141.4-18.8 52 24 15.5m155.1 115.3c-9.6 3.6-17 9.4-21.2 17.5-13.4 26 11.5 65.8 56 90.8 6.6-29.3-6-70.8-34.8-108.3" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M699.9 15.5c-43.1-36.7-129.6-6-193.1 68.7a295 295 0 0 0-35.5 51.7q-8.2 3.5-16.4 7.7a172 172 0 0 1 16.2-7.2c-24.2 45.3-31.6 90.7-19.7 122.5-27.6 3.1-50.5-4-59.2-20.8-14-27 13.6-69.1 61.6-94-67.5 35-106.3 94-86.7 132 16.1 31.1 66.6 38.4 121.6 20.7 46 16.9 118-14.3 173.1-78.4-39.1 45.3-90.1 67.3-122.8 55.3 58.6-35.3 90.7-88.7 72.5-124-9.5-18.2-30.7-28.2-57.7-29.9 45-51.2 105-72 135.3-46.2 30.5 26 19.2 89.3-25 142.2 62.6-74.4 78.7-163.8 35.8-200.3M544.8 130.8c9.6 3.6 17 9.4 21.2 17.5 13.4 26-11.5 65.8-56 90.8-6.6-29.3 6-70.8 34.8-108.3" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M24 596.8c43.1 36.7 129.6 5.9 193.1-68.8q21.3-25.2 35.5-51.7a245 245 0 0 0 16.4-7.6q-8.1 4-16.2 7.2c24.2-45.4 31.6-90.8 19.7-122.6 27.7-3.1 50.5 4 59.3 20.9 14 27-13.6 69-61.6 93.9 67.4-34.9 106.2-94 86.6-131.9-16-31.2-66.6-38.4-121.6-20.7-46-17-118 14.3-173.1 78.4 39.1-45.3 90.1-67.4 122.8-55.4-58.6 35.4-90.6 88.7-72.4 124 9.4 18.2 30.6 28.3 57.6 30-45 51.2-105 72-135.3 46.2-30.5-26-19.2-89.4 25-142.3C-2.7 470.8-18.8 560.3 24 596.8m155.1-115.4c-9.6-3.5-17-9.3-21.2-17.4-13.4-26 11.5-65.8 56-91 6.6 29.4-6 71-34.8 108.4" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M699.9 596.8c-43.1 36.7-129.6 5.9-193.1-68.8a295 295 0 0 1-35.5-51.7q-8.2-3.4-16.4-7.6a172 172 0 0 0 16.2 7.2c-24.2-45.4-31.6-90.8-19.7-122.6-27.6-3.1-50.5 4-59.2 20.9-14 27 13.6 69 61.6 93.9-67.5-34.9-106.3-94-86.7-131.9 16.1-31.2 66.6-38.4 121.6-20.7 46-17 118 14.3 173.1 78.4-39.1-45.3-90.1-67.4-122.8-55.4 58.6 35.4 90.7 88.7 72.5 124-9.5 18.2-30.7 28.3-57.7 30 45 51.2 105 72 135.3 46.2 30.5-26 19.2-89.4-25-142.3 62.6 74.4 78.7 163.9 35.8 200.4M544.8 481.4c9.6-3.5 17-9.3 21.2-17.4 13.4-26-11.5-65.8-56-91-6.6 29.4 6 71 34.8 108.4"  clip-rule="evenodd"/>
+      </g>
+
+      <!-- 上層：hover 顏色 var(--brand)，透過 mask 控制顯示範圍 -->
+      <g fill="var(--brand)" mask="url(#logo-mask)">
+        <!-- 放入與底層完全相同的 path -->
+        <path fill-rule="evenodd" d="M24 15.5c43.1-36.7 129.6-6 193.1 68.7q21.3 25.3 35.5 51.7a245 245 0 0 1 16.4 7.7q-8.1-4.2-16.2-7.2c24.2 45.3 31.6 90.7 19.7 122.5 27.7 3.1 50.5-4 59.3-20.8 14-27-13.6-69.1-61.6-94 67.4 35 106.2 94 86.6 132-16 31.1-66.6 38.4-121.6 20.7-46 16.9-118-14.3-173.1-78.4 39.1 45.3 90.1 67.3 122.8 55.3-58.6-35.3-90.6-88.7-72.4-124 9.4-18.2 30.6-28.2 57.6-29.9-45-51.2-105-72-135.3-46.2-30.5 26-19.2 89.3 25 142.2C-2.7 141.4-18.8 52 24 15.5m155.1 115.3c-9.6 3.6-17 9.4-21.2 17.5-13.4 26 11.5 65.8 56 90.8 6.6-29.3-6-70.8-34.8-108.3" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M699.9 15.5c-43.1-36.7-129.6-6-193.1 68.7a295 295 0 0 0-35.5 51.7q-8.2 3.5-16.4 7.7a172 172 0 0 1 16.2-7.2c-24.2 45.3-31.6 90.7-19.7 122.5-27.6 3.1-50.5-4-59.2-20.8-14-27 13.6-69.1 61.6-94-67.5 35-106.3 94-86.7 132 16.1 31.1 66.6 38.4 121.6 20.7 46 16.9 118-14.3 173.1-78.4-39.1 45.3-90.1 67.3-122.8 55.3 58.6-35.3 90.7-88.7 72.5-124-9.5-18.2-30.7-28.2-57.7-29.9 45-51.2 105-72 135.3-46.2 30.5 26 19.2 89.3-25 142.2 62.6-74.4 78.7-163.8 35.8-200.3M544.8 130.8c9.6 3.6 17 9.4 21.2 17.5 13.4 26-11.5 65.8-56 90.8-6.6-29.3 6-70.8 34.8-108.3" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M24 596.8c43.1 36.7 129.6 5.9 193.1-68.8q21.3-25.2 35.5-51.7a245 245 0 0 0 16.4-7.6q-8.1 4-16.2 7.2c24.2-45.4 31.6-90.8 19.7-122.6 27.7-3.1 50.5 4 59.3 20.9 14 27-13.6 69-61.6 93.9 67.4-34.9 106.2-94 86.6-131.9-16-31.2-66.6-38.4-121.6-20.7-46-17-118 14.3-173.1 78.4 39.1-45.3 90.1-67.4 122.8-55.4-58.6 35.4-90.6 88.7-72.4 124 9.4 18.2 30.6 28.3 57.6 30-45 51.2-105 72-135.3 46.2-30.5-26-19.2-89.4 25-142.3C-2.7 470.8-18.8 560.3 24 596.8m155.1-115.4c-9.6-3.5-17-9.3-21.2-17.4-13.4-26 11.5-65.8 56-91 6.6 29.4-6 71-34.8 108.4" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M699.9 596.8c-43.1 36.7-129.6 5.9-193.1-68.8a295 295 0 0 1-35.5-51.7q-8.2-3.4-16.4-7.6a172 172 0 0 0 16.2 7.2c-24.2-45.4-31.6-90.8-19.7-122.6-27.6-3.1-50.5 4-59.2 20.9-14 27 13.6 69 61.6 93.9-67.5-34.9-106.3-94-86.7-131.9 16.1-31.2 66.6-38.4 121.6-20.7 46-17 118 14.3 173.1 78.4-39.1-45.3-90.1-67.4-122.8-55.4 58.6 35.4 90.7 88.7 72.5 124-9.5 18.2-30.7 28.3-57.7 30 45 51.2 105 72 135.3 46.2 30.5-26 19.2-89.4-25-142.3 62.6 74.4 78.7 163.9 35.8 200.4M544.8 481.4c9.6-3.5 17-9.3 21.2-17.4 13.4-26-11.5-65.8-56-91-6.6 29.4 6 71 34.8 108.4"  clip-rule="evenodd"/>
+      </g>
+      </svg>
+    </a>
+    <ul class="nav-links">
+        <li>
+            <a href="about.html" class="nav-link">
+                <div class="text-wrapper" data-i18n-twin="nav-about">
+                    <span class="text-item">About</span>
+                    <span class="text-item">About</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="works.html" class="nav-link" >
+                <div class="text-wrapper" data-i18n-twin="nav-works"> 
+                    <span class="text-item">Works</span>
+                    <span class="text-item">Works</span>
+                </div>
+            </a>
+        </li>
+        <li>
+          <button id="lang-toggle" class="nav-link" type="button">
+            <div class="text-wrapper" data-i18n-twin="nav-lang"> 
+                <span class="text-item">中文</span>
+                <span class="text-item">中文</span>
+            </div>
+          </button>
+        </li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <div class="toggle-btn hamburger-type"></div>
+    </button>
+  </nav>
+  
+
+  <div class="nav-overlay" id="navOverlay">
+  <ul class="overlay-links">
+    <li>
+      <a href="about.html" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav-about">
+          <span class="overlay-text-item">About</span>
+          <span class="overlay-text-item">About</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="works.html" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav-works">
+          <span class="overlay-text-item">Works</span>
+          <span class="overlay-text-item">Works</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#" id="overlay-lang" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav-lang">
+          <span class="overlay-text-item">中文</span>
+          <span class="overlay-text-item">中文</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+  <div class="overlay-footer">
+    <p>© 2026 YU_XUAN Portfolio</p>
+  </div>
+</div>
+
+<section id="hero">
+  <p class="hero-tag" data-i18n="hero-tag">Portfolio — 2026</p>
+  <h1 class="hero-title">
+    <span id="title-line1" data-i18n="hero-line1">Design the Future</span>
+    <span id="title-line2" data-i18n="hero-line2">of Human-AI Interaction</span>
+  </h1>
+  <p class="hero-subtitle" data-i18n="hero-subtitle">Crafting digital experiences through thoughtful design, immersive interactions, and clean engineering.</p>
+  <div class="hero-scroll-hint" data-i18n="hero-scroll">Scroll</div>
+</section>
+
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <span>Web Design</span><span class="dot">✦</span>
+    <span>UI / UX</span><span class="dot">✦</span>
+    <span>Motion</span><span class="dot">✦</span>
+    <span>Three.js</span><span class="dot">✦</span>
+    <span>Front-End Dev</span><span class="dot">✦</span>
+    <span>Brand Identity</span><span class="dot">✦</span>
+    <span>Creative Direction</span><span class="dot">✦</span>
+    <span>Web Design</span><span class="dot">✦</span>
+    <span>UI / UX</span><span class="dot">✦</span>
+    <span>Motion</span><span class="dot">✦</span>
+    <span>Three.js</span><span class="dot">✦</span>
+    <span>Front-End Dev</span><span class="dot">✦</span>
+    <span>Brand Identity</span><span class="dot">✦</span>
+    <span>Creative Direction</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<section id="about" class="about">
+  <div class="about-text">
+    <div class="section-label" data-i18n="about-label">About</div>
+    <h2 class="about-h2">
+      <span class="line-wrap"><span class="line-inner" data-i18n="about-h2-line1">Beyond pixels,</span></span>
+      <span class="line-wrap"><span class="line-inner" data-i18n="about-h2-line2">I focus on <em>human experience</em></span></span>
+    </h2>
+    <p class="about-intro" data-i18n="about-body">
+      I am a UI/UX designer and creative developer specializing in the intersection of AI applications and front-end engineering. 
+      With a Master's in Interaction Design and experience in Fintech SaaS, 
+      <br>I build memorable digital experiences by merging user-centric research with robust, modern web development.
+    </p>
+    <div class="m-value-item-left">
+          <h3 class="about-skills-title" data-i18n="about-skills-title">Skills</h3>
+          <div class="m-value-body">
+            <div class="m-value-tags">
+              <span class="m-value-tag">Figma</span> <span class="m-value-tag">HTML / CSS</span>
+              <span class="m-value-tag">Three.js</span> <span class="m-value-tag">GSAP</span>
+            </div>
+          </div>
+      </div>
+  </div>
+  <div class="experience-list">
+    <div class="section-label" data-i18n="exp-label">Experience</div>
+    <a class="experience-item" href="about.html">
+      <span class="num">01</span>
+      <span class="name" data-i18n="exp-1">Work experience</span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="experience-item" href="about.html">
+      <span class="num">02</span>
+      <span class="name" data-i18n="exp-2">Education</span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="experience-item" href="about.html">
+      <span class="num">03</span>
+      <span class="name" data-i18n="exp-3">Skills & Languages</span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="experience-item" href="about.html">
+      <span class="num">04</span>
+      <span class="name" data-i18n="exp-4">Awards</span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-header">
+    <div>
+      <div class="section-label" data-i18n="projects-label">Selected Works</div>
+      <h2 data-i18n="projects-h2">Projects</h2>
+    </div>
+    <a href="/works.html" class="view-all" data-i18n="projects-view-all">View all →</a>
+  </div>
+  <div class="projects-accordion" id="projectsAccordion">
+
+      <div class="project-card" data-href="/projects/forword.html">
+          <div class="project-img-wrap">
+          <img src="pic/Forword/Forword.png" alt="Luminary">
+          <div class="project-img-btn"><a href="projects/forword.html">View Project →</a></div>
+          </div>
+          <div class="project-info">
+          <div class="project-header-bar">
+              <span class="project-title" data-i18n="proj-1-title">Forword — AI English learning app</span>
+              <span class="project-num">01</span>
+          </div>
+          <div class="project-details">
+              <p class="project-category" data-i18n="proj-1-cat">APP Design</p>
+              <p class="project-desc" data-i18n="proj-1-desc">FORWORD leverages generative AI to transform abstract vocabulary into personalized visual stimuli, turning static word lists into emotionally resonant experiences for better retention.</p>
+              <p class="project-date" data-i18n="proj-1-date">2023 — 6 weeks</p>
+          </div>
+          </div>
+      </div>
+
+      <div class="project-card" data-href="#">
+          <div class="project-img-wrap">
+          <img src="pic/MemoryFeast/MemoryFeast.jpeg" alt="Vault">
+          <div class="project-img-btn"><a href="projects/memoryFeast.html">View Project →</a></div>
+          </div>
+          <div class="project-info">
+          <div class="project-header-bar">
+              <span class="project-title" data-i18n="proj-2-title">MemoryFeast — Finance Dashboard</span>
+              <span class="project-num">02</span>
+          </div>
+          <div class="project-details">
+              <p class="project-category" data-i18n="proj-2-cat">UI / UX Design</p>
+              <p class="project-desc" data-i18n="proj-2-desc">An intuitive finance management dashboard with real-time data visualization, custom charting components, and a dark-first design system.</p>
+              <p class="project-date" data-i18n="proj-2-date">2024 — 8 weeks</p>
+          </div>
+          </div>
+      </div>
+
+      <div class="project-card" data-href="#">
+          <div class="project-img-wrap">
+          <img src="pic/VistaAI/VistaAI.png" alt="Orbit">
+          <div class="project-img-btn"><a href="projects/vistaAI.html">View Project →</a></div>
+          </div>
+          <div class="project-info">
+          <div class="project-header-bar">
+              <span class="project-title" data-i18n="proj-3-title">VistaAI — Interactive WebGL Experience</span>
+              <span class="project-num">03</span>
+          </div>
+          <div class="project-details">
+              <p class="project-category" data-i18n="proj-3-cat">Motion / WebGL</p>
+              <p class="project-desc" data-i18n="proj-3-desc">An immersive browser-based experience built with Three.js and GLSL shaders, exploring procedural animation and spatial audio interaction.</p>
+              <p class="project-date" data-i18n="proj-3-date">2023 — 6 weeks</p>
+          </div>
+          </div>
+      </div>
+
+      <div class="project-card" data-href="#">
+          <div class="project-img-wrap">
+          <img src="pic/Blitz/Blitz.png" alt="Soleil">
+          <div class="project-img-btn"><a href="projects/blitzGerman.html">View Project →</a></div>
+          </div>
+          <div class="project-info">
+          <div class="project-header-bar">
+              <span class="project-title" data-i18n="proj-4-title">BlitzGerman — E-Commerce Platform</span>
+              <span class="project-num">04</span>
+          </div>
+          <div class="project-details">
+              <p class="project-category" data-i18n="proj-4-cat">Web Design / Development</p>
+              <p class="project-desc" data-i18n="proj-4-desc">A high-performance e-commerce platform for a Parisian fashion label, featuring editorial-style product pages and a seamless checkout flow.</p>
+              <p class="project-date" data-i18n="proj-4-date">2023 — 16 weeks</p>
+          </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<section class="services-container">
+  <div class="section-header">
+    <div class="section-label" data-i18n="services-label">Services</div>
+  </div>
+  <div class="carousel-viewport">
+  <div class="carousel-track" id="track">
+    <div class="service-card">
+      <div class="card-title" data-i18n="svc-1-title">UX Strategy</div>
+      <div class="left-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 100 430 640" fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M84.007 141.477c43.119-36.692 129.575-5.913 193.104 68.746 14.223 16.715 26.09 34.214 35.461 51.717a245 245 0 0 1 16.45 7.642 172 172 0 0 0-16.221-7.216c24.181 45.365 31.579 90.726 19.717 122.57 27.634 3.111 50.503-3.955 59.235-20.857 13.984-27.071-13.595-69.12-61.601-93.92 67.48 34.86 106.283 93.9 86.668 131.87-16.114 31.194-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.279-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.675-88.717-72.48-123.939 9.431-18.257 30.65-28.318 57.642-29.969-44.974-51.263-105.054-72.002-135.302-46.263-30.494 25.948-19.214 89.385 25.078 142.245-62.626-74.406-78.736-163.847-35.864-200.327m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.428 25.992 11.464 65.792 55.962 90.875 6.636-29.351-5.936-70.895-34.747-108.342" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M84.007 722.523c43.119 36.691 129.575 5.913 193.104-68.746 14.223-16.715 26.09-34.214 35.461-51.717a245 245 0 0 0 16.45-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.58-90.726 19.718-122.57 27.634-3.111 50.503 3.955 59.235 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.032 14.279-173.181 78.387 39.15-45.308 90.154-67.324 122.873-55.354-58.602 35.364-90.675 88.717-72.48 123.939 9.431 18.257 30.65 28.318 57.642 29.969-44.974 51.263-105.054 72.002-135.302 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.626 74.406-78.736 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.038-9.38-21.215-17.467-13.428-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="right-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="420 100 430 640" fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.904 141.477c-43.12-36.692-129.576-5.913-193.105 68.746-14.223 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.222-7.216c-24.182 45.365-31.58 90.726-19.718 122.57-27.634 3.111-50.503-3.955-59.234-20.857-13.985-27.071 13.594-69.12 61.6-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.115 31.194 66.642 38.461 121.579 20.734 46.035 16.93 118.032-14.279 173.181-78.387-39.15 45.308-90.154 67.324-122.873 55.354 58.602-35.364 90.676-88.717 72.48-123.939-9.431-18.257-30.65-28.318-57.642-29.969 44.974-51.263 105.055-72.002 135.302-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.736-163.847 35.865-200.327M621.787 256.805c9.624 3.546 17.038 9.38 21.215 17.467 13.428 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.937-70.895 34.747-108.342" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.904 722.523c-43.12 36.691-129.576 5.913-193.105-68.746-14.223-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.222 7.216c-24.182-45.365-31.58-90.726-19.718-122.57-27.634-3.111-50.503 3.955-59.234 20.857-13.985 27.071 13.594 69.12 61.6 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.115-31.194 66.642-38.461 121.579-20.734 46.035-16.93 118.032 14.279 173.181 78.387-39.15-45.308-90.154-67.324-122.873-55.354 58.602 35.364 90.676 88.717 72.48 123.939-9.431 18.257-30.65 28.318-57.642 29.969 44.974 51.263 105.055 72.002 135.302 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.736 163.847 35.865 200.327M621.787 607.195c9.624-3.546 17.038-9.38 21.215-17.467 13.428-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.937 70.895 34.747 108.342" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="card-num">01</div>
+      <div class="card-desc" data-i18n="svc-1-desc">Defining core problems and user pain points to establish a solid foundation for meaningful digital solutions.</div>
+    </div>
+    <div class="service-card">
+      <div class="card-title" data-i18n="svc-2-title">Web Design</div>
+      <div class="left-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 100 430 640" fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M84.007 141.477c43.119-36.692 129.575-5.913 193.104 68.746 14.223 16.715 26.09 34.214 35.461 51.717a245 245 0 0 1 16.45 7.642 172 172 0 0 0-16.221-7.216c24.181 45.365 31.579 90.726 19.717 122.57 27.634 3.111 50.503-3.955 59.235-20.857 13.984-27.071-13.595-69.12-61.601-93.92 67.48 34.86 106.283 93.9 86.668 131.87-16.114 31.194-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.279-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.675-88.717-72.48-123.939 9.431-18.257 30.65-28.318 57.642-29.969-44.974-51.263-105.054-72.002-135.302-46.263-30.494 25.948-19.214 89.385 25.078 142.245-62.626-74.406-78.736-163.847-35.864-200.327m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.428 25.992 11.464 65.792 55.962 90.875 6.636-29.351-5.936-70.895-34.747-108.342" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M84.007 722.523c43.119 36.691 129.575 5.913 193.104-68.746 14.223-16.715 26.09-34.214 35.461-51.717a245 245 0 0 0 16.45-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.58-90.726 19.718-122.57 27.634-3.111 50.503 3.955 59.235 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.032 14.279-173.181 78.387 39.15-45.308 90.154-67.324 122.873-55.354-58.602 35.364-90.675 88.717-72.48 123.939 9.431 18.257 30.65 28.318 57.642 29.969-44.974 51.263-105.054 72.002-135.302 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.626 74.406-78.736 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.038-9.38-21.215-17.467-13.428-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="right-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="420 100 430 640" fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.904 141.477c-43.12-36.692-129.576-5.913-193.105 68.746-14.223 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.222-7.216c-24.182 45.365-31.58 90.726-19.718 122.57-27.634 3.111-50.503-3.955-59.234-20.857-13.985-27.071 13.594-69.12 61.6-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.115 31.194 66.642 38.461 121.579 20.734 46.035 16.93 118.032-14.279 173.181-78.387-39.15 45.308-90.154 67.324-122.873 55.354 58.602-35.364 90.676-88.717 72.48-123.939-9.431-18.257-30.65-28.318-57.642-29.969 44.974-51.263 105.055-72.002 135.302-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.736-163.847 35.865-200.327M621.787 256.805c9.624 3.546 17.038 9.38 21.215 17.467 13.428 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.937-70.895 34.747-108.342" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.904 722.523c-43.12 36.691-129.576 5.913-193.105-68.746-14.223-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.222 7.216c-24.182-45.365-31.58-90.726-19.718-122.57-27.634-3.111-50.503 3.955-59.234 20.857-13.985 27.071 13.594 69.12 61.6 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.115-31.194 66.642-38.461 121.579-20.734 46.035-16.93 118.032 14.279 173.181 78.387-39.15-45.308-90.154-67.324-122.873-55.354 58.602 35.364 90.676 88.717 72.48 123.939-9.431 18.257-30.65 28.318-57.642 29.969 44.974 51.263 105.055 72.002 135.302 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.736 163.847 35.865 200.327M621.787 607.195c9.624-3.546 17.038-9.38 21.215-17.467 13.428-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.937 70.895 34.747 108.342" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="card-num">02</div>
+      <div class="card-desc" data-i18n="svc-2-desc">Turning static designs into interactive realities using modern frameworks and fluid animations.</div>
+    </div>
+    <div class="service-card">
+      <div class="card-title" data-i18n="svc-3-title">AI Co-Creation</div>
+      <div class="left-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 100 430 640" fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M131 141.5c43.1-36.7 129.6-6 193.1 68.7 14.2 16.7 26.1 34.2 35.5 51.7a245 245 0 0 1 16.4 7.7q-8.1-4.2-16.2-7.2c24.2 45.3 31.6 90.7 19.7 122.5 27.7 3.1 50.5-4 59.3-20.8 14-27-13.6-69.1-61.6-94 67.4 35 106.2 94 86.6 132-16 31.1-66.6 38.4-121.6 20.7-46 16.9-118-14.3-173.1-78.4 39.1 45.3 90.1 67.3 122.8 55.3-58.6-35.3-90.6-88.7-72.4-124 9.4-18.2 30.6-28.2 57.6-29.9-45-51.2-105-72-135.3-46.2-30.5 26-19.2 89.3 25 142.2C104.3 267.4 88.2 178 131 141.5m155.1 115.3c-9.6 3.6-17 9.4-21.2 17.5-13.4 26 11.5 65.8 56 90.8 6.6-29.3-6-70.8-34.8-108.3" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M131 722.5c43.1 36.7 129.6 6 193.1-68.7q21.4-25.2 35.5-51.7a245 245 0 0 0 16.4-7.7q-8.1 4.2-16.2 7.2c24.2-45.3 31.6-90.7 19.7-122.5 27.7-3.1 50.5 4 59.3 20.8 14 27-13.6 69.1-61.6 94 67.4-35 106.2-94 86.6-132-16-31.1-66.6-38.4-121.6-20.7-46-16.9-118 14.3-173.1 78.4 39.1-45.3 90.1-67.3 122.8-55.3-58.6 35.3-90.6 88.7-72.4 124 9.4 18.2 30.6 28.2 57.6 29.9-45 51.2-105 72-135.3 46.2-30.5-26-19.2-89.3 25-142.2C104.3 596.6 88.2 686 131 722.5m155.1-115.3c-9.6-3.6-17-9.4-21.2-17.5-13.4-26 11.5-65.8 56-90.8 6.6 29.3-6 70.8-34.8 108.3" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="right-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="420 100 430 640"fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.9 141.5c-43.1-36.7-129.6-6-193.1 68.7a295 295 0 0 0-35.5 51.7 245 245 0 0 0-16.4 7.7 172 172 0 0 1 16.2-7.2c-24.2 45.3-31.6 90.7-19.7 122.5-27.6 3.1-50.5-4-59.2-20.8-14-27 13.6-69.1 61.6-94-67.5 35-106.3 94-86.7 132 16.1 31.1 66.6 38.4 121.6 20.7 46 16.9 118-14.3 173.1-78.4-39.1 45.3-90.1 67.3-122.8 55.3 58.6-35.3 90.7-88.7 72.5-124-9.5-18.2-30.7-28.2-57.7-29.9 45-51.2 105-72 135.3-46.2 30.5 26 19.2 89.3-25 142.2 62.6-74.4 78.7-163.8 35.8-200.3M621.8 256.8c9.6 3.6 17 9.4 21.2 17.5 13.4 26-11.5 65.8-56 90.8-6.6-29.3 6-70.8 34.8-108.3" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.9 722.5c-43.1 36.7-129.6 6-193.1-68.7a295 295 0 0 1-35.5-51.7 245 245 0 0 1-16.4-7.7 172 172 0 0 0 16.2 7.2c-24.2-45.3-31.6-90.7-19.7-122.5-27.6-3.1-50.5 4-59.2 20.8-14 27 13.6 69.1 61.6 94-67.5-35-106.3-94-86.7-132 16.1-31.1 66.6-38.4 121.6-20.7 46-16.9 118 14.3 173.1 78.4-39.1-45.3-90.1-67.3-122.8-55.3 58.6 35.3 90.7 88.7 72.5 124-9.5 18.2-30.7 28.2-57.7 29.9 45 51.2 105 72 135.3 46.2 30.5-26 19.2-89.3-25-142.2 62.6 74.4 78.7 163.8 35.8 200.3M621.8 607.2c9.6-3.6 17-9.4 21.2-17.5 13.4-26-11.5-65.8-56-90.8-6.6 29.3 6 70.8 34.8 108.3" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="card-num">03</div>
+      <div class="card-desc" data-i18n="svc-3-desc">Integrating AI models into the creative process enabling rapid prototyping and seamless design-to-code transitions.</div>
+    </div>
+    <div class="service-card">
+      <div class="card-title" data-i18n="svc-4-title">Interface Design</div>
+      <div class="left-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 100 430 640" fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M131 141.5c43.1-36.7 129.6-6 193.1 68.7 14.2 16.7 26.1 34.2 35.5 51.7a245 245 0 0 1 16.4 7.7q-8.1-4.2-16.2-7.2c24.2 45.3 31.6 90.7 19.7 122.5 27.7 3.1 50.5-4 59.3-20.8 14-27-13.6-69.1-61.6-94 67.4 35 106.2 94 86.6 132-16 31.1-66.6 38.4-121.6 20.7-46 16.9-118-14.3-173.1-78.4 39.1 45.3 90.1 67.3 122.8 55.3-58.6-35.3-90.6-88.7-72.4-124 9.4-18.2 30.6-28.2 57.6-29.9-45-51.2-105-72-135.3-46.2-30.5 26-19.2 89.3 25 142.2C104.3 267.4 88.2 178 131 141.5m155.1 115.3c-9.6 3.6-17 9.4-21.2 17.5-13.4 26 11.5 65.8 56 90.8 6.6-29.3-6-70.8-34.8-108.3" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M131 722.5c43.1 36.7 129.6 6 193.1-68.7q21.4-25.2 35.5-51.7a245 245 0 0 0 16.4-7.7q-8.1 4.2-16.2 7.2c24.2-45.3 31.6-90.7 19.7-122.5 27.7-3.1 50.5 4 59.3 20.8 14 27-13.6 69.1-61.6 94 67.4-35 106.2-94 86.6-132-16-31.1-66.6-38.4-121.6-20.7-46-16.9-118 14.3-173.1 78.4 39.1-45.3 90.1-67.3 122.8-55.3-58.6 35.3-90.6 88.7-72.4 124 9.4 18.2 30.6 28.2 57.6 29.9-45 51.2-105 72-135.3 46.2-30.5-26-19.2-89.3 25-142.2C104.3 596.6 88.2 686 131 722.5m155.1-115.3c-9.6-3.6-17-9.4-21.2-17.5-13.4-26 11.5-65.8 56-90.8 6.6 29.3-6 70.8-34.8 108.3" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="right-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="420 100 430 640"fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.9 141.5c-43.1-36.7-129.6-6-193.1 68.7a295 295 0 0 0-35.5 51.7 245 245 0 0 0-16.4 7.7 172 172 0 0 1 16.2-7.2c-24.2 45.3-31.6 90.7-19.7 122.5-27.6 3.1-50.5-4-59.2-20.8-14-27 13.6-69.1 61.6-94-67.5 35-106.3 94-86.7 132 16.1 31.1 66.6 38.4 121.6 20.7 46 16.9 118-14.3 173.1-78.4-39.1 45.3-90.1 67.3-122.8 55.3 58.6-35.3 90.7-88.7 72.5-124-9.5-18.2-30.7-28.2-57.7-29.9 45-51.2 105-72 135.3-46.2 30.5 26 19.2 89.3-25 142.2 62.6-74.4 78.7-163.8 35.8-200.3M621.8 256.8c9.6 3.6 17 9.4 21.2 17.5 13.4 26-11.5 65.8-56 90.8-6.6-29.3 6-70.8 34.8-108.3" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.9 722.5c-43.1 36.7-129.6 6-193.1-68.7a295 295 0 0 1-35.5-51.7 245 245 0 0 1-16.4-7.7 172 172 0 0 0 16.2 7.2c-24.2-45.3-31.6-90.7-19.7-122.5-27.6-3.1-50.5 4-59.2 20.8-14 27 13.6 69.1 61.6 94-67.5-35-106.3-94-86.7-132 16.1-31.1 66.6-38.4 121.6-20.7 46-16.9 118 14.3 173.1 78.4-39.1-45.3-90.1-67.3-122.8-55.3 58.6 35.3 90.7 88.7 72.5 124-9.5 18.2-30.7 28.2-57.7 29.9 45 51.2 105 72 135.3 46.2 30.5-26 19.2-89.3-25-142.2 62.6 74.4 78.7 163.8 35.8 200.3M621.8 607.2c9.6-3.6 17-9.4 21.2-17.5 13.4-26-11.5-65.8-56-90.8-6.6 29.3 6 70.8 34.8 108.3" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="card-num">04</div>
+      <div class="card-desc" data-i18n="svc-4-desc">Building intuitive and responsive digital experiences that prioritize user engagement and clarity.</div>
+    </div>
+    <div class="service-card">
+      <div class="card-title" data-i18n="svc-5-title">System Thinking</div>
+      <div class="left-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 100 430 640" fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M131 141.5c43.1-36.7 129.6-6 193.1 68.7 14.2 16.7 26.1 34.2 35.5 51.7a245 245 0 0 1 16.4 7.7q-8.1-4.2-16.2-7.2c24.2 45.3 31.6 90.7 19.7 122.5 27.7 3.1 50.5-4 59.3-20.8 14-27-13.6-69.1-61.6-94 67.4 35 106.2 94 86.6 132-16 31.1-66.6 38.4-121.6 20.7-46 16.9-118-14.3-173.1-78.4 39.1 45.3 90.1 67.3 122.8 55.3-58.6-35.3-90.6-88.7-72.4-124 9.4-18.2 30.6-28.2 57.6-29.9-45-51.2-105-72-135.3-46.2-30.5 26-19.2 89.3 25 142.2C104.3 267.4 88.2 178 131 141.5m155.1 115.3c-9.6 3.6-17 9.4-21.2 17.5-13.4 26 11.5 65.8 56 90.8 6.6-29.3-6-70.8-34.8-108.3" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M131 722.5c43.1 36.7 129.6 6 193.1-68.7q21.4-25.2 35.5-51.7a245 245 0 0 0 16.4-7.7q-8.1 4.2-16.2 7.2c24.2-45.3 31.6-90.7 19.7-122.5 27.7-3.1 50.5 4 59.3 20.8 14 27-13.6 69.1-61.6 94 67.4-35 106.2-94 86.6-132-16-31.1-66.6-38.4-121.6-20.7-46-16.9-118 14.3-173.1 78.4 39.1-45.3 90.1-67.3 122.8-55.3-58.6 35.3-90.6 88.7-72.4 124 9.4 18.2 30.6 28.2 57.6 29.9-45 51.2-105 72-135.3 46.2-30.5-26-19.2-89.3 25-142.2C104.3 596.6 88.2 686 131 722.5m155.1-115.3c-9.6-3.6-17-9.4-21.2-17.5-13.4-26 11.5-65.8 56-90.8 6.6 29.3-6 70.8-34.8 108.3" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="right-wing-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="420 100 430 640"fill="none">
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.9 141.5c-43.1-36.7-129.6-6-193.1 68.7a295 295 0 0 0-35.5 51.7 245 245 0 0 0-16.4 7.7 172 172 0 0 1 16.2-7.2c-24.2 45.3-31.6 90.7-19.7 122.5-27.6 3.1-50.5-4-59.2-20.8-14-27 13.6-69.1 61.6-94-67.5 35-106.3 94-86.7 132 16.1 31.1 66.6 38.4 121.6 20.7 46 16.9 118-14.3 173.1-78.4-39.1 45.3-90.1 67.3-122.8 55.3 58.6-35.3 90.7-88.7 72.5-124-9.5-18.2-30.7-28.2-57.7-29.9 45-51.2 105-72 135.3-46.2 30.5 26 19.2 89.3-25 142.2 62.6-74.4 78.7-163.8 35.8-200.3M621.8 256.8c9.6 3.6 17 9.4 21.2 17.5 13.4 26-11.5 65.8-56 90.8-6.6-29.3 6-70.8 34.8-108.3" clip-rule="evenodd"/>
+          <path fill="#d9d9d9" fill-rule="evenodd" d="M776.9 722.5c-43.1 36.7-129.6 6-193.1-68.7a295 295 0 0 1-35.5-51.7 245 245 0 0 1-16.4-7.7 172 172 0 0 0 16.2 7.2c-24.2-45.3-31.6-90.7-19.7-122.5-27.6-3.1-50.5 4-59.2 20.8-14 27 13.6 69.1 61.6 94-67.5-35-106.3-94-86.7-132 16.1-31.1 66.6-38.4 121.6-20.7 46-16.9 118 14.3 173.1 78.4-39.1-45.3-90.1-67.3-122.8-55.3 58.6 35.3 90.7 88.7 72.5 124-9.5 18.2-30.7 28.2-57.7 29.9 45 51.2 105 72 135.3 46.2 30.5-26 19.2-89.3-25-142.2 62.6 74.4 78.7 163.8 35.8 200.3M621.8 607.2c9.6-3.6 17-9.4 21.2-17.5 13.4-26-11.5-65.8-56-90.8-6.6 29.3 6 70.8 34.8 108.3" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="card-num">05</div>
+      <div class="card-desc" data-i18n="svc-5-desc">Translating business goals and user needs into functional requirements through effective cross-domain collaboration.</div>
+    </div>
+  </div>
+</div>
+  <div class="carousel-footer">
+    <div class="carousel-dots" id="dots"></div>
+    <div class="carousel-btns">
+      <button id="prev">&#8592;</button>
+      <button id="next">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+
+<div class="home-footer-section">
+  <div class="home-footer-container" id="contact">
+    <h2 class="contact-cta-title" id="contact-title">
+      <span data-i18n="contact-line1">Let's build</span><br>
+      <span data-i18n="contact-highlight" class="highlight" id="highlight"><em>something</em></span><br>
+      <span data-i18n="contact-line3">great</span>
+    </h2>
+    <div class="contact-info">
+      <div class="contact-details">
+        <div class="detail-item">
+          <p class="detail-label" data-i18n="contact-email-lbl">Email</p>
+          <div class="email-wrapper">
+            <a href="mailto:yuxuan2300@gmail.com?subject=關於作品集聯繫" class="detail-link" id="emailLink">
+              yuxuan2300@gmail.com
+            </a>
+            <!-- 把 btn + tooltip 包在一起 -->
+            <div class="copy-wrap">
+              <button class="copy-btn" id="copyBtn" aria-label="Copy email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+              <span class="copy-tooltip" id="copyTooltip">Copied</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <p class="detail-label" data-i18n="contact-social-lbl">Socials</p>
+          <div class="social-links">
+            <a target="_blank" href="https://www.linkedin.com/in/yu-syuan-dai-80816a28a/" class="detail-link">LinkedIn</a>
+            <a target="_blank" href="https://pda.104.com.tw/profile/share/8uu76mxgXfP6prn7FXCJtjUxmCiT9J8K" class="detail-link">104</a>
+          </div>
+        </div>
+        <div class="detail-item">
+          <p class="detail-label" data-i18n="contact-loc-lbl">Location</p>
+          <p class="detail-text">Taipei, Taiwan</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-bottom">
+    <p class="footer-copy" data-i18n="footer-copy">© 2026 YU_XUAN Portfolio. All rights reserved.</p>
+    <a href="#" class="back-top" data-i18n="back-top">Back to top</a>
+  </div>
+
+</main>
+
+
+
+
+
+</body>
+
+<script type="module">
+import * as THREE from 'three';
+ 
+gsap.registerPlugin(ScrollTrigger);
+ 
+/* ─── RENDERER ─── */
+const canvas = document.getElementById('three-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x000000, 0);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.4;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+ 
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.z = 20;
+
+
+
+const cursor = document.getElementById('cursor');
+const follower = document.getElementById('cursorFollower');
+const projectCards = document.querySelectorAll('.project-card');
+
+// 1. 讓 Explore 文字出現在 cursor 裡
+projectCards.forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    cursor.classList.add('is-explore');
+    follower.classList.add('is-explore');
+    cursor.innerHTML = '<span style="font-family:sans-serif;">EXPLORE</span>';
+    
+    // 圓圈放大效果
+    gsap.to(cursor, {
+      width: 100,
+      height: 100,
+      backgroundColor: "#02e1ff", // 或是你的品牌色
+      duration: 0.2
+    });
+  });
+
+  card.addEventListener('mouseleave', () => {
+    cursor.classList.remove('is-explore');
+    follower.classList.remove('is-explore');
+    cursor.innerHTML = ''; // 清除文字
+    
+    // 縮回原本大小 (假設原本是 10px)
+    gsap.to(cursor, {
+      width: 10,
+      height: 10,
+      backgroundColor: "#02e1ff", 
+      duration: 0.2
+    });
+  });
+});
+
+
+
+
+projectCards.forEach(card => {
+  card.addEventListener('click', () => {
+    const link = card.querySelector('a').href;
+    window.location.href = link;
+  });
+});
+
+
+ 
+/* ─── 手工 HDR 環境貼圖 ───────────────────────────────
+   原理：玻璃材質需要「折射環境中的顏色」才能顯示虹彩。
+   我們手動建一張 512×256 的 Float32 equirectangular 貼圖，
+   在上面畫超亮（值 > 1.0）的彩色光球，模擬真實 HDR 環境。
+──────────────────────────────────────────────────── */
+function makeHDREnv() {
+  const W = 512, H = 256;
+  const data = new Float32Array(W * H * 4);
+ 
+  // 彩色光源列表：[x(0~1), y(0~1), R, G, B, 半徑px, 峰值強度]
+  const sources = [
+    [0.22, 0.20,  5.0, 0.0, 8.0,  50,  9],  // 紫
+    [0.38, 0.45,  0.0, 7.0, 5.0,  45, 10],  // 青
+    [0.80, 0.20,  0.0, 8.0, 1.0,  36,  9],  // 綠
+    [0.92, 0.50,  6.0, 0.0, 8.0,  44, 10],  // 藍紫
+    [0.14, 0.65,  8.0, 5.0, 0.0,  35,  8],  // 黃橙
+    [0.44, 0.70,  0.0, 4.0, 8.0,  48, 10],  // 藍綠
+    [0.08, 0.30, 0.0, 0.5, 8.0, 50, 10], // 深藍
+    [0.35, 0.45,  0.0, 10.0, 8.0, 50, 12],  // 強化青色 (G 和 B 均衡)
+    [0.55, 0.15,  2.0, 0.0, 15.0, 45, 14],  // 冷紫色 (低 R, 高 B)
+    [0.85, 0.50,  0.0, 5.0, 12.0, 40, 10],  // 電光藍
+    [0.30, 0.80,  0.0, 8.0, 10.0, 55, 12],  // 亮青
+    [0.60, 0.60,  0.0, 0.0, 20.0, 50, 18],  // 超強藍色光源 (主反射源)
+  ];
+ 
+  for (const [lx, ly, lr, lg, lb, rad, peak] of sources) {
+    const cx = Math.floor(lx * W);
+    const cy = Math.floor(ly * H);
+    for (let dy = -rad; dy <= rad; dy++) {
+      for (let dx = -rad; dx <= rad; dx++) {
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d > rad) continue;
+        const f = Math.pow(1 - d / rad, 2.2);  // gamma 衰減
+        const px = (cx + dx + W) % W;
+        const py = Math.max(0, Math.min(H-1, cy + dy));
+        const i = (py * W + px) * 4;
+        data[i]   += lr * peak * f;
+        data[i+1] += lg * peak * f;
+        data[i+2] += lb * peak * f;
+        data[i+3]  = 1.0;
+      }
+    }
+  }
+ 
+  const tex = new THREE.DataTexture(data, W, H, THREE.RGBAFormat, THREE.FloatType);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  tex.colorSpace = THREE.LinearSRGBColorSpace;
+  tex.needsUpdate = true;
+  return tex;
+}
+ 
+scene.environment = makeHDREnv();
+
+
+
+
+function injectWarpEffect(material) {
+  material.onBeforeCompile = (shader) => {
+    shader.uniforms.uAmplitude = { value: 1.0 };
+    shader.uniforms.uFrequency = { value: 1.0 };
+    shader.uniforms.uSharpness = { value: 6.0 };
+
+    // ── Step 1: 注入 uniforms + snoise + 共用位移函數 ──
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <common>',
+      `#include <common>
+      #ifndef WARP_UNIFORMS
+        #define WARP_UNIFORMS
+        uniform float uAmplitude;
+        uniform float uFrequency;
+        uniform float uSharpness;
+
+        vec3 mod289v3(vec3 x){return x-floor(x*(1./289.))*289.;}
+        vec4 mod289v4(vec4 x){return x-floor(x*(1./289.))*289.;}
+        vec4 permute4(vec4 x){return mod289v4(((x*34.)+1.)*x);}
+        vec4 taylorInvSqrt4(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+        float snoise(vec3 v){
+          const vec2 C=vec2(1./6.,1./3.);
+          const vec4 D=vec4(0.,.5,1.,2.);
+          vec3 i=floor(v+dot(v,C.yyy));
+          vec3 x0=v-i+dot(i,C.xxx);
+          vec3 g=step(x0.yzx,x0.xyz);
+          vec3 l=1.-g;
+          vec3 i1=min(g.xyz,l.zxy);
+          vec3 i2=max(g.xyz,l.zxy);
+          vec3 x1=x0-i1+C.xxx;
+          vec3 x2=x0-i2+C.yyy;
+          vec3 x3=x0-D.yyy;
+          i=mod289v3(i);
+          vec4 p=permute4(permute4(permute4(i.z+vec4(0.,i1.z,i2.z,1.))+i.y+vec4(0.,i1.y,i2.y,1.))+i.x+vec4(0.,i1.x,i2.x,1.));
+          float n_=0.142857142857;
+          vec3 ns=n_*D.wyz-D.xzx;
+          vec4 j=p-49.*floor(p*ns.z*ns.z);
+          vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.*x_);
+          vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy;
+          vec4 h=1.-abs(x)-abs(y);
+          vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);
+          vec4 s0=floor(b0)*2.+1.; vec4 s1=floor(b1)*2.+1.;
+          vec4 sh=-step(h,vec4(0.));
+          vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+          vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y);
+          vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);
+          vec4 norm=taylorInvSqrt4(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+          p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;
+          vec4 m=max(.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.);
+          m=m*m; return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+        }
+
+        // 共用位移量函數 (position + normal 方向夾緊）
+        float getDisp(vec3 pos) {
+          vec3 np     = normalize(pos);
+          float sinT  = sqrt(1.0 - np.x * np.x);
+          float pinch = pow(sinT, uSharpness);
+          float noise = snoise(pos * uFrequency);
+          return noise * uAmplitude * (1.0 - pinch * 0.75) + (-pinch * uAmplitude * 1.2);
+        }
+      #endif
+      `
+    );
+
+    // ── Step 2: beginnormal_vertex → 正確計算 objectNormal ──
+    // Three.js 的 defaultnormal_vertex 會自動把 objectNormal 轉成 vNormal
+    // 直接在 begin_vertex 裡寫 vNormal 是錯的！
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <beginnormal_vertex>',
+      `
+      float eps_   = 0.01;
+      vec3 tang_   = normalize(cross(normal, vec3(0.0, 1.0, 0.001)));
+      vec3 bitang_ = normalize(cross(normal, tang_));
+
+      vec3 disp_c  = position + normal * getDisp(position);
+      vec3 disp_t  = (position + tang_   * eps_) + normal * getDisp(position + tang_   * eps_);
+      vec3 disp_b  = (position + bitang_ * eps_) + normal * getDisp(position + bitang_ * eps_);
+
+      vec3 objectNormal = normalize(cross(disp_t - disp_c, disp_b - disp_c));
+      `
+    );
+
+    // ── Step 3: begin_vertex → 計算位移後位置 ──
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      `
+      vec3 transformed = position + normal * getDisp(position);
+      `
+    );
+
+    material.userData.shader = shader;
+  };
+}
+
+
+
+
+
+
+
+
+
+
+ 
+/* ─── 玻璃虹彩材質 ────────────────────────────────────
+   MeshPhysicalMaterial 的 iridescence 需要以下條件才能顯色：
+   1. roughness = 0（完全光滑表面）
+   2. 有環境貼圖（scene.environment）
+   3. iridescence = 1.0 且 iridescenceThicknessRange 範圍夠大
+   4. envMapIntensity 夠高（建議 ≥ 2.0）
+──────────────────────────────────────────────────── */
+const geo = new THREE.SphereGeometry(1.1, 256, 256);
+const materials = [
+  new THREE.MeshPhysicalMaterial({
+    color: 0x00fffb,
+    metalness: 2.0,
+    roughness: 0.0,           // 必須為 0，虹彩才能清晰
+    transmission: 0.7,       // 高穿透性 = 玻璃感
+    thickness: 3.0,
+    ior: 1.5,                // 折射率，越高折射越強
+    iridescence: 1.0,         // 虹彩強度
+    iridescenceIOR: 1.6,      // 薄膜折射率
+    iridescenceThicknessRange: [80, 700],  // 薄膜厚度(nm)，決定顏色範圍
+    envMapIntensity: 3.0,     // 環境貼圖反射強度（關鍵！）
+    specularIntensity: 2.0,
+    specularColor: 0x7300ff,
+    transparent: true,
+    opacity: 1.0,
+  }),
+
+
+  //mat[2]: 深紫金屬（對應 Card 04 Soleil）
+  new THREE.MeshPhysicalMaterial({
+    color: 0x0983f6,
+    metalness: 0.95, 
+    roughness: 0.25,
+    envMapIntensity: 2.5,
+  }),
+
+  //mat[3]: 金屬霧面（對應 Card 02 Vault）
+  new THREE.MeshPhysicalMaterial({
+    color: 0xdfd6ff, metalness: 0.5, roughness: 0.1,
+    transmission: 0.7, thickness: 3.0, ior: 1.45, transparent: true,
+  }),
+
+  new THREE.MeshPhysicalMaterial({
+    color: 0x00bfff,
+    metalness: 3.0,
+    roughness: 0.0,           // 必須為 0，虹彩才能清晰
+    transmission: 0.7,       // 高穿透性 = 玻璃感
+    thickness: 3.0,
+    ior: 1.0,                // 折射率，越高折射越強
+    iridescence: 1.0,         // 虹彩強度
+    iridescenceIOR: 1.6,      // 薄膜折射率
+    iridescenceThicknessRange: [100, 300],  // 薄膜厚度(nm)，決定顏色範圍
+    envMapIntensity: 3.0,     // 環境貼圖反射強度（關鍵！）
+    specularIntensity: 2.0,
+    specularColor: 0x7300ff,
+    transparent: true,
+    flatShading: true,
+    opacity: 1.0,
+  }),
+
+  //mat[]
+  /*new THREE.MeshPhysicalMaterial({
+    color: 0xd6ffed,
+    metalness: 0.7,
+    roughness: 0,           // 必須為 0，虹彩才能清晰
+    transmission: 0.7,       // 高穿透性 = 玻璃感
+    thickness: 2.0,
+    ior: 1.2,                // 折射率，越高折射越強
+    iridescence: 1.2,         // 虹彩強度
+    iridescenceIOR: 1.5,      // 薄膜折射率
+    iridescenceThicknessRange: [100, 200],  // 薄膜厚度(nm)，決定顏色範圍
+    envMapIntensity: 2.0,     // 環境貼圖反射強度（關鍵！）
+    specularIntensity: 1.0,
+    flatShading:true,
+    transparent: true,
+    opacity: 1.0,
+  }),*/
+  
+
+];
+
+// 正確順序
+materials.forEach(mat => injectWarpEffect(mat));
+const mesh = new THREE.Mesh(geo, materials[0]);
+
+let currentMatIndex = 0;
+let targetMatIndex = 0;
+let matBlend = 0;
+
+ 
+scene.add(mesh);
+
+
+ 
+/* ─── 補充燈光（強化立體感） ─── */
+scene.add(new THREE.AmbientLight(0x111111, 2));
+const dl = new THREE.DirectionalLight(0xffffff, 2);
+dl.position.set(4, 6, 5); scene.add(dl);
+[[0xff00ff, -5,  4, -3, 4],
+ [0x00ffff,  5, -3, -4, 3],
+ [0xffaa00,  0, -6,  4, 3]].forEach(([c,x,y,z,i]) => {
+  const pl = new THREE.PointLight(c, i, 18);
+  pl.position.set(x,y,z); scene.add(pl);
+});
+ 
+
+
+
+/* ─── 互動 & 滾動動畫追蹤 ─── */
+let mouseX = 0, mouseY = 0, tRotX = 0, tRotY = 0, scrollP = 0; // 確保 scrollP 初始為 0
+
+document.addEventListener('mousemove', e => {
+  mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+  mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+mesh.position.set(13, -1, 0); 
+mesh.scale.setScalar(3);
+
+/* ─── 建立滾動路徑時間軸 (修正版) ─── */
+const meshScrollTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: "body",
+    start: "top top",
+    end: "bottom bottom",
+    scrub: 1.5,
+    // 關鍵修正：在這裡更新 scrollP，否則 tick 函式裡的轉速不會變
+    onUpdate: self => { scrollP = self.progress; } 
+  }
+});
+
+meshScrollTl.scrollTrigger.refresh();
+meshScrollTl.progress(ScrollTrigger.getAll()[0].progress);
+
+
+/* ─── 偵測每張 card 進入／離開，切換目標材質 ─── */
+document.querySelectorAll('.project-card').forEach((card, i) => {
+  ScrollTrigger.create({
+    trigger: card,
+    start: 'top 65%',   // card 頂端進入視窗 65% 處時觸發
+    end:   'bottom 35%',
+    onEnter:     () => { targetMatIndex = i; },
+    onEnterBack: () => { targetMatIndex = i; },
+    // 離開時退回上一個材質（但不低於 0）
+    onLeave:     () => { targetMatIndex = Math.min(i + 1, 3); },
+    onLeaveBack: () => { targetMatIndex = Math.max(i - 1, 0); },
+  });
+});
+
+
+
+/* ─── 修正後的滾動路徑時間軸 ─── */
+meshScrollTl
+  // 設定 Hero 初始狀態 (縮放 3 倍)
+  .set(mesh.position, { x: 4, y: -1, z: 0, duration: 3})
+
+  // 第一階段：About 區塊 (保持等比例縮小一點)
+  .to(mesh.position, {
+    x: 3,         
+    y: -1.6,     
+    ease: "power2.inOut",
+    duration: 4
+  })
+
+  .to(mesh.position, {
+    x: 1, y: -1.6, // 座標不變
+    duration: 8    // 增加佔比，這會讓它在頁面中間停留很久
+  })
+
+  // 第二階段：Contact 區塊 (平滑移出並等比例縮小)
+  .to(mesh.position, {
+    x: -4,        
+    y: -3,      // 將 -7 調回 -4，避免太早沉到畫面下
+    ease: "power1.inOut",
+    duration: 2
+  })
+
+
+/* --- 修正後的 tick 函式 --- */
+const clk = new THREE.Clock();
+
+(function tick() {
+  requestAnimationFrame(tick);
+  const t = clk.getElapsedTime();
+  
+  // 1. 處理滑鼠跟隨
+  tRotY += (mouseX * 0.4 - tRotY) * 0.05;
+  tRotX += (-mouseY * 0.3 - tRotX) * 0.05;
+  
+  // 2. 處理旋轉 (讓左右向的物件繞著 Y 軸轉動最美)
+  mesh.rotation.y = tRotY + t * (0.2 + scrollP * 0.1);
+  mesh.rotation.z = t * 0.05; // 稍微帶點 Z 軸旋轉增加流動感
+
+  // 3. 材質平滑切換
+  matBlend += (targetMatIndex - matBlend) * 0.05;
+  const snapIdx = Math.round(matBlend);
+  
+  if (mesh.material !== materials[snapIdx]) {
+    mesh.material = materials[snapIdx];
+  }
+
+  renderer.render(scene, camera);
+})();
+
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+ 
+
+
+
+gsap.timeline({ delay: 0.3 })
+  .to('#title-line1', { y:'0%', opacity:1, duration:1.1, ease:'power4.out' })
+  .to('#title-line2', { y:'0%', opacity:1, duration:1.1, ease:'power4.out' }, '-=0.8')
+  .to('.hero-subtitle', { y:0, opacity:1, duration:0.8, ease:'power3.out' }, '-=0.5')
+  .from('.hero-tag', { opacity:0, y:10, duration:0.6 }, '-=0.8')
+  .from('.hero-scroll-hint', { opacity:0, duration:0.6 }, '-=0.4');
+ 
+gsap.from(mesh.scale, { x:0, y:0, z:0, duration:2, ease:'elastic.out(1,0.5)', delay:0.3 });
+
+gsap.from('.about-h2 .line-inner', {
+  y: '105%',
+  opacity: 0,            // 可選，純 clip 效果的話拿掉這行更乾淨
+  duration: 0.9,
+  ease: 'power4.out',
+  stagger: 0.1,          // 每行間隔 100ms
+  scrollTrigger: {
+    trigger: '.about-h2',
+    start: 'top 88%',
+  }
+});
+ 
+gsap.utils.toArray('.section-label,.about-text p,.service-item,.stat,.contact-cta h2').forEach(el => {
+  gsap.from(el, { 
+    opacity:0, 
+    y:30, 
+    duration:0.8, 
+    ease:'power3.out',
+    force3D: true, // 強制開啟 3D 渲染模式
+    scrollTrigger:{ trigger:el, start:'top 88%' } });
+});
+
+gsap.utils.toArray('.project-card').forEach((c,i) => {
+  gsap.from(c, { opacity:0, y:50, duration:0.8, ease:'power3.out', delay:i*0.1,
+    scrollTrigger:{ trigger:c, start:'top 90%' } });
+});
+
+
+/* 無限循環的service card carousel */
+
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const cards = document.querySelectorAll('.service-card');
+
+let currentIndex = 0;
+const totalCards = cards.length;
+const displayCount = 3; // 一次顯示三張
+// 最大的索引值：總數減去顯示數。例如 5張卡片顯示3張，只能往後滑 2 次 (0, 1, 2)
+const maxIndex = totalCards - displayCount;
+
+let autoPlayInterval;
+
+function updateCarousel() {
+  // 1. 計算位移 (考慮到 gap 24px)
+  const cardWidth = cards[0].offsetWidth;
+  const gap = 24;
+  const moveDistance = currentIndex * (cardWidth + gap);
+  
+  track.style.transform = `translateX(-${moveDistance}px)`;
+
+  // 2. 調整按鈕狀態為永遠可以按
+  prevBtn.style.opacity = "1";
+  nextBtn.style.opacity = "1";
+  prevBtn.style.pointerEvents = "auto";
+  nextBtn.style.pointerEvents = "auto";
+
+}
+
+function nextSlide() {
+  const firstCard = track.firstElementChild;
+  
+  // 增加位移的動畫
+  track.style.transition = "transform 0.5s ease";
+  track.style.transform = `translateX(-${cards[0].offsetWidth + 24}px)`;
+
+  // 當動畫結束後，把第一張放到最後一張，並重設位置
+  setTimeout(() => {
+    track.style.transition = "none"; // 關閉動畫
+    track.appendChild(firstCard);    // 把第一張搬到最後
+    track.style.transform = "translateX(0)"; // 瞬間歸零，因為順序變了，視覺上不動
+  }, 500); // 500ms 需對應 CSS transition 時間
+}
+
+function prevSlide() {
+  if (currentIndex <= 0) {
+    currentIndex = maxIndex;
+  } else {
+    currentIndex--; 
+  }
+  updateCarousel();
+}
+
+// 自動輪播計時器：改成5秒
+function startAutoPlay() {
+  stopAutoPlay(); 
+  autoPlayInterval = setInterval(nextSlide, 5000); 
+}
+
+function stopAutoPlay() {
+  clearInterval(autoPlayInterval);
+}
+
+// 事件監聽
+nextBtn.addEventListener('click', () => {
+  nextSlide();
+  startAutoPlay(); 
+});
+
+prevBtn.addEventListener('click', () => {
+  prevSlide();
+  startAutoPlay();
+});
+
+// 初始化
+updateCarousel();
+startAutoPlay();
+
+// 響應式優化
+window.addEventListener('resize', () => {
+  // 這裡可以加入判斷：如果是手機版切換回 1 張，則 maxIndex 要重新計算
+  // 目前先針對你桌機版 3 張的邏輯優化
+  updateCarousel();
+
+});
+
+
+</script>
+</html>
+

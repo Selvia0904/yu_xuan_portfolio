@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YU_XUAN_About</title>
+<link rel="icon" type="image/svg+xml" href="pic/logo.svg">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="./js/i18n/about.js"></script>
+<script src="index.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script src="https://unpkg.com/split-type"></script>
+<style>
+
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+
+  /* === HERO SECTION === */
+  
+  #hero {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5vh;
+    flex-direction: column;
+    padding: 0 64px 5vh;      /* 改用 vh，讓底部留白隨螢幕縮放 */
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Big hero text */
+  .hero-text-block {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 6vw, 72px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.05em 0.1em;
+    max-width: 900px;
+    max-height: 40vh;
+    min-height: 0vw;
+  }
+  .hero-headline .word {
+    display: inline-block;
+    overflow: hidden;
+  }
+  .hero-headline .word span,
+  .hero-headline .knot-inline canvas {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    margin-bottom: 3px;
+  }
+
+  
+  /* 修改延遲，確保每一項都比前一項慢 0.1s */
+    .hero-headline > *:nth-child(1) span, 
+    .hero-headline > *:nth-child(1) canvas { animation-delay: 0.1s; }
+
+    .hero-headline > *:nth-child(2) span, 
+    .hero-headline > *:nth-child(2) canvas { animation-delay: 0.2s; }
+
+    .hero-headline > *:nth-child(3) span, 
+    .hero-headline > *:nth-child(3) canvas { animation-delay: 0.3s; }
+
+    /* 這是畫布 (knot-inline) 所在的第 4 個位置 */
+    .hero-headline > *:nth-child(4) canvas { animation-delay: 0.4s; }
+
+    .hero-headline > *:nth-child(5) span, 
+    .hero-headline > *:nth-child(5) canvas { animation-delay: 0.5s; }
+
+    .hero-headline > *:nth-child(6) span, 
+    .hero-headline > *:nth-child(6) canvas { animation-delay: 0.6s; }
+
+    .hero-headline > *:nth-child(7) span, 
+    .hero-headline > *:nth-child(7) canvas { animation-delay: 0.7s; }
+
+  @keyframes slideUp {
+    to { transform: translateY(0); }
+  }
+
+  /* SVG knot inline in text */
+  .knot-inline {
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    width: 180px;
+    height: 1.2em;
+    margin: 0 0.1em;
+    position: relative;
+    top: -0.05em;
+    overflow: hidden;
+  }
+
+  #knotCanvas {
+    /* 鎖定 CSS 顯示大小，不要讓它用原始的 120px 撐開排版 */
+    height: 1.1em !important; 
+    width: auto;
+    /* 修正 Canvas 預設底部空隙 */
+    display: block; 
+  }
+
+  .knot-inline canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Hero images grid */
+  .hero-images {
+    display: flex;
+    width: 100%;
+    gap: 12px;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+    margin-top: 2vh;
+  }
+  .hero-img-wrap {
+    max-height: 150px;
+    height: clamp(120px, 8vh, 150px);
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    cursor: none;
+    flex: 1;
+    min-width: 0;
+  }
+  .hero-img-wrap:nth-child(1) { height: 260px; }
+  .hero-img-wrap:nth-child(2) { height: 260px; }
+  .hero-img-wrap:nth-child(3) { height: 260px; }
+  .hero-img-wrap:nth-child(4) { height: 260px; }
+  .hero-img-wrap:nth-child(5) { height: 260px; }
+
+  .hero-img-inner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s;
+    filter: saturate(0.7) brightness(0.85);
+  }
+  .hero-img-wrap:hover .hero-img-inner {
+    transform: scale(1.5);
+    filter: saturate(1) brightness(1);
+  }
+
+  /* Text moves on image hover */
+  .hero-headline {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* === SMALL BUT MIGHTY SECTION === */
+  #small-mighty {
+    padding: 140px 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    border-top: 1px solid var(--border);
+    min-height: 100vh;
+  }
+  .sm-left {
+    max-width: 700px;
+  }
+
+
+  .sm-body-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .sm-paragraph{
+    margin: 0;
+    
+  }
+
+  .reveal {
+    font-size: clamp(22px, 2.8vw, 24px);
+    line-height: 1.4;
+    color: #ffffff; /* 最終呈現的顏色 */
+    font-family: var(--font-display);
+    }
+
+
+    /* SplitType 產生單字後的樣式 */
+    .word {
+    /* 初始透明度由 GSAP 控制，但這裡可以設定間距 */
+    margin-right: 0.25em;
+    display: inline-block;
+    will-change: opacity; /* 效能優化 */
+    }
+
+
+  .sm-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 8px;
+  }
+  .sm-tag {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 16px;
+  }
+
+  .sm-title-container{
+    display: flex ;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sm-title {
+    font-size: clamp(36px, 4vw, 52px);
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    gap: 8px;
+  }
+
+  /* === PROFILE SECTION === */
+  #profile {
+    padding: 140px 64px;
+    border-top: 1px solid var(--border);
+  }
+  .profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+  }
+  .profile-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 16px;
+  }
+  .profile-title {
+    font-size: clamp(48px, 6vw, 60px);
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+  }
+  
+
+
+
+
+
+  /* 4-column values grid */
+  .m-values-container {
+    margin: 0 auto;
+    padding: 50px 0;
+  }
+
+.m-values {
+  display: grid;
+  /* 左:1 中:2 右:1.5 (比例可調整) */
+  grid-template-columns: 1fr 2.5fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.m-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 簡短介紹樣式 */
+.m-intro {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.8;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  max-width: 470px;
+  text-align: justify;
+}
+
+.m-value-item-left {
+  cursor: crosshair;
+  margin: 20px 0 20px 0;
+}
+
+.m-value-body li {
+  line-height: 1; /* 縮小行高，預設通常是 1.5 或 1.6 */
+  margin-bottom: 20px; /* 增加 li 之間的間距，避免學歷跟學歷之間太擠 */
+}
+
+.m-value-body.m-sub {
+  font-size: 0.9rem;
+  line-height: 1.2;
+  color: #666;
+  display: inline-block; /* 讓 span 可以套用更細緻的位移 */
+  margin-top: -2px; /* 利用負向 margin 稍微往上提 */
+}
+
+.m-value-item {
+  padding: 24px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  transition: background 0.3s ease;
+  cursor: crosshair;
+}
+
+.m-value-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.m-sub {
+  display: block;
+  opacity: 0.5;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+
+.static-value-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+
+
+
+  /* 1. 外層容器：確保它是區塊級感應，但把 padding 設為 0 */
+.hover-value-item {
+  width: 100%;
+  padding: 0; /* 重要：設為 0 才能讓內部的 li 撐到最滿 */
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  transition: background 0.3s ease;
+  cursor: crosshair;
+  overflow: visible; /* 確保 fixed 預覽圖不被切斷 */
+}
+
+/* 2. 標題：補回原本被外層拿掉的間距 */
+.hover-value-title {
+  font-family: var(--font-display);
+  padding: 24px 24px 12px 24px;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--brand);
+  letter-spacing: -0.01em;
+}
+
+.hover-value-body {
+  width: 100%;
+  position: relative;
+}
+
+/* 3. 列表樣式優化 */
+.exp-list, .award-grid {
+  width: 100%;
+  list-style: none;
+  padding: 0 0 12px 0; /* 底部留一點餘裕 */
+  margin: 0;
+}
+
+/* 4. 重點：讓 li 成為真正的感應長條 */
+.exp-list li, .award-grid li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  
+  width: 100%;
+  padding: 1.5rem 24px; /* 上下加寬感應區，左右維持 24px 對齊標題 */
+  
+  cursor: none; /* 使用自定義 hover 預覽，故隱藏預設滑鼠 */
+  transition: background 0.3s ease, opacity 0.3s ease;
+  border-top: 1px solid rgba(255, 255, 255, 0.05); /* 增加細線感 */
+  margin: 0;
+}
+
+/* 這一層負責原本的左右對齊 */
+.li-content-top {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: baseline;
+}
+
+/* 描述文字樣式 */
+.m-desc {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--secondary);
+  opacity: 0.7;
+  max-width: 80%; /* 避免文字太長撞到右邊邊界 */
+  pointer-events: none; /* 確保不會干擾滑鼠事件 */
+}
+
+/* 5. 互動效果：當滑鼠進來，其他項目變淡，當前項目稍微亮起 */
+.hover-value-body:hover li:not(:hover) {
+  opacity: 0.3;
+}
+
+.exp-list li:hover, .award-grid li:hover {
+  background: rgba(255, 255, 255, 0.05);
+  opacity: 1 !important;
+}
+
+/* Hover 時讓文字稍微變亮 */
+.exp-list li:hover .m-desc {
+  opacity: 1;
+  color: #fff;
+}
+
+.m-sub {
+  display: block;
+  color: var(--secondary);
+  opacity: 0.6;
+  font-size: 0.75rem;
+  pointer-events: none; /* 防止滑動到文字時觸發閃爍 */
+}
+
+/* 6. 圖片預覽容器 (跟隨滑鼠) */
+#hover-preview-container {
+  position: fixed;
+  width: 320px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 12px;
+  pointer-events: none; 
+  z-index: 10000;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+#hover-preview-container.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#hover-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+  /* Footer */
+
+  .footer-section {
+    position: relative;
+    margin: 48px;
+    min-height: 800px;
+    background-color: #1D1D1D ;
+    border-radius: 40px; /* 改為固定像素或較小比例，5% 有時會太圓 */
+    overflow: hidden; /* 確保跑馬燈不會超出藍色區域 */
+    display: flex;
+    align-items: center;
+  }
+
+
+  /* 跑馬燈容器 */
+.footer-marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 40px 0;
+
+  white-space: nowrap;
+  display: flex;
+  overflow: hidden;
+}
+
+.marquee-content {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+}
+
+.marquee-group{
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding-right: 40px;
+}
+
+.marquee-content span {
+  font-family: var(--font-display);
+  font-size: 4rem; /* 巨大的裝飾文字 */
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.08); /* 極低的透明度，營造高級感 */
+  text-transform: uppercase;
+  user-select: none;
+  user-select: none;
+}
+
+.marquee-icon{
+  width: 90px;
+  height: 90px;
+  fill: rgba(255, 255, 255, 0.08);
+}
+
+/* 跑馬燈動畫：移動整個內容的一半（因為內容是重複的） */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* 滑鼠懸停時放慢速度或暫停（選配，增加互動感） */
+.footer-marquee:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+
+
+
+
+  @media (max-width: 900px) {
+    #hero { padding: 0 24px 60px; }
+    .hero-headline{
+      font-size: 48px;
+    }
+    .static-value-title{
+      font-size: 20px;
+    }
+    .hover-value-title{
+      font-size: 20px;
+    }
+    .hero-images { overflow-x: auto; }
+    #small-mighty { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
+    #profile { padding: 80px 24px; }
+    .m-values { grid-template-columns: 1fr; }
+    .m-value-item:nth-child(2) { border-right: none; }
+    .m-value-item:nth-child(3) { border-right: 1px solid var(--border); border-top: 1px solid var(--border); }
+    .m-value-item:nth-child(4) { border-right: none; border-top: 1px solid var(--border); }
+    footer { flex-direction: column; gap: 16px; padding: 40px 24px; }
+          .footer-section { margin: 24px; }
+    .footer-container { grid-template-columns: 1fr; margin: 0 24px; padding: 0; gap: 3rem; }
+
+    .marquee-content span {
+      font-size: 3rem; /* 巨大的裝飾文字 */
+      font-weight: 600;
+    }
+    .marquee-icon{
+      width: 60px;
+      height: 60px;
+    }
+
+    .detail-link, .detail-text{
+      font-size: 1rem;
+    }
+  }
+
+  html[lang="zh-TW"]  .hero-headline {
+    gap: 0;
+  }
+
+
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<div id="magnifier"></div>
+
+<!-- NAV -->
+<!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 724 613">
+        <path fill="#d9d9d9" fill-rule="evenodd" d="M24 15.5c43.1-36.7 129.6-6 193.1 68.7q21.3 25.3 35.5 51.7a245 245 0 0 1 16.4 7.7q-8.1-4.2-16.2-7.2c24.2 45.3 31.6 90.7 19.7 122.5 27.7 3.1 50.5-4 59.3-20.8 14-27-13.6-69.1-61.6-94 67.4 35 106.2 94 86.6 132-16 31.1-66.6 38.4-121.6 20.7-46 16.9-118-14.3-173.1-78.4 39.1 45.3 90.1 67.3 122.8 55.3-58.6-35.3-90.6-88.7-72.4-124 9.4-18.2 30.6-28.2 57.6-29.9-45-51.2-105-72-135.3-46.2-30.5 26-19.2 89.3 25 142.2C-2.7 141.4-18.8 52 24 15.5m155.1 115.3c-9.6 3.6-17 9.4-21.2 17.5-13.4 26 11.5 65.8 56 90.8 6.6-29.3-6-70.8-34.8-108.3" clip-rule="evenodd"/>
+        <path fill="#d9d9d9" fill-rule="evenodd" d="M699.9 15.5c-43.1-36.7-129.6-6-193.1 68.7a295 295 0 0 0-35.5 51.7q-8.2 3.5-16.4 7.7a172 172 0 0 1 16.2-7.2c-24.2 45.3-31.6 90.7-19.7 122.5-27.6 3.1-50.5-4-59.2-20.8-14-27 13.6-69.1 61.6-94-67.5 35-106.3 94-86.7 132 16.1 31.1 66.6 38.4 121.6 20.7 46 16.9 118-14.3 173.1-78.4-39.1 45.3-90.1 67.3-122.8 55.3 58.6-35.3 90.7-88.7 72.5-124-9.5-18.2-30.7-28.2-57.7-29.9 45-51.2 105-72 135.3-46.2 30.5 26 19.2 89.3-25 142.2 62.6-74.4 78.7-163.8 35.8-200.3M544.8 130.8c9.6 3.6 17 9.4 21.2 17.5 13.4 26-11.5 65.8-56 90.8-6.6-29.3 6-70.8 34.8-108.3M24 596.8c43.1 36.7 129.6 5.9 193.1-68.8q21.3-25.2 35.5-51.7a245 245 0 0 0 16.4-7.6q-8.1 4-16.2 7.2c24.2-45.4 31.6-90.8 19.7-122.6 27.7-3.1 50.5 4 59.3 20.9 14 27-13.6 69-61.6 93.9 67.4-34.9 106.2-94 86.6-131.9-16-31.2-66.6-38.4-121.6-20.7-46-17-118 14.3-173.1 78.4 39.1-45.3 90.1-67.4 122.8-55.4-58.6 35.4-90.6 88.7-72.4 124 9.4 18.2 30.6 28.3 57.6 30-45 51.2-105 72-135.3 46.2-30.5-26-19.2-89.4 25-142.3C-2.7 470.8-18.8 560.3 24 596.8m155.1-115.4c-9.6-3.5-17-9.3-21.2-17.4-13.4-26 11.5-65.8 56-91 6.6 29.4-6 71-34.8 108.4" clip-rule="evenodd"/>
+        <path fill="#d9d9d9" fill-rule="evenodd" d="M699.9 596.8c-43.1 36.7-129.6 5.9-193.1-68.8a295 295 0 0 1-35.5-51.7q-8.2-3.4-16.4-7.6a172 172 0 0 0 16.2 7.2c-24.2-45.4-31.6-90.8-19.7-122.6-27.6-3.1-50.5 4-59.2 20.9-14 27 13.6 69 61.6 93.9-67.5-34.9-106.3-94-86.7-131.9 16.1-31.2 66.6-38.4 121.6-20.7 46-17 118 14.3 173.1 78.4-39.1-45.3-90.1-67.4-122.8-55.4 58.6 35.4 90.7 88.7 72.5 124-9.5 18.2-30.7 28.3-57.7 30 45 51.2 105 72 135.3 46.2 30.5-26 19.2-89.4-25-142.3 62.6 74.4 78.7 163.9 35.8 200.4M544.8 481.4c9.6-3.5 17-9.3 21.2-17.4 13.4-26-11.5-65.8-56-91-6.6 29.4 6 71 34.8 108.4" clip-rule="evenodd"/>
+        
+        <defs>
+        <!-- blur 濾鏡要在 defs 裡定義 -->
+        <filter id="blur-filter">
+          <feGaussianBlur stdDeviation="6" />
+        </filter>
+        <mask id="logo-mask">
+          <!-- 必須先填黑色背景，才能讓遮罩預設「全部遮住」 -->
+          <rect width="724" height="613" fill="black"/>
+          <!-- blur 加在 circle 上，而不是 mask 元素上 -->
+          <circle id="mask-circle" cx="362" cy="306" r="0" filter="url(#blur-filter)" fill="white"/>
+        </mask>
+      </defs>
+
+      <!-- 底層：預設顏色 #d9d9d9 -->
+      <g fill="#fff">
+        <path fill-rule="evenodd" d="M24 15.5c43.1-36.7 129.6-6 193.1 68.7q21.3 25.3 35.5 51.7a245 245 0 0 1 16.4 7.7q-8.1-4.2-16.2-7.2c24.2 45.3 31.6 90.7 19.7 122.5 27.7 3.1 50.5-4 59.3-20.8 14-27-13.6-69.1-61.6-94 67.4 35 106.2 94 86.6 132-16 31.1-66.6 38.4-121.6 20.7-46 16.9-118-14.3-173.1-78.4 39.1 45.3 90.1 67.3 122.8 55.3-58.6-35.3-90.6-88.7-72.4-124 9.4-18.2 30.6-28.2 57.6-29.9-45-51.2-105-72-135.3-46.2-30.5 26-19.2 89.3 25 142.2C-2.7 141.4-18.8 52 24 15.5m155.1 115.3c-9.6 3.6-17 9.4-21.2 17.5-13.4 26 11.5 65.8 56 90.8 6.6-29.3-6-70.8-34.8-108.3" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M699.9 15.5c-43.1-36.7-129.6-6-193.1 68.7a295 295 0 0 0-35.5 51.7q-8.2 3.5-16.4 7.7a172 172 0 0 1 16.2-7.2c-24.2 45.3-31.6 90.7-19.7 122.5-27.6 3.1-50.5-4-59.2-20.8-14-27 13.6-69.1 61.6-94-67.5 35-106.3 94-86.7 132 16.1 31.1 66.6 38.4 121.6 20.7 46 16.9 118-14.3 173.1-78.4-39.1 45.3-90.1 67.3-122.8 55.3 58.6-35.3 90.7-88.7 72.5-124-9.5-18.2-30.7-28.2-57.7-29.9 45-51.2 105-72 135.3-46.2 30.5 26 19.2 89.3-25 142.2 62.6-74.4 78.7-163.8 35.8-200.3M544.8 130.8c9.6 3.6 17 9.4 21.2 17.5 13.4 26-11.5 65.8-56 90.8-6.6-29.3 6-70.8 34.8-108.3" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M24 596.8c43.1 36.7 129.6 5.9 193.1-68.8q21.3-25.2 35.5-51.7a245 245 0 0 0 16.4-7.6q-8.1 4-16.2 7.2c24.2-45.4 31.6-90.8 19.7-122.6 27.7-3.1 50.5 4 59.3 20.9 14 27-13.6 69-61.6 93.9 67.4-34.9 106.2-94 86.6-131.9-16-31.2-66.6-38.4-121.6-20.7-46-17-118 14.3-173.1 78.4 39.1-45.3 90.1-67.4 122.8-55.4-58.6 35.4-90.6 88.7-72.4 124 9.4 18.2 30.6 28.3 57.6 30-45 51.2-105 72-135.3 46.2-30.5-26-19.2-89.4 25-142.3C-2.7 470.8-18.8 560.3 24 596.8m155.1-115.4c-9.6-3.5-17-9.3-21.2-17.4-13.4-26 11.5-65.8 56-91 6.6 29.4-6 71-34.8 108.4" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M699.9 596.8c-43.1 36.7-129.6 5.9-193.1-68.8a295 295 0 0 1-35.5-51.7q-8.2-3.4-16.4-7.6a172 172 0 0 0 16.2 7.2c-24.2-45.4-31.6-90.8-19.7-122.6-27.6-3.1-50.5 4-59.2 20.9-14 27 13.6 69 61.6 93.9-67.5-34.9-106.3-94-86.7-131.9 16.1-31.2 66.6-38.4 121.6-20.7 46-17 118 14.3 173.1 78.4-39.1-45.3-90.1-67.4-122.8-55.4 58.6 35.4 90.7 88.7 72.5 124-9.5 18.2-30.7 28.3-57.7 30 45 51.2 105 72 135.3 46.2 30.5-26 19.2-89.4-25-142.3 62.6 74.4 78.7 163.9 35.8 200.4M544.8 481.4c9.6-3.5 17-9.3 21.2-17.4 13.4-26-11.5-65.8-56-91-6.6 29.4 6 71 34.8 108.4"  clip-rule="evenodd"/>
+      </g>
+
+      <!-- 上層：hover 顏色 var(--brand)，透過 mask 控制顯示範圍 -->
+      <g fill="var(--brand)" mask="url(#logo-mask)">
+        <!-- 放入與底層完全相同的 path -->
+        <path fill-rule="evenodd" d="M24 15.5c43.1-36.7 129.6-6 193.1 68.7q21.3 25.3 35.5 51.7a245 245 0 0 1 16.4 7.7q-8.1-4.2-16.2-7.2c24.2 45.3 31.6 90.7 19.7 122.5 27.7 3.1 50.5-4 59.3-20.8 14-27-13.6-69.1-61.6-94 67.4 35 106.2 94 86.6 132-16 31.1-66.6 38.4-121.6 20.7-46 16.9-118-14.3-173.1-78.4 39.1 45.3 90.1 67.3 122.8 55.3-58.6-35.3-90.6-88.7-72.4-124 9.4-18.2 30.6-28.2 57.6-29.9-45-51.2-105-72-135.3-46.2-30.5 26-19.2 89.3 25 142.2C-2.7 141.4-18.8 52 24 15.5m155.1 115.3c-9.6 3.6-17 9.4-21.2 17.5-13.4 26 11.5 65.8 56 90.8 6.6-29.3-6-70.8-34.8-108.3" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M699.9 15.5c-43.1-36.7-129.6-6-193.1 68.7a295 295 0 0 0-35.5 51.7q-8.2 3.5-16.4 7.7a172 172 0 0 1 16.2-7.2c-24.2 45.3-31.6 90.7-19.7 122.5-27.6 3.1-50.5-4-59.2-20.8-14-27 13.6-69.1 61.6-94-67.5 35-106.3 94-86.7 132 16.1 31.1 66.6 38.4 121.6 20.7 46 16.9 118-14.3 173.1-78.4-39.1 45.3-90.1 67.3-122.8 55.3 58.6-35.3 90.7-88.7 72.5-124-9.5-18.2-30.7-28.2-57.7-29.9 45-51.2 105-72 135.3-46.2 30.5 26 19.2 89.3-25 142.2 62.6-74.4 78.7-163.8 35.8-200.3M544.8 130.8c9.6 3.6 17 9.4 21.2 17.5 13.4 26-11.5 65.8-56 90.8-6.6-29.3 6-70.8 34.8-108.3" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M24 596.8c43.1 36.7 129.6 5.9 193.1-68.8q21.3-25.2 35.5-51.7a245 245 0 0 0 16.4-7.6q-8.1 4-16.2 7.2c24.2-45.4 31.6-90.8 19.7-122.6 27.7-3.1 50.5 4 59.3 20.9 14 27-13.6 69-61.6 93.9 67.4-34.9 106.2-94 86.6-131.9-16-31.2-66.6-38.4-121.6-20.7-46-17-118 14.3-173.1 78.4 39.1-45.3 90.1-67.4 122.8-55.4-58.6 35.4-90.6 88.7-72.4 124 9.4 18.2 30.6 28.3 57.6 30-45 51.2-105 72-135.3 46.2-30.5-26-19.2-89.4 25-142.3C-2.7 470.8-18.8 560.3 24 596.8m155.1-115.4c-9.6-3.5-17-9.3-21.2-17.4-13.4-26 11.5-65.8 56-91 6.6 29.4-6 71-34.8 108.4" clip-rule="evenodd"/>
+        <path fill-rule="evenodd" d="M699.9 596.8c-43.1 36.7-129.6 5.9-193.1-68.8a295 295 0 0 1-35.5-51.7q-8.2-3.4-16.4-7.6a172 172 0 0 0 16.2 7.2c-24.2-45.4-31.6-90.8-19.7-122.6-27.6-3.1-50.5 4-59.2 20.9-14 27 13.6 69 61.6 93.9-67.5-34.9-106.3-94-86.7-131.9 16.1-31.2 66.6-38.4 121.6-20.7 46-17 118 14.3 173.1 78.4-39.1-45.3-90.1-67.4-122.8-55.4 58.6 35.4 90.7 88.7 72.5 124-9.5 18.2-30.7 28.3-57.7 30 45 51.2 105 72 135.3 46.2 30.5-26 19.2-89.4-25-142.3 62.6 74.4 78.7 163.9 35.8 200.4M544.8 481.4c9.6-3.5 17-9.3 21.2-17.4 13.4-26-11.5-65.8-56-91-6.6 29.4 6 71 34.8 108.4"  clip-rule="evenodd"/>
+      </g>
+      </svg>
+    </a>
+    <ul class="nav-links">
+        <li>
+            <a href="about.html" class="nav-link">
+                <div class="text-wrapper" data-i18n-twin="nav.about">
+                    <span class="text-item">About</span>
+                    <span class="text-item">About</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="works.html" class="nav-link">
+                <div class="text-wrapper" data-i18n-twin="nav.works"> 
+                    <span class="text-item">Works</span>
+                    <span class="text-item">Works</span>
+                </div>
+            </a>
+        </li>
+        <li>
+          <button id="lang-toggle" class="nav-link" type="button">
+            <div class="text-wrapper" data-i18n-twin="nav.lang"> 
+                <span class="text-item">中文</span>
+                <span class="text-item">中文</span>
+            </div>
+          </button>
+        </li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <div class="toggle-btn hamburger-type"></div>
+    </button>
+  </nav>
+  
+
+  <div class="nav-overlay" id="navOverlay">
+  <ul class="overlay-links">
+    <li>
+      <a href="about.html" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav.about">
+          <span class="overlay-text-item">About</span>
+          <span class="overlay-text-item">About</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="works.html" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav.works">
+          <span class="overlay-text-item">Works</span>
+          <span class="overlay-text-item">Works</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#" id="overlay-lang" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav.lang">
+          <span class="overlay-text-item">中文</span>
+          <span class="overlay-text-item">中文</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+  <div class="overlay-footer">
+    <p>© 2026 YU_XUAN Portfolio</p>
+  </div>
+</div>
+
+
+<!-- ==================== HERO ==================== -->
+<section id="hero">
+  <div class="hero-text-block" id="heroText">
+    <h1 class="hero-headline" id="heroHeadline">
+      <span class="word"><span data-i18n="hero.w1">Where</span></span>
+      <span class="word"><span data-i18n="hero.w2">aesthetic</span></span>
+      <span class="word"><span data-i18n="hero.w3">vision</span></span>
+      <!-- Inline rotating TorusKnot -->
+      <span class="knot-inline"><canvas id="knotCanvas"></canvas></span>
+      <span class="word"><span data-i18n="hero.w4">meets</span></span>
+      <span class="word"><span data-i18n="hero.w5">technical</span></span>
+      <span class="word"><span data-i18n="hero.w6">precision.</span></span>
+    </h1>
+  </div>
+  
+
+  <div class="hero-images" id="heroImages">
+    <div class="hero-img-wrap">
+      <img class="hero-img-inner" src="pic/About/07.jpg" alt="studio work 1">
+    </div>
+    <div class="hero-img-wrap">
+      <img class="hero-img-inner" src="pic/About/01.jpg" alt="studio work 2">
+    </div>
+    <div class="hero-img-wrap">
+      <img class="hero-img-inner" src="pic/About/02.png" alt="studio work 3">
+    </div>
+    <div class="hero-img-wrap">
+      <img class="hero-img-inner" src="https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?w=400&h=500&fit=crop&auto=format" alt="studio work 4">
+    </div>
+    <div class="hero-img-wrap">
+      <img class="hero-img-inner" src="pic/About/04.jpg" alt="studio work 5">
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SMALL BUT MIGHTY ==================== -->
+<section id="small-mighty" id="about">
+    <div class="container">
+        <div class="sm-left">
+            <div class="sm-body-wrapper reveal">
+                <p class="sm-paragragh" data-i18n="sm.para1">
+                    I am a designer-developer who bridges the gap between visionary aesthetics, interactive storytelling, and technical execution.
+                </p>
+                <p class="sm-paragragh" data-i18n="sm.para2">
+                    Rooted in interaction research and shaped by international perspectives, I craft digital products where AI-driven intelligence meets human-centric emotion. 
+                </p>
+                <p class="sm-paragragh" data-i18n="sm.para3">
+                  To me, great design is a balance of fluidity and logic — where a seamless service flow meets clean, modern code, and every micro-interaction is engineered with purpose.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+  
+  <div class="sm-right" style="transition-delay: 0.15s;">
+    <p class="sm-tag" data-i18n="sm.tag">Small but Mighty</p>
+    <div class="sm-title-container">
+      <h2 class="sm-title" data-i18n="sm.t1">Multidisciplinary.</h2>
+      <h2 class="sm-title" data-i18n="sm.t2">Analytical.</h2>
+      <h2 class="sm-title" data-i18n="sm.t3">Future-focused.</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PROFILE ==================== -->
+<section id="profile">
+  <div class="profile-header">
+    <div>
+      <p class="profile-eyebrow" data-i18n="profile.eyebrow">Who I am</p>
+      <h2 class="profile-title" data-i18n="profile.title">Profile</h2>
+    </div>
+    <a href="./CY_YU_XUAN.pdf" download="CV_YU_XUAN_.pdf" class="roll-btn" id="cv-btn">
+      <div class="roll-text" data-i18n="profile.cv">
+        <span style="--i:1">C</span>
+        <span style="--i:2">h</span>
+        <span style="--i:3">e</span>
+        <span style="--i:4">c</span>
+        <span style="--i:5">k</span>
+        <span style="--i:6">&nbsp;</span> <span style="--i:7">C</span>
+        <span style="--i:8">V</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="m-values-container">
+    <div class="m-values">
+      
+      <div class="m-column column-left">
+        <div class="m-intro">
+          <p data-i18n="profile.intro">I am a multidisciplinary designer specializing in interaction design and visual storytelling. 
+            With a background in foreign languages and a Master's in Interaction Design, I bridge the gap between human communication and digital experiences, creating intuitive interfaces that resonate with users globally.</p>
+        </div>
+
+        <div class="m-value-item-left" data-img="edu-img.jpg">
+          <h3 class="static-value-title" data-i18n="edu.label">Education</h3>
+          <div class="m-value-body">
+            <ul>
+              <li>
+                <strong data-i18n="edu.ncku">National Cheng Kung University</strong><br>
+                <span class="m-sub" data-i18n="edu.ncku.sub">B.S. Foreign Language and Literatures, 2018</span>
+              </li>
+              <li>
+                <strong data-i18n="edu.ntut">National Taipei University of Technology</strong><br>
+                <span class="m-sub" data-i18n="edu.ntut.sub">M.A. Interaction Design, 2022</span>
+              </li>
+              <li>
+                <strong data-i18n="edu.fhp">FH Potsdam</strong><br>
+                <span class="m-sub" data-i18n="edu.fhp.sub">Exchange. Design, 2024ss</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="m-value-item-left">
+          <h3 class="static-value-title" data-i18n="skills.label">Skills</h3>
+          <div class="m-value-body">
+            <div class="m-value-tags">
+              <span class="m-value-tag">Figma</span> 
+              <span class="m-value-tag">HTML / CSS</span>
+              <span class="m-value-tag">Javascript</span> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-column column-mid">
+        <div class="hover-value-item" data-img="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80">
+          <h3 class="hover-value-title" data-i18n="exp.label">Experience</h3>
+          <div class="hover-value-body">
+            <ul class="exp-list">
+              <li data-img="pic/About/Jepun.png">
+                <div class="li-content-top">
+                  <strong data-i18n="exp.jepun.role">UI UX Designer — Jepun</strong>
+                  <span class="m-sub" data-i18n="exp.jepun.date">2025 / 07- Now</span>
+                </div>
+                <p class="m-desc" data-i18n="exp.jepun.desc">Leading the design system evolution and crafting high-fidelity fintech SaaS interfaces with React and Three.js.</p>
+              </li>
+
+              <li data-img="pic/About/Woheng.png">
+                <div class="li-content-top">
+                  <strong data-i18n="exp.woheng.role">UI UX Intern — Woheng</strong>
+                  <span data-i18n="exp.woheng.date" class="m-sub">2024 / 06 - 09</span>
+                </div>
+                <p class="m-desc" data-i18n="exp.woheng.desc">Spearheaded crypto-platform optimizations through competitive analysis and iterative user interface design.</p>
+              </li>
+            </ul>
+            <div id="hover-preview-container">
+              <img id="hover-preview-img" src="" alt="Preview">
+            </div>
+          </div>
+        </div>
+
+        <div class="hover-value-item" data-img="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=800&q=80">
+          <h3 class="hover-value-title" data-i18n="award.label">Awards</h3>
+          <div class="hover-value-body">
+            <ul class="award-grid">
+              <li data-img="pic/About/MemoryFeast.jpg">
+                <div class="li-content-top">
+                  <strong data-i18n="award.mf.title">MemoryFeast</strong>
+                  <span class="m-sub" data-i18n="award.mf.date">2023 / 10 / 27</span>
+                </div>
+                <p class="m-desc" data-i18n="award.mf.desc">Won honorable Mention in the 2023 Wellness Science and Technology Innovation and Entrepreneurship Competition</p>
+              </li>
+
+              <li data-img="pic/About/Signify.jpg">
+                <div class="li-content-top">
+                  <strong data-i18n="award.signify.title">Signify always by your side</strong>
+                  <span class="m-sub" data-i18n="award.signify.date">2023 / 07 / 02</span>
+                </div>
+                <p class="m-desc" data-i18n="award.signify.desc">Won the Bronze Medal Award in the Signify of Times Young Creative Awards</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+<section class="footer-section">
+  <div class="footer-marquee">
+    <div class="marquee-content">
+      <div class="marquee-group">
+        <span>UI UX DESIGN</span>
+        <svg class="marquee-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 877 877"><path fill="rgba(255, 255, 255, 0.05)" d="M101.007 152.477c43.119-36.692 129.576-5.913 193.105 68.746 14.223 16.715 26.089 34.214 35.46 51.718a245 245 0 0 1 16.45 7.64 172 172 0 0 0-16.22-7.215c24.181 45.365 31.578 90.726 19.716 122.57 27.634 3.111 50.504-3.955 59.236-20.858 13.874-26.859-13.168-68.464-60.481-93.335l.455.238c66.507 34.959 104.553 93.374 85.092 131.048-16.114 31.193-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.278-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.676-88.717-72.48-123.94 9.431-18.256 30.651-28.317 57.643-29.967-44.974-51.265-105.055-72.003-135.303-46.264-30.494 25.948-19.213 89.385 25.079 142.244-62.626-74.406-78.737-163.846-35.865-200.326m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.427 25.992 11.464 65.794 55.962 90.876 6.636-29.351-5.936-70.895-34.747-108.343"/>
+          <path  d="M101.007 724.523c43.12 36.691 129.575 5.913 193.104-68.746 14.224-16.715 26.091-34.214 35.461-51.717a245 245 0 0 0 16.451-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.579-90.726 19.718-122.57 27.633-3.111 50.502 3.955 59.234 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.031 14.279-173.18 78.387 39.149-45.308 90.153-67.324 122.873-55.354-58.602 35.364-90.676 88.717-72.481 123.939 9.432 18.257 30.651 28.318 57.643 29.969-44.974 51.263-105.055 72.002-135.303 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.625 74.406-78.735 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.037-9.38-21.215-17.467-13.427-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342M776.903 152.477c-43.119-36.692-129.575-5.913-193.104 68.746-14.224 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.221-7.216c-24.182 45.365-31.579 90.726-19.718 122.57-27.633 3.111-50.502-3.955-59.234-20.857-13.984-27.071 13.595-69.12 61.601-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.114 31.194 66.642 38.461 121.579 20.734 46.034 16.93 118.032-14.279 173.18-78.387-39.149 45.308-90.153 67.324-122.873 55.354 58.603-35.364 90.676-88.717 72.481-123.939-9.431-18.257-30.651-28.318-57.643-29.969 44.974-51.263 105.055-72.002 135.303-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.735-163.847 35.864-200.327M621.787 267.805c9.623 3.546 17.037 9.38 21.215 17.467 13.427 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.936-70.895 34.747-108.342"/>
+          <path  d="M776.903 724.523c-43.119 36.691-129.575 5.913-193.104-68.746-14.224-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.221 7.216c-24.182-45.365-31.579-90.726-19.718-122.57-27.633-3.111-50.502 3.955-59.234 20.857-13.984 27.071 13.595 69.12 61.601 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.114-31.194 66.642-38.461 121.579-20.734 46.034-16.93 118.032 14.279 173.18 78.387-39.149-45.308-90.153-67.324-122.873-55.354 58.603 35.364 90.676 88.717 72.481 123.939-9.431 18.257-30.651 28.318-57.643 29.969 44.974 51.263 105.055 72.002 135.303 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.735 163.847 35.864 200.327M621.787 609.195c9.623-3.546 17.037-9.38 21.215-17.467 13.427-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.936 70.895 34.747 108.342"/>
+        </svg>
+        <span>FRONT-END DEVELOPMENT</span>
+        <svg class="marquee-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 877 877"><path fill="rgba(255, 255, 255, 0.05)" d="M101.007 152.477c43.119-36.692 129.576-5.913 193.105 68.746 14.223 16.715 26.089 34.214 35.46 51.718a245 245 0 0 1 16.45 7.64 172 172 0 0 0-16.22-7.215c24.181 45.365 31.578 90.726 19.716 122.57 27.634 3.111 50.504-3.955 59.236-20.858 13.874-26.859-13.168-68.464-60.481-93.335l.455.238c66.507 34.959 104.553 93.374 85.092 131.048-16.114 31.193-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.278-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.676-88.717-72.48-123.94 9.431-18.256 30.651-28.317 57.643-29.967-44.974-51.265-105.055-72.003-135.303-46.264-30.494 25.948-19.213 89.385 25.079 142.244-62.626-74.406-78.737-163.846-35.865-200.326m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.427 25.992 11.464 65.794 55.962 90.876 6.636-29.351-5.936-70.895-34.747-108.343"/>
+          <path  d="M101.007 724.523c43.12 36.691 129.575 5.913 193.104-68.746 14.224-16.715 26.091-34.214 35.461-51.717a245 245 0 0 0 16.451-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.579-90.726 19.718-122.57 27.633-3.111 50.502 3.955 59.234 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.031 14.279-173.18 78.387 39.149-45.308 90.153-67.324 122.873-55.354-58.602 35.364-90.676 88.717-72.481 123.939 9.432 18.257 30.651 28.318 57.643 29.969-44.974 51.263-105.055 72.002-135.303 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.625 74.406-78.735 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.037-9.38-21.215-17.467-13.427-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342M776.903 152.477c-43.119-36.692-129.575-5.913-193.104 68.746-14.224 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.221-7.216c-24.182 45.365-31.579 90.726-19.718 122.57-27.633 3.111-50.502-3.955-59.234-20.857-13.984-27.071 13.595-69.12 61.601-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.114 31.194 66.642 38.461 121.579 20.734 46.034 16.93 118.032-14.279 173.18-78.387-39.149 45.308-90.153 67.324-122.873 55.354 58.603-35.364 90.676-88.717 72.481-123.939-9.431-18.257-30.651-28.318-57.643-29.969 44.974-51.263 105.055-72.002 135.303-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.735-163.847 35.864-200.327M621.787 267.805c9.623 3.546 17.037 9.38 21.215 17.467 13.427 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.936-70.895 34.747-108.342"/>
+          <path  d="M776.903 724.523c-43.119 36.691-129.575 5.913-193.104-68.746-14.224-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.221 7.216c-24.182-45.365-31.579-90.726-19.718-122.57-27.633-3.111-50.502 3.955-59.234 20.857-13.984 27.071 13.595 69.12 61.601 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.114-31.194 66.642-38.461 121.579-20.734 46.034-16.93 118.032 14.279 173.18 78.387-39.149-45.308-90.153-67.324-122.873-55.354 58.603 35.364 90.676 88.717 72.481 123.939-9.431 18.257-30.651 28.318-57.643 29.969 44.974 51.263 105.055 72.002 135.303 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.735 163.847 35.864 200.327M621.787 609.195c9.623-3.546 17.037-9.38 21.215-17.467 13.427-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.936 70.895 34.747 108.342"/>
+        </svg>
+        <span>FRONT-END DEVELOPMENT</span>
+        <svg class="marquee-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 877 877"><path fill="rgba(255, 255, 255, 0.05)" d="M101.007 152.477c43.119-36.692 129.576-5.913 193.105 68.746 14.223 16.715 26.089 34.214 35.46 51.718a245 245 0 0 1 16.45 7.64 172 172 0 0 0-16.22-7.215c24.181 45.365 31.578 90.726 19.716 122.57 27.634 3.111 50.504-3.955 59.236-20.858 13.874-26.859-13.168-68.464-60.481-93.335l.455.238c66.507 34.959 104.553 93.374 85.092 131.048-16.114 31.193-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.278-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.676-88.717-72.48-123.94 9.431-18.256 30.651-28.317 57.643-29.967-44.974-51.265-105.055-72.003-135.303-46.264-30.494 25.948-19.213 89.385 25.079 142.244-62.626-74.406-78.737-163.846-35.865-200.326m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.427 25.992 11.464 65.794 55.962 90.876 6.636-29.351-5.936-70.895-34.747-108.343"/>
+          <path  d="M101.007 724.523c43.12 36.691 129.575 5.913 193.104-68.746 14.224-16.715 26.091-34.214 35.461-51.717a245 245 0 0 0 16.451-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.579-90.726 19.718-122.57 27.633-3.111 50.502 3.955 59.234 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.031 14.279-173.18 78.387 39.149-45.308 90.153-67.324 122.873-55.354-58.602 35.364-90.676 88.717-72.481 123.939 9.432 18.257 30.651 28.318 57.643 29.969-44.974 51.263-105.055 72.002-135.303 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.625 74.406-78.735 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.037-9.38-21.215-17.467-13.427-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342M776.903 152.477c-43.119-36.692-129.575-5.913-193.104 68.746-14.224 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.221-7.216c-24.182 45.365-31.579 90.726-19.718 122.57-27.633 3.111-50.502-3.955-59.234-20.857-13.984-27.071 13.595-69.12 61.601-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.114 31.194 66.642 38.461 121.579 20.734 46.034 16.93 118.032-14.279 173.18-78.387-39.149 45.308-90.153 67.324-122.873 55.354 58.603-35.364 90.676-88.717 72.481-123.939-9.431-18.257-30.651-28.318-57.643-29.969 44.974-51.263 105.055-72.002 135.303-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.735-163.847 35.864-200.327M621.787 267.805c9.623 3.546 17.037 9.38 21.215 17.467 13.427 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.936-70.895 34.747-108.342"/>
+          <path  d="M776.903 724.523c-43.119 36.691-129.575 5.913-193.104-68.746-14.224-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.221 7.216c-24.182-45.365-31.579-90.726-19.718-122.57-27.633-3.111-50.502 3.955-59.234 20.857-13.984 27.071 13.595 69.12 61.601 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.114-31.194 66.642-38.461 121.579-20.734 46.034-16.93 118.032 14.279 173.18 78.387-39.149-45.308-90.153-67.324-122.873-55.354 58.603 35.364 90.676 88.717 72.481 123.939-9.431 18.257-30.651 28.318-57.643 29.969 44.974 51.263 105.055 72.002 135.303 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.735 163.847 35.864 200.327M621.787 609.195c9.623-3.546 17.037-9.38 21.215-17.467 13.427-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.936 70.895 34.747 108.342"/>
+        </svg>
+        <span>OPEN FOR OPPORTUNITIES</span>
+        <svg class="marquee-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 877 877"><path fill="rgba(255, 255, 255, 0.05)" d="M101.007 152.477c43.119-36.692 129.576-5.913 193.105 68.746 14.223 16.715 26.089 34.214 35.46 51.718a245 245 0 0 1 16.45 7.64 172 172 0 0 0-16.22-7.215c24.181 45.365 31.578 90.726 19.716 122.57 27.634 3.111 50.504-3.955 59.236-20.858 13.874-26.859-13.168-68.464-60.481-93.335l.455.238c66.507 34.959 104.553 93.374 85.092 131.048-16.114 31.193-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.278-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.676-88.717-72.48-123.94 9.431-18.256 30.651-28.317 57.643-29.967-44.974-51.265-105.055-72.003-135.303-46.264-30.494 25.948-19.213 89.385 25.079 142.244-62.626-74.406-78.737-163.846-35.865-200.326m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.427 25.992 11.464 65.794 55.962 90.876 6.636-29.351-5.936-70.895-34.747-108.343"/>
+          <path d="M101.007 724.523c43.12 36.691 129.575 5.913 193.104-68.746 14.224-16.715 26.091-34.214 35.461-51.717a245 245 0 0 0 16.451-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.579-90.726 19.718-122.57 27.633-3.111 50.502 3.955 59.234 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.031 14.279-173.18 78.387 39.149-45.308 90.153-67.324 122.873-55.354-58.602 35.364-90.676 88.717-72.481 123.939 9.432 18.257 30.651 28.318 57.643 29.969-44.974 51.263-105.055 72.002-135.303 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.625 74.406-78.735 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.037-9.38-21.215-17.467-13.427-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342M776.903 152.477c-43.119-36.692-129.575-5.913-193.104 68.746-14.224 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.221-7.216c-24.182 45.365-31.579 90.726-19.718 122.57-27.633 3.111-50.502-3.955-59.234-20.857-13.984-27.071 13.595-69.12 61.601-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.114 31.194 66.642 38.461 121.579 20.734 46.034 16.93 118.032-14.279 173.18-78.387-39.149 45.308-90.153 67.324-122.873 55.354 58.603-35.364 90.676-88.717 72.481-123.939-9.431-18.257-30.651-28.318-57.643-29.969 44.974-51.263 105.055-72.002 135.303-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.735-163.847 35.864-200.327M621.787 267.805c9.623 3.546 17.037 9.38 21.215 17.467 13.427 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.936-70.895 34.747-108.342"/>
+          <path d="M776.903 724.523c-43.119 36.691-129.575 5.913-193.104-68.746-14.224-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.221 7.216c-24.182-45.365-31.579-90.726-19.718-122.57-27.633-3.111-50.502 3.955-59.234 20.857-13.984 27.071 13.595 69.12 61.601 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.114-31.194 66.642-38.461 121.579-20.734 46.034-16.93 118.032 14.279 173.18 78.387-39.149-45.308-90.153-67.324-122.873-55.354 58.603 35.364 90.676 88.717 72.481 123.939-9.431 18.257-30.651 28.318-57.643 29.969 44.974 51.263 105.055 72.002 135.303 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.735 163.847 35.864 200.327M621.787 609.195c9.623-3.546 17.037-9.38 21.215-17.467 13.427-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.936 70.895 34.747 108.342"/>
+        </svg>
+      </div>
+      <div class="marquee-group">
+        <span>UI UX DESIGN</span>
+        <svg class="marquee-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 877 877"><path fill="rgba(255, 255, 255, 0.05)" d="M101.007 152.477c43.119-36.692 129.576-5.913 193.105 68.746 14.223 16.715 26.089 34.214 35.46 51.718a245 245 0 0 1 16.45 7.64 172 172 0 0 0-16.22-7.215c24.181 45.365 31.578 90.726 19.716 122.57 27.634 3.111 50.504-3.955 59.236-20.858 13.874-26.859-13.168-68.464-60.481-93.335l.455.238c66.507 34.959 104.553 93.374 85.092 131.048-16.114 31.193-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.278-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.676-88.717-72.48-123.94 9.431-18.256 30.651-28.317 57.643-29.967-44.974-51.265-105.055-72.003-135.303-46.264-30.494 25.948-19.213 89.385 25.079 142.244-62.626-74.406-78.737-163.846-35.865-200.326m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.427 25.992 11.464 65.794 55.962 90.876 6.636-29.351-5.936-70.895-34.747-108.343"/>
+          <path  d="M101.007 724.523c43.12 36.691 129.575 5.913 193.104-68.746 14.224-16.715 26.091-34.214 35.461-51.717a245 245 0 0 0 16.451-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.579-90.726 19.718-122.57 27.633-3.111 50.502 3.955 59.234 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.031 14.279-173.18 78.387 39.149-45.308 90.153-67.324 122.873-55.354-58.602 35.364-90.676 88.717-72.481 123.939 9.432 18.257 30.651 28.318 57.643 29.969-44.974 51.263-105.055 72.002-135.303 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.625 74.406-78.735 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.037-9.38-21.215-17.467-13.427-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342M776.903 152.477c-43.119-36.692-129.575-5.913-193.104 68.746-14.224 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.221-7.216c-24.182 45.365-31.579 90.726-19.718 122.57-27.633 3.111-50.502-3.955-59.234-20.857-13.984-27.071 13.595-69.12 61.601-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.114 31.194 66.642 38.461 121.579 20.734 46.034 16.93 118.032-14.279 173.18-78.387-39.149 45.308-90.153 67.324-122.873 55.354 58.603-35.364 90.676-88.717 72.481-123.939-9.431-18.257-30.651-28.318-57.643-29.969 44.974-51.263 105.055-72.002 135.303-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.735-163.847 35.864-200.327M621.787 267.805c9.623 3.546 17.037 9.38 21.215 17.467 13.427 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.936-70.895 34.747-108.342"/>
+          <path  d="M776.903 724.523c-43.119 36.691-129.575 5.913-193.104-68.746-14.224-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.221 7.216c-24.182-45.365-31.579-90.726-19.718-122.57-27.633-3.111-50.502 3.955-59.234 20.857-13.984 27.071 13.595 69.12 61.601 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.114-31.194 66.642-38.461 121.579-20.734 46.034-16.93 118.032 14.279 173.18 78.387-39.149-45.308-90.153-67.324-122.873-55.354 58.603 35.364 90.676 88.717 72.481 123.939-9.431 18.257-30.651 28.318-57.643 29.969 44.974 51.263 105.055 72.002 135.303 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.735 163.847 35.864 200.327M621.787 609.195c9.623-3.546 17.037-9.38 21.215-17.467 13.427-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.936 70.895 34.747 108.342"/>
+        </svg>
+        <span>FRONT-END DEVELOPMENT</span>
+        <svg class="marquee-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 877 877"><path fill="rgba(255, 255, 255, 0.05)" d="M101.007 152.477c43.119-36.692 129.576-5.913 193.105 68.746 14.223 16.715 26.089 34.214 35.46 51.718a245 245 0 0 1 16.45 7.64 172 172 0 0 0-16.22-7.215c24.181 45.365 31.578 90.726 19.716 122.57 27.634 3.111 50.504-3.955 59.236-20.858 13.874-26.859-13.168-68.464-60.481-93.335l.455.238c66.507 34.959 104.553 93.374 85.092 131.048-16.114 31.193-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.278-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.676-88.717-72.48-123.94 9.431-18.256 30.651-28.317 57.643-29.967-44.974-51.265-105.055-72.003-135.303-46.264-30.494 25.948-19.213 89.385 25.079 142.244-62.626-74.406-78.737-163.846-35.865-200.326m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.427 25.992 11.464 65.794 55.962 90.876 6.636-29.351-5.936-70.895-34.747-108.343"/>
+          <path  d="M101.007 724.523c43.12 36.691 129.575 5.913 193.104-68.746 14.224-16.715 26.091-34.214 35.461-51.717a245 245 0 0 0 16.451-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.579-90.726 19.718-122.57 27.633-3.111 50.502 3.955 59.234 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.031 14.279-173.18 78.387 39.149-45.308 90.153-67.324 122.873-55.354-58.602 35.364-90.676 88.717-72.481 123.939 9.432 18.257 30.651 28.318 57.643 29.969-44.974 51.263-105.055 72.002-135.303 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.625 74.406-78.735 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.037-9.38-21.215-17.467-13.427-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342M776.903 152.477c-43.119-36.692-129.575-5.913-193.104 68.746-14.224 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.221-7.216c-24.182 45.365-31.579 90.726-19.718 122.57-27.633 3.111-50.502-3.955-59.234-20.857-13.984-27.071 13.595-69.12 61.601-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.114 31.194 66.642 38.461 121.579 20.734 46.034 16.93 118.032-14.279 173.18-78.387-39.149 45.308-90.153 67.324-122.873 55.354 58.603-35.364 90.676-88.717 72.481-123.939-9.431-18.257-30.651-28.318-57.643-29.969 44.974-51.263 105.055-72.002 135.303-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.735-163.847 35.864-200.327M621.787 267.805c9.623 3.546 17.037 9.38 21.215 17.467 13.427 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.936-70.895 34.747-108.342"/>
+          <path  d="M776.903 724.523c-43.119 36.691-129.575 5.913-193.104-68.746-14.224-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.221 7.216c-24.182-45.365-31.579-90.726-19.718-122.57-27.633-3.111-50.502 3.955-59.234 20.857-13.984 27.071 13.595 69.12 61.601 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.114-31.194 66.642-38.461 121.579-20.734 46.034-16.93 118.032 14.279 173.18 78.387-39.149-45.308-90.153-67.324-122.873-55.354 58.603 35.364 90.676 88.717 72.481 123.939-9.431 18.257-30.651 28.318-57.643 29.969 44.974 51.263 105.055 72.002 135.303 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.735 163.847 35.864 200.327M621.787 609.195c9.623-3.546 17.037-9.38 21.215-17.467 13.427-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.936 70.895 34.747 108.342"/>
+        </svg>
+        <span>FRONT-END DEVELOPMENT</span>
+        <svg class="marquee-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 877 877"><path fill="rgba(255, 255, 255, 0.05)" d="M101.007 152.477c43.119-36.692 129.576-5.913 193.105 68.746 14.223 16.715 26.089 34.214 35.46 51.718a245 245 0 0 1 16.45 7.64 172 172 0 0 0-16.22-7.215c24.181 45.365 31.578 90.726 19.716 122.57 27.634 3.111 50.504-3.955 59.236-20.858 13.874-26.859-13.168-68.464-60.481-93.335l.455.238c66.507 34.959 104.553 93.374 85.092 131.048-16.114 31.193-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.278-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.676-88.717-72.48-123.94 9.431-18.256 30.651-28.317 57.643-29.967-44.974-51.265-105.055-72.003-135.303-46.264-30.494 25.948-19.213 89.385 25.079 142.244-62.626-74.406-78.737-163.846-35.865-200.326m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.427 25.992 11.464 65.794 55.962 90.876 6.636-29.351-5.936-70.895-34.747-108.343"/>
+          <path  d="M101.007 724.523c43.12 36.691 129.575 5.913 193.104-68.746 14.224-16.715 26.091-34.214 35.461-51.717a245 245 0 0 0 16.451-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.579-90.726 19.718-122.57 27.633-3.111 50.502 3.955 59.234 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.031 14.279-173.18 78.387 39.149-45.308 90.153-67.324 122.873-55.354-58.602 35.364-90.676 88.717-72.481 123.939 9.432 18.257 30.651 28.318 57.643 29.969-44.974 51.263-105.055 72.002-135.303 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.625 74.406-78.735 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.037-9.38-21.215-17.467-13.427-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342M776.903 152.477c-43.119-36.692-129.575-5.913-193.104 68.746-14.224 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.221-7.216c-24.182 45.365-31.579 90.726-19.718 122.57-27.633 3.111-50.502-3.955-59.234-20.857-13.984-27.071 13.595-69.12 61.601-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.114 31.194 66.642 38.461 121.579 20.734 46.034 16.93 118.032-14.279 173.18-78.387-39.149 45.308-90.153 67.324-122.873 55.354 58.603-35.364 90.676-88.717 72.481-123.939-9.431-18.257-30.651-28.318-57.643-29.969 44.974-51.263 105.055-72.002 135.303-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.735-163.847 35.864-200.327M621.787 267.805c9.623 3.546 17.037 9.38 21.215 17.467 13.427 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.936-70.895 34.747-108.342"/>
+          <path  d="M776.903 724.523c-43.119 36.691-129.575 5.913-193.104-68.746-14.224-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.221 7.216c-24.182-45.365-31.579-90.726-19.718-122.57-27.633-3.111-50.502 3.955-59.234 20.857-13.984 27.071 13.595 69.12 61.601 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.114-31.194 66.642-38.461 121.579-20.734 46.034-16.93 118.032 14.279 173.18 78.387-39.149-45.308-90.153-67.324-122.873-55.354 58.603 35.364 90.676 88.717 72.481 123.939-9.431 18.257-30.651 28.318-57.643 29.969 44.974 51.263 105.055 72.002 135.303 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.735 163.847 35.864 200.327M621.787 609.195c9.623-3.546 17.037-9.38 21.215-17.467 13.427-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.936 70.895 34.747 108.342"/>
+        </svg>
+        <span>OPEN FOR OPPORTUNITIES</span>
+        <svg class="marquee-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 877 877"><path fill="rgba(255, 255, 255, 0.05)" d="M101.007 152.477c43.119-36.692 129.576-5.913 193.105 68.746 14.223 16.715 26.089 34.214 35.46 51.718a245 245 0 0 1 16.45 7.64 172 172 0 0 0-16.22-7.215c24.181 45.365 31.578 90.726 19.716 122.57 27.634 3.111 50.504-3.955 59.236-20.858 13.874-26.859-13.168-68.464-60.481-93.335l.455.238c66.507 34.959 104.553 93.374 85.092 131.048-16.114 31.193-66.642 38.461-121.579 20.734-46.034 16.93-118.032-14.278-173.181-78.387 39.15 45.308 90.154 67.324 122.873 55.354-58.602-35.364-90.676-88.717-72.48-123.94 9.431-18.256 30.651-28.317 57.643-29.967-44.974-51.265-105.055-72.003-135.303-46.264-30.494 25.948-19.213 89.385 25.079 142.244-62.626-74.406-78.737-163.846-35.865-200.326m155.116 115.328c-9.623 3.546-17.038 9.38-21.215 17.467-13.427 25.992 11.464 65.794 55.962 90.876 6.636-29.351-5.936-70.895-34.747-108.343"/>
+          <path d="M101.007 724.523c43.12 36.691 129.575 5.913 193.104-68.746 14.224-16.715 26.091-34.214 35.461-51.717a245 245 0 0 0 16.451-7.642 172 172 0 0 1-16.222 7.216c24.182-45.365 31.579-90.726 19.718-122.57 27.633-3.111 50.502 3.955 59.234 20.857 13.984 27.071-13.595 69.12-61.601 93.92 67.48-34.86 106.283-93.9 86.668-131.87-16.114-31.194-66.642-38.461-121.579-20.734-46.034-16.93-118.031 14.279-173.18 78.387 39.149-45.308 90.153-67.324 122.873-55.354-58.602 35.364-90.676 88.717-72.481 123.939 9.432 18.257 30.651 28.318 57.643 29.969-44.974 51.263-105.055 72.002-135.303 46.263-30.494-25.948-19.214-89.385 25.078-142.245-62.625 74.406-78.735 163.847-35.864 200.327m155.116-115.328c-9.623-3.546-17.037-9.38-21.215-17.467-13.427-25.992 11.464-65.792 55.962-90.875 6.636 29.351-5.936 70.895-34.747 108.342M776.903 152.477c-43.119-36.692-129.575-5.913-193.104 68.746-14.224 16.715-26.09 34.214-35.461 51.717a245 245 0 0 0-16.45 7.642 172 172 0 0 1 16.221-7.216c-24.182 45.365-31.579 90.726-19.718 122.57-27.633 3.111-50.502-3.955-59.234-20.857-13.984-27.071 13.595-69.12 61.601-93.92-67.48 34.86-106.283 93.9-86.668 131.87 16.114 31.194 66.642 38.461 121.579 20.734 46.034 16.93 118.032-14.279 173.18-78.387-39.149 45.308-90.153 67.324-122.873 55.354 58.603-35.364 90.676-88.717 72.481-123.939-9.431-18.257-30.651-28.318-57.643-29.969 44.974-51.263 105.055-72.002 135.303-46.263 30.494 25.948 19.214 89.385-25.078 142.245 62.626-74.406 78.735-163.847 35.864-200.327M621.787 267.805c9.623 3.546 17.037 9.38 21.215 17.467 13.427 25.992-11.464 65.792-55.962 90.875-6.636-29.351 5.936-70.895 34.747-108.342"/>
+          <path d="M776.903 724.523c-43.119 36.691-129.575 5.913-193.104-68.746-14.224-16.715-26.09-34.214-35.461-51.717a245 245 0 0 1-16.45-7.642 172 172 0 0 0 16.221 7.216c-24.182-45.365-31.579-90.726-19.718-122.57-27.633-3.111-50.502 3.955-59.234 20.857-13.984 27.071 13.595 69.12 61.601 93.92-67.48-34.86-106.283-93.9-86.668-131.87 16.114-31.194 66.642-38.461 121.579-20.734 46.034-16.93 118.032 14.279 173.18 78.387-39.149-45.308-90.153-67.324-122.873-55.354 58.603 35.364 90.676 88.717 72.481 123.939-9.431 18.257-30.651 28.318-57.643 29.969 44.974 51.263 105.055 72.002 135.303 46.263 30.494-25.948 19.214-89.385-25.078-142.245 62.626 74.406 78.735 163.847 35.864 200.327M621.787 609.195c9.623-3.546 17.037-9.38 21.215-17.467 13.427-25.992-11.464-65.792-55.962-90.875-6.636 29.351 5.936 70.895 34.747 108.342"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="footer-container">
+    <h2 class="contact-cta-title" id="contact-title">
+      <span data-i18n="footer.cta1">Let's build</span><br>
+      <span class="highlight" id="highlight"><em data-i18n="footer.cta2">something</em></span><br>
+      <span data-i18n="footer.cta3">great</span>
+    </h2>
+    <div class="contact-info">
+      <div class="contact-details">
+        <div class="detail-item">
+          <p class="detail-label" data-i18n="footer.email.label">Email</p>
+          <div class="email-wrapper">
+            <a href="mailto:yuxuan2300@gmail.com?subject=關於作品集聯繫" class="detail-link" id="emailLink">
+              yuxuan2300@gmail.com
+            </a>
+            <!-- 把 btn + tooltip 包在一起 -->
+            <div class="copy-wrap">
+              <button class="copy-btn" id="copyBtn" aria-label="Copy email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+              <span class="copy-tooltip" id="copyTooltip">Copied</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <p class="detail-label" data-i18n="footer.social.label">Socials</p>
+          <div class="social-links">
+            <a target="_blank" href="https://www.linkedin.com/in/yu-syuan-dai-80816a28a/" class="detail-link">LinkedIn</a>
+            <a target="_blank" href="https://pda.104.com.tw/profile/share/8uu76mxgXfP6prn7FXCJtjUxmCiT9J8K" class="detail-link">104</a>
+          </div>
+        </div>
+        <div class="detail-item">
+          <p class="detail-label" data-i18n="footer.loc.label">Location</p>
+          <p class="detail-text" data-i18n="footer.loc.text">Taipei, Taiwan</p>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  
+</section>
+
+ <div class="footer-bottom">
+    <p class="footer-copy" data-i18n="footer.copy">© 2026 YU_XUAN Portfolio. All rights reserved.</p>
+    <a href="#" class="back-top" data-i18n="footer.backtop">Back to top</a>
+  </div>
+
+<!-- Three.js for TorusKnot -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+<script>
+
+// 儘早執行：防止瀏覽器自動捲動，避免 Nav 位置計算錯誤
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+
+/* CV Button */
+
+const cvBtn = document.getElementById('cv-btn');
+
+cvBtn.addEventListener('click', () => {
+  const link = document.createElement('a');
+  link.href = './TestCV.pdf';
+  link.download = 'YU_XUAN_CV.pdf';
+  link.click();
+});
+
+
+// 註冊插件
+gsap.registerPlugin(ScrollTrigger);
+
+// ========================
+// 統一初始化 Lenis
+// ========================
+const lenis = new Lenis({
+  lerp: 0.1,
+  smoothWheel: true,
+  syncTouch: true 
+});
+
+// 連結 GSAP ScrollTrigger
+lenis.on('scroll', ScrollTrigger.update);
+
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+gsap.ticker.lagSmoothing(0);
+
+
+function injectWarpEffect(material) {
+  material.onBeforeCompile = (shader) => {
+    shader.uniforms.uAmplitude = { value: 0.8 };
+    shader.uniforms.uFrequency = { value: 1.0 };
+    shader.uniforms.uSharpness = { value: 8.0 };
+
+    // ── Step 1: 注入 uniforms + snoise + 共用位移函數 ──
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <common>',
+      `#include <common>
+      #ifndef WARP_UNIFORMS
+        #define WARP_UNIFORMS
+        uniform float uAmplitude;
+        uniform float uFrequency;
+        uniform float uSharpness;
+
+        vec3 mod289v3(vec3 x){return x-floor(x*(1./289.))*289.;}
+        vec4 mod289v4(vec4 x){return x-floor(x*(1./289.))*289.;}
+        vec4 permute4(vec4 x){return mod289v4(((x*34.)+1.)*x);}
+        vec4 taylorInvSqrt4(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+        float snoise(vec3 v){
+          const vec2 C=vec2(1./6.,1./3.);
+          const vec4 D=vec4(0.,.5,1.,2.);
+          vec3 i=floor(v+dot(v,C.yyy));
+          vec3 x0=v-i+dot(i,C.xxx);
+          vec3 g=step(x0.yzx,x0.xyz);
+          vec3 l=1.-g;
+          vec3 i1=min(g.xyz,l.zxy);
+          vec3 i2=max(g.xyz,l.zxy);
+          vec3 x1=x0-i1+C.xxx;
+          vec3 x2=x0-i2+C.yyy;
+          vec3 x3=x0-D.yyy;
+          i=mod289v3(i);
+          vec4 p=permute4(permute4(permute4(i.z+vec4(0.,i1.z,i2.z,1.))+i.y+vec4(0.,i1.y,i2.y,1.))+i.x+vec4(0.,i1.x,i2.x,1.));
+          float n_=0.142857142857;
+          vec3 ns=n_*D.wyz-D.xzx;
+          vec4 j=p-49.*floor(p*ns.z*ns.z);
+          vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.*x_);
+          vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy;
+          vec4 h=1.-abs(x)-abs(y);
+          vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);
+          vec4 s0=floor(b0)*2.+1.; vec4 s1=floor(b1)*2.+1.;
+          vec4 sh=-step(h,vec4(0.));
+          vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+          vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y);
+          vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);
+          vec4 norm=taylorInvSqrt4(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+          p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;
+          vec4 m=max(.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.);
+          m=m*m; return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+        }
+
+        // 共用位移量函數 (position + normal 方向夾緊）
+        float getDisp(vec3 pos) {
+          vec3 np     = normalize(pos);
+          float sinT  = sqrt(1.0 - np.x * np.x);
+          float pinch = pow(sinT, uSharpness);
+          float noise = snoise(pos * uFrequency);
+          return noise * uAmplitude * (1.0 - pinch * 0.75) + (-pinch * uAmplitude * 1.2);
+        }
+      #endif
+      `
+    );
+
+    // ── Step 2: beginnormal_vertex → 正確計算 objectNormal ──
+    // Three.js 的 defaultnormal_vertex 會自動把 objectNormal 轉成 vNormal
+    // 直接在 begin_vertex 裡寫 vNormal 是錯的！
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <beginnormal_vertex>',
+      `
+      float eps_   = 0.01;
+      vec3 tang_   = normalize(cross(normal, vec3(0.0, 1.0, 0.001)));
+      vec3 bitang_ = normalize(cross(normal, tang_));
+
+      vec3 disp_c  = position + normal * getDisp(position);
+      vec3 disp_t  = (position + tang_   * eps_) + normal * getDisp(position + tang_   * eps_);
+      vec3 disp_b  = (position + bitang_ * eps_) + normal * getDisp(position + bitang_ * eps_);
+
+      vec3 objectNormal = normalize(cross(disp_t - disp_c, disp_b - disp_c));
+      `
+    );
+
+    // ── Step 3: begin_vertex → 計算位移後位置 ──
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      `
+      vec3 transformed = position + normal * getDisp(position);
+      `
+    );
+
+    material.userData.shader = shader;
+  };
+}
+
+// ========================
+// Three.js TorusKnot
+// ========================
+(function() {
+  const canvas = document.getElementById('knotCanvas');
+  const baseHeight = 120;
+  const widthMultiplier = 1.5; // 寬度是高度的幾倍（例如 2 倍）
+
+  canvas.width = baseHeight * widthMultiplier * 2; 
+  canvas.height = baseHeight * 2;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(2);
+  renderer.setSize(baseHeight * widthMultiplier, baseHeight);
+  renderer.setClearColor(0x000000, 0);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.4;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+ 
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 80);
+  camera.position.z = 4.5;
+
+  
+
+  function makeHDREnv() {
+    const W = 512, H = 256;
+    const data = new Float32Array(W * H * 4);
+    
+    // 彩色光源列表：[x(0~1), y(0~1), R, G, B, 半徑px, 峰值強度]
+    const sources = [
+        [0.22, 0.20,  5.0, 0.0, 8.0,  50,  9],  // 紫
+        [0.38, 0.45,  0.0, 7.0, 5.0,  45, 10],  // 青
+        [0.80, 0.20,  0.0, 8.0, 1.0,  36,  9],  // 綠
+        [0.92, 0.50,  6.0, 0.0, 8.0,  44, 10],  // 藍紫
+        [0.14, 0.65,  8.0, 5.0, 0.0,  35,  8],  // 黃橙
+        [0.44, 0.70,  0.0, 4.0, 8.0,  48, 10],  // 藍綠
+        [0.08, 0.30, 0.0, 0.5, 8.0, 50, 10], // 深藍
+        [0.35, 0.45,  0.0, 10.0, 8.0, 50, 12],  // 強化青色 (G 和 B 均衡)
+        [0.55, 0.15,  2.0, 0.0, 15.0, 45, 14],  // 冷紫色 (低 R, 高 B)
+        [0.85, 0.50,  0.0, 5.0, 12.0, 40, 10],  // 電光藍
+        [0.60, 0.60,  0.0, 0.0, 20.0, 50, 18],  // 超強藍色光源 (主反射源)
+    ];
+    
+    for (const [lx, ly, lr, lg, lb, rad, peak] of sources) {
+        const cx = Math.floor(lx * W);
+        const cy = Math.floor(ly * H);
+        for (let dy = -rad; dy <= rad; dy++) {
+        for (let dx = -rad; dx <= rad; dx++) {
+            const d = Math.sqrt(dx*dx + dy*dy);
+            if (d > rad) continue;
+            const f = Math.pow(1 - d / rad, 2.2);  // gamma 衰減
+            const px = (cx + dx + W) % W;
+            const py = Math.max(0, Math.min(H-1, cy + dy));
+            const i = (py * W + px) * 4;
+            data[i]   += lr * peak * f;
+            data[i+1] += lg * peak * f;
+            data[i+2] += lb * peak * f;
+            data[i+3]  = 1.0;
+        }
+        }
+    }
+    
+    const tex = new THREE.DataTexture(data, W, H, THREE.RGBAFormat, THREE.FloatType);
+    tex.mapping = THREE.EquirectangularReflectionMapping;
+    tex.colorSpace = THREE.LinearSRGBColorSpace;
+    tex.needsUpdate = true;
+    return tex;
+    }
+
+  scene.environment = makeHDREnv();
+
+  // TorusKnot geometry as specified
+  const geo = new THREE.SphereGeometry(0.8, 128, 128);
+  const mat = 
+    new THREE.MeshPhysicalMaterial({
+    color: 0x00fffb,
+    metalness: 1.0, // 注意：metalness 通常最大為 1.0
+    roughness: 0.0,
+    transmission: 0.7,
+    thickness: 3.0,
+    ior: 1.5,
+    iridescence: 1.0,
+    iridescenceIOR: 1.6,
+    iridescenceThicknessRange: [80, 700],
+    envMapIntensity: 3.0,
+    specularIntensity: 2.0,
+    specularColor: 0x7300ff,
+    transparent: true,
+    opacity: 1.0,
+  });
+
+  injectWarpEffect(mat);
+  const mesh = new THREE.Mesh(geo, mat);
+  scene.add(mesh);
+
+  mesh.scale.set(1.2, 1.2, 1.2);
+
+
+
+  /* ─── 補充燈光（強化立體感） ─── */
+  scene.add(new THREE.AmbientLight(0x111111, 2));
+    const dl = new THREE.DirectionalLight(0xffffff, 2);
+    dl.position.set(4, 6, 5); scene.add(dl);
+    [[0xff00ff, -5,  4, -3, 4],
+    [0x00ffff,  5, -3, -4, 3],
+    [0xffaa00,  0, -6,  4, 3]].forEach(([c,x,y,z,i]) => {
+      const pl = new THREE.PointLight(c, i, 18);
+      pl.position.set(x,y,z); scene.add(pl);
+    });
+ 
+
+  // Mouse-driven rotation
+  let targetRY = 0;
+  let currentRY = 0;
+
+  document.addEventListener('mousemove', e => {
+    // 取得滑鼠在水平方向的位移 (-1 到 1)
+    const nx = (e.clientX / window.innerWidth - 0.5) * 2;
+    // 設定目標 Y 軸旋轉角度
+    targetRY = nx * Math.PI * 0.4;
+  });
+
+  let autoRotY = 0;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    autoRotY += 0.008; // 自動旋轉增量
+    currentRY += (targetRY - currentRY) * 0.04; // 滑鼠跟隨平滑化
+
+    // --- 修正重點 ---
+    // 移除 mesh.rotation.x 的自動增加，改為固定值或 0
+    // 如果想要物件有一點點傾斜的設計感，可以設為固定的小數字（如 0.2）
+    mesh.rotation.x = 0.1; 
+    
+    // 將所有左右旋轉的邏輯（自動 + 手動）都放在 Y 軸
+    mesh.rotation.y = autoRotY + currentRY;
+
+    // 如果希望有一點點隨滑鼠上下擺動的「深度感」，可以保留極細微的 Z 軸
+    mesh.rotation.z = currentRY * 0.1;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", ()=>{
+
+
+   /* ─── CURSOR (原有) ─── */
+    const cur  = document.getElementById('cursor');
+    const curF = document.getElementById('cursorFollower');
+    let cx = 0, cy = 0, fx = 0, fy = 0;
+
+    document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; });
+
+    (function loop() {
+      requestAnimationFrame(loop);
+      fx += (cx - fx) * 0.12;
+      fy += (cy - fy) * 0.12;
+      cur.style.transform  = `translate3d(${cx - 4}px, ${cy - 4}px, 0)`;
+      curF.style.transform = `translate3d(${fx - 18}px, ${fy - 18}px, 0)`;
+    })();
+
+    document.querySelectorAll('a, .project-card, .service-item, .cta-button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        curF.style.width           = '60px';
+        curF.style.height          = '60px';
+        curF.style.backgroundColor = 'rgba(240,240,240,0.08)';
+      });
+      el.addEventListener('mouseleave', () => {
+        curF.style.width           = '36px';
+        curF.style.height          = '36px';
+        curF.style.backgroundColor = 'transparent';
+      });
+    });
+
+
+
+
+  
+  const previewContainer = document.getElementById('hover-preview-container');
+  const previewImg = document.getElementById('hover-preview-img');
+  const listItems = document.querySelectorAll('.exp-list li, .award-grid li'); // 只要有 data-img 的 li 都可以
+
+  listItems.forEach(item => {
+    item.addEventListener('mouseenter', (e) => {
+      const imgSrc = item.getAttribute('data-img');
+      if (imgSrc) {
+        previewImg.src = imgSrc;
+        previewImg.style.opacity = "1";
+        previewContainer.classList.add('active');
+      }
+    });
+
+    item.addEventListener('mousemove', (e) => {
+      // 讓圖片位移一點點，不要剛好擋在滑鼠正下方
+      const offset = 20; 
+      
+      // 使用 requestAnimationFrame 優化效能，減少閃爍
+      requestAnimationFrame(() => {
+        previewContainer.style.left = `${e.clientX + offset}px`;
+        previewContainer.style.top = `${e.clientY + offset}px`;
+      });
+    });
+
+    item.addEventListener('mouseleave', () => {
+      previewContainer.classList.remove('active');
+    });
+  });
+
+  // 3. 強制頁面回到頂部（解決 Nav 偏移的最後一根稻草）
+  window.scrollTo(0, 0);
+  lenis.scrollTo(0, { immediate: true });
+
+
+
+  //查看履歷的按鈕文字切換
+  function applyRollText(lang) {
+  // 直接從 translations 物件拿值，不需要 DOM 上有 data-i18n
+  const text = translations[lang]['profile.cv'];
+  //            ↑ 這個 translations 就在同一支 about.js 裡宣告的物件
+  
+  const roll = document.querySelector('.roll-text');
+  roll.innerHTML = [...text].map((char, i) =>
+    `<span style="--i:${i + 1}">${char === ' ' ? '&nbsp;' : char}</span>`
+  ).join('');
+}
+
+
+
+
+  
+
+})
+
+
+
+
+
+
+</script>
+</body>
+</html>
