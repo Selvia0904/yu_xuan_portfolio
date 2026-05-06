@@ -5,9 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../pic/logo.svg">
-<title>YU_XUAN_VistaAI</title>
+<title>YU_XUAN_MemoryFeast</title>
 <link rel="stylesheet" href="../styles.css">
-<script type="module" src="../js/i18n/vista.js"></script>
+<script type="module" src="../js/i18n/memory.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -200,6 +200,15 @@
   .cta-link .arrow { font-size: 1rem; }
 
 
+    /* ── CHALLENGES ── */
+  .problems-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+
+
   /* STICKY CARD */
   .sticky-card-container{
     padding: 50px 0;
@@ -235,103 +244,6 @@
     border-top: 1px solid var(--border);
   }
 
-
-  /* FEATURE CARD */
-  .features-nav-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 五等分 */
-    gap: 20px;
-    margin-bottom: 0;
-  }
-
-  .nav-card {
-    padding: 24px;
-    border-radius: 12px;
-     background: var(--surface);
-    border: 1px solid var(--border);
-  }
-
-  .nav-card h3 {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 16px;
-  color: var(--text);
-}
-.nav-card p {
-  color: var(--tertiary);
-  font-size: 0.9rem;
-  font-weight: 300;
-  line-height: 1.4;
-}
-
-  .card-num {
-    font-family: var(--font-display);
-    font-weight: 600;
-    color: var(--brand); /* 您的橘色色碼 */
-    margin-bottom: 12px;
-  }
-
-  /* 下方詳細內容排版 */
-  .detail-item {
-    margin-bottom: 120px; /* 增加大塊內容之間的呼吸感 */
-  }
-
-.img-full {
-  width: 100%;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 32px;
-  background: #f5f5f5;
-}
-
-.img-full img {
-  width: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-.detail-text {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: left;
-}
-
-.detail-text h3 {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  margin-bottom: 16px;
-  color: var(--text);
-}
-
-.detail-text .card-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--brand);
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.detail-text p {
-  color: var(--tertiary);
-  font-size: 0.9rem;
-  font-weight: 300;
-  line-height: 1.85;
-}
-
-
-
-/* 響應式調整 */
-@media (max-width: 1024px) {
-  .features-nav-grid {
-    grid-template-columns: repeat(3, 1fr); /* 平板改為三欄 */
-  }
-}
-
   /* ── IMAGE GRID ── */
   .img-grid {
     display: grid;
@@ -352,28 +264,45 @@
   .img-grid img:hover { filter: brightness(1); transform: scale(1.01); }
 
 
-
-
   .img-full img {
-    width: 100%;
+     width: 100%;
     height: 560px;
     object-fit: cover;
     border-radius: 12px;
     display: block;
+    margin: 0 0 48px 0;
   }
 
-.design-system img {
-  width: 100%;
-  /* 如果這個區域想讓圖片大一點，可以維持原比例或稍微調整 */
-  aspect-ratio: 1280 / 832;
-  object-fit: cover;
-  border-radius: 12px;
-  display: block;
-}
+  
+  .solution-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+  }
 
-.design-system {
-  margin-bottom: 60px;
-}
+  .solution-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+
+  .solution-tag-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+
+  .solution-tag{
+    display: flex;
+    font-size: 16px;
+    font-family: var(--font-display);
+    color: var(--secondary);
+    width: fit-content;
+  }
+
 
   /* ── CHALLENGES ── */
   .challenges-grid {
@@ -382,6 +311,8 @@
     gap: 32px;
   }
   .challenge-card {
+    display: flex;
+    flex-direction: column;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -408,24 +339,33 @@
     font-size: 0.9rem;
     font-weight: 300;
     line-height: 1.85;
+    flex-grow: 1; /* 這是關鍵：讓段落撐開空間 */
+    margin-bottom: 16px;
+  }
+
+  .challenge-card cite {
+    margin-top: auto; /* 保險起見，再次確保推至底部 */
+    display: block;   /* 讓 cite 成為區塊元素以方便對齊 */
+    font-style: normal;
+    font-size: 14px;
+    color: var(--tertiary);
   }
 
 
   /* */
   .content-grid{
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    gap: 48px;
-    align-items: start;
-    width: 100%;
-    max-width: 1200px; /* 根據你的設計稿調整最大寬度 */
-    margin: 0 auto;
-    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    max-width: 600px; /* 根據你的設計稿調整最大寬度 */
+    margin: 0;
+    margin-bottom: 60px;
   }
 
   .content-title {
     color: var(--text);
-    letter-spacing: 0.06rem;
+    letter-spacing: 0.1rem;
     font-family: var(--font-display);
   }
 
@@ -463,6 +403,13 @@
     color: var(--brand);
   }
 
+  /* ── SUMMARY + TESTIMONIAL ── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 80px;
+    align-items: start;
+  }
 /* ── SUMMARY + TESTIMONIAL ── */
   .summary-grid {
     display: grid;
@@ -487,6 +434,30 @@
   .testimonial-body em{
     color: var(--brand);
     font-style: normal;
+  }
+
+  .testimonial-author {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .author-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d4f34a, #7bc832);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #0c0c0d;
+    flex-shrink: 0;
+  }
+  .author-info .name {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+  .author-info .role {
+    font-size: 0.78rem;
+    color: var(--muted);
   }
 
   /* ── PROJECT LINKS ── */
@@ -645,19 +616,40 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .hero { padding: 120px 24px 60px; }
-    .hero-image { padding: 0 24px; }
-    .section { padding: 60px 24px; }
-    .divider { padding: 0 24px; }
+    .hero-image img {
+      height: auto;          /* 關鍵：取消固定高度 */
+      min-height: auto;      
+      object-fit: contain; 
+    }
+
     .img-full img {
         height: auto;          /* 關鍵：取消固定高度 */
         min-height: auto;      
         object-fit: contain;   /* 關鍵：確保圖片完整顯示，不被裁切 */
         margin: 0 0 32px 0;    /* 手機版間距稍微縮小 */
-    }
-    .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    .features-nav-grid {
-        grid-template-columns: 1fr; /* 手機改為一欄 */
       }
+
+    .content-grid {
+      max-width: 100%; 
+      gap: 16px; /* 稍微縮小間距，讓內容更緊湊 */
+      margin-bottom: 40px; /* 減少底部間距，適合小螢幕閱讀節奏 */
+    }
+
+    .content-title {
+      font-size: 1.5rem; /* 稍微縮小標題，避免在小手機上折行太嚴重 */
+      line-height: 1.2;
+    }
+
+    .content-body {
+      font-size: 15px; /* 微調字體大小，增加手機上的易讀性 */
+      line-height: 1.5;
+      letter-spacing: 0.04rem; /* 稍微縮小字距，避免單行字數過少 */
+    }
+    .hero-image { padding: 0 24px; }
+    .section { padding: 60px 24px; }
+    .divider { padding: 0 24px; }
+    .problems-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .challenges-grid { grid-template-columns: 1fr; }
     .summary-grid { grid-template-columns: 1fr; gap: 40px; }
     .project-links { grid-template-columns: 1fr; }
@@ -666,24 +658,6 @@
     .content-grid { grid-template-columns: 1fr; gap: 32px;}
     .takeaway-section { padding: 40px 28px; }
     .next-project-inner { padding: 60px 24px; }
-
-    .sticky-card {
-      /* 1. 降低高度，避免圖片在窄螢幕下被切掉太多 */
-      height: 450px; 
-      /* 2. 稍微調整 top，讓上方留白多一點，看起來不擁擠 */
-      top: 5vh; 
-      border-radius: 20px;
-      /* 3. 縮小卡片間距，手機上滾動距離不宜過長 */
-      margin-bottom: 50px; 
-      width: 95%; /* 讓卡片在小螢幕上寬一點 */
-    }
-
-    .detail-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-
   }
 </style>
 </head>
@@ -734,16 +708,16 @@
     </a>
     <ul class="nav-links">
         <li>
-            <a href="/W_1_final/about.html" class="nav-link">
-                <div class="text-wrapper" data-i18n-twin="nav.about">
+            <a href="../about.html" class="nav-link">
+                <div class="text-wrapper" data-i18n-twin="nav-about">
                     <span class="text-item">About</span>
                     <span class="text-item">About</span>
                 </div>
             </a>
         </li>
         <li>
-            <a href="/W_1_final/works.html" class="nav-link">
-                <div class="text-wrapper" data-i18n-twin="nav.works"> 
+            <a href="../works.html" class="nav-link">
+                <div class="text-wrapper" data-i18n-twin="nav-works"> 
                     <span class="text-item">Works</span>
                     <span class="text-item">Works</span>
                 </div>
@@ -751,7 +725,7 @@
         </li>
         <li>
           <button id="lang-toggle" class="nav-link" type="button">
-            <div class="text-wrapper" data-i18n-twin="nav.lang"> 
+            <div class="text-wrapper" data-i18n-twin="nav-lang"> 
                 <span class="text-item">中文</span>
                 <span class="text-item">中文</span>
             </div>
@@ -767,16 +741,16 @@
   <div class="nav-overlay" id="navOverlay">
   <ul class="overlay-links">
     <li>
-      <a href="/W_1_final/about.html" class="overlay-link">
-        <div class="text-wrapper" data-i18n-twin="nav.about">
+      <a href="../about.html" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav-about">
           <span class="overlay-text-item">About</span>
           <span class="overlay-text-item">About</span>
         </div>
       </a>
     </li>
     <li>
-      <a href="/W_1_final/works.html" class="overlay-link">
-        <div class="text-wrapper" data-i18n-twin="nav.works">
+      <a href="../works.html" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav-works">
           <span class="overlay-text-item">Works</span>
           <span class="overlay-text-item">Works</span>
         </div>
@@ -784,7 +758,7 @@
     </li>
     <li>
       <a href="#" id="overlay-lang" class="overlay-link">
-        <div class="text-wrapper" data-i18n-twin="nav.lang">
+        <div class="text-wrapper" data-i18n-twin="nav-lang">
           <span class="overlay-text-item">中文</span>
           <span class="overlay-text-item">中文</span>
         </div>
@@ -799,19 +773,20 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-eyebrow fade-up">
-    <p data-i18n="hero-eyebrow">2026</p>
+    <p data-i18n="hero-eyebrow">2024</p>
     <span class="sep">/</span>
   </div>
 
-  <h1 class="hero-title fade-up fade-up-d1">VistaAI</h1>
+  <h1 class="hero-title fade-up fade-up-d1">MemoryFeast</h1>
 
   <div class="hero-meta-row fade-up fade-up-d2">
     <p class="hero-desc" data-i18n="hero-desc">
-      A B2B Fintech platform powered by Google Gemini to simplify asset management. VistaAI integrates real-time portfolio tracking, LLM-driven prompt-based reporting, and multi-bank connectivity into one intuitive, intelligent interface.
+      A data-driven nutrition platform designed for Taiwan's post-2025 ultra-aged society. 
+      MemoryFeast integrates physiological data with AI-powered storytelling to transform restrictive dietary management into a joyful journey of culinary connection.
     </p>
     <div class="hero-location">
-      <strong data-i18n="hero-location-title">PoC Development Project</strong>
-      <span data-i18n="hero-location-sub">Product Strategy, UI/UX Design & Frontend Development</span>
+      <strong  data-i18n="hero-location-title">Award-Winning Collaborative Project</strong>
+      <span data-i18n="hero-location-sub">UI Design & UX Optimization | 2-Person Team</span>
     </div>
   </div>
 </div>
@@ -819,8 +794,8 @@
 <!-- HERO IMAGE -->
 <div class="hero-image fade-up">
   <img
-    src="../pic/VistaAI/VistaAI_cover.png"
-    alt="VistaAI dark light mode switch"
+    src="../pic/MemoryFeast/MemoryFeast_Display.png"
+    alt="Forword application features"
     loading="eager"
   >
 </div>
@@ -832,31 +807,32 @@
   <div class="about-sidebar fade-up">
     <div class="about-info-item">
       <div class="label" data-i18n="about-industry-label">Industry</div>
-      <div class="value" data-i18n="about-industry-value">B2B Fintech</div>
+      <div class="value" data-i18n="about-industry-value">HealthTech</div>
     </div>
     
     <div class="about-info-item">
       <div class="label" data-i18n="about-role-label">Role</div>
-      <div class="value" data-i18n="about-role-value">Product Strategy & Full-stack Design</div>
+      <div class="value" data-i18n="about-role-value">UI Design & UX Optimization</div>
     </div>
 
     <div class="about-info-item">
       <div class="label" data-i18n="about-features-label">Core Features</div>
       <div class="tags-wrap">
-        <span class="tag" data-i18n="tag-chatbot">Conversational AI Chatbot</span>
-        <span class="tag" data-i18n="tag-nav"> Real-time NAV Tracking</span>
-        <span class="tag" data-i18n="tag-report">Prompt-to-Report Engine</span>
+        <span class="tag" data-i18n="tag-nutrition">Smart Nutrition Integration</span>
+        <span class="tag" data-i18n="tag-memory">AI Memory Reconstruction</span>
+        <span class="tag" data-i18n="tag-community">Intergenerational Community</span>
       </div>
     </div>
   </div>
 
   <div class="about-body fade-up fade-up-d1">
-    <h2 data-i18n="about-title">Simplifying financial oversight with conversational AI</h2>
-    <p data-i18n="about-body-1">
-      VistaAI is a B2B SaaS PoC that transforms complex financial data into actionable insights. Through an advanced AI chatbot, users can monitor portfolios, net asset values, and transaction histories using simple natural language.
+    <!-- 標題：強調情感與數據的結合 -->
+    <h2 data-i18n="about-title">Bridging physiological health with emotional well-being</h2>
+    <p data-i18n="about-body-1"> 
+      MemoryFeast is an AI-driven platform addressing Taiwan's post-2025 ultra-aged society. We transform restrictive dietary management into a joyful, storytelling experience by integrating physiological data with personalized nutrition.
     </p>
     <p data-i18n="about-body-2">
-      As the sole designer, I architected the entire user journey—from multi-bank API integration to the chatbot interface. I focused on removing the friction from financial reporting, allowing users to generate statements and query balances via a seamless, prompt-driven experience.
+      As the UI/UX lead, I optimized complex workflows and simplified health data inputs. My focus was on creating an intuitive interface for memory-driven AI assistance, enabling seniors to "recreate lost flavors" and foster deeper emotional connections.
     </p>
   </div>
 </div>
@@ -864,148 +840,161 @@
 
 <div class="divider"></div>
 
-<!--sticky img card-->
-<div class="section sticky-card-container fade-up">
-    <div class="sticky-card sticky-card-1">
-        <img
-            src="../pic/VistaAI/VistaAI_schematic.png"
-            alt="Dashboard analytics view"
-        >
-    </div>
-    <div class="sticky-card sticky-card-2">
-        <img
-            src="../pic/VistaAI/VistaAI_ipad.png"
-            alt="ipad screens"
-        >
-    </div>
-    <div class="sticky-card sticky-card-3">
-        <img
-            src="../pic/VistaAI/VistaAI_iphone.png"
-            alt="iphone screens"
-        >
-    </div>
-</div>
 
-
-<div class="divider"></div>
-
+<!-- schematic pic -->
 <div class="section">
-  <div class="section-label fade-up" data-i18n="section-label-features">Core Features</div>
+  <div class="img-full fade-up" >
+    <img
+      src="../pic/MemoryFeast/MemoryFeast_schematic.png"
+      alt="Full width product screenshot"
+
+    >
+  </div>
   
-  <!-- 1. 快速概覽區：五個卡片 -->
-  <div class="features-nav-grid">
-    <div class="nav-card fade-up">
-      <div class="card-num">01</div>
-      <h3 data-i18n="nav-card-01-title">Asset Overview</h3>
-      <p data-i18n="nav-card-01-desc">Real-time tracking of portfolio trends and P&L across all assets.</p>
-    </div>
-    <div class="nav-card fade-up fade-up-d1">
-      <div class="card-num">02</div>
-      <h3 data-i18n="nav-card-02-title">AI<br>Chatbot</h3>
-      <p data-i18n="nav-card-02-desc">Conversational queries for NAV, reports, and automated asset entry.</p>
-    </div>
-    <div class="nav-card fade-up fade-up-d2">
-      <div class="card-num">03</div>
-      <h3 data-i18n="nav-card-03-title">Asset Management</h3>
-      <p data-i18n="nav-card-03-desc">Unified management for real estate, stocks, and funds.</p>
-    </div>
-    <div class="nav-card fade-up fade-up-d3">
-      <div class="card-num">04</div>
-      <h3 data-i18n="nav-card-04-title">Report<br> Center</h3>
-      <p data-i18n="nav-card-04-desc">Generate, view, and export comprehensive financial statements.</p>
-    </div>
-    <div class="nav-card fade-up fade-up-d4">
-      <div class="card-num">05</div>
-      <h3 data-i18n="nav-card-05-title">Bank Integration</h3>
-      <p data-i18n="nav-card-05-desc">Securely link accounts and manage profile-based financial data.</p>
-    </div>
-  </div>
-</div>
-
-<!-- 2. 詳細介紹區：照片 + 內容反覆 -->
-<div class="section detail-container">
-
-  <!-- Feature 01 -->
-  <div class="detail-item fade-up">
-    <div class="section-label fade-up" data-i18n="section-label-asset">Asset Overview</div>
-    <div class="img-full">
-      <img src="../pic/VistaAI/VistaAI_home.gif" alt="AI Chatbot Interface">
-    </div>
-    <div class="detail-text">
-      <h3 data-i18n="detail-01-title">Asset Overview</h3>
-      <p data-i18n="detail-01-desc">A comprehensive dashboard that tracks real-time asset fluctuations and stock pool performance through interactive weekly, monthly, and annual charts. It provides a centralized view of upcoming transactions with an automated alert system to flag assets nearing expiration.</p>
-    </div>
-  </div>
-
-  <!-- Feature 02 -->
-  <div class="detail-item fade-up">
-    <div class="section-label fade-up" data-i18n="section-label-chatbot">Conversational AI Assistant</div>
-    <div class="img-full">
-      <img src="../pic/VistaAI/VistaAI_AIchatbot.png" alt="AI Chatbot Interface">
-    </div>
-    <div class="detail-text">
-      <h3 data-i18n="detail-02-title">Conversational AI Assistant</h3>
-      <p data-i18n="detail-02-desc">An intelligent chatbot that processes natural language to fetch latest NAVs or export PDF reports. It also supports voice-to-data entry, automatically syncing spoken asset information into the management system.</p>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- Design system -->
-<div class="section">
-  <div class="section-label fade-up" data-i18n="section-label-design">Design System</div>
-  <div class="design-system fade-up" >
-    <img
-      src="../pic/VistaAI/Design System_dark.png"
-      alt="Design system dark"
-
-    >
-  </div>
-
-  <div class="design-system fade-up" >
-    <img
-      src="../pic/VistaAI/Design System_light.png"
-      alt="Design system light"
-
-    >
-  </div>
   
 </div>
 
 
 
+<div class="section">
+  
+  <div class="section-label fade-up" data-i18n="section-label-concept">Concept & Research</div>
+  
+  <div class="content-grid">
+    <div class="content-title fade-up">
+      <h3>MemoryFeast</h3>
+    </div>
+    <div class="content-body fade-up fade-up-d1">
+      <p data-i18n="concept-body">
+        As Taiwan becomes a super-aged society, MemoryFeast uses AI to combine health data with nostalgic 
+        flavors. We recreate childhood tastes tailored to modern nutritional needs, ensuring seniors enjoy meals that are both emotionally fulfilling and medically safe.
+      </p>
+    </div>
+  </div>
+
+  <div class="problems-grid">
+    <div class="challenge-card fade-up">
+      <div class="card-label" data-i18n="card-label-philosophy">Core Philosophy</div>
+      <h3 data-i18n="card-title-proust">The Proust Effect</h3>
+      <p style="margin-bottom: 16px;" data-i18n="card-body-proust">
+        Harnessing taste and smell to trigger <strong>positive emotional recall</strong>, we use AI to balance nostalgic flavors with precise nutrition, allowing elderly users to eat happily and healthily.
+      </p>
+    </div>
+
+    <div class="challenge-card fade-up fade-up-d1">
+      <div class="card-label" data-i18n="card-label-olfactory">Olfactory Memory</div>
+      <h3 data-i18n="card-title-scent">Scent Over Sight</h3>
+      <p style="margin-bottom: 16px;" data-i18n="card-body-scent">
+        "Odors are more potent than visual or verbal cues in <strong>eliciting emotional memories</strong>... olfactory perception influences how we remember the past."
+      </p>
+      <cite style="margin-top: 8px;">— Rachel S. Herz (Brown University, 2002)</cite>
+    </div>
+
+    <div class="challenge-card fade-up fade-up-d2">
+      <div class="card-label" data-i18n="card-label-psychological">Psychological Impact</div>
+      <h3 data-i18n="card-title-nostalgia">Nostalgic Well-being</h3>
+      <p style="margin-bottom: 16px;" data-i18n="card-body-nostalgia">
+        Nostalgia provides an effective path to <strong>enhancing subjective well-being</strong>, fostering social connections and mitigating feelings of loneliness among the elderly.
+      </p>
+      <cite style="margin-top: 8px;" data-i18n="card-cite-nostalgia">— Polletta & Callahan, 2017; Li et al., 2023</cite>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- FULL WIDTH IMAGE -->
+<div class="section" style="padding-top:0">
+  <div class="section-label fade-up" data-i18n="section-label-design">Design Concept</div>
+  <div class="img-full fade-up">
+    <img
+      src="../pic/MemoryFeast/MemoryFeast.gif"
+      alt="Full width product screenshot"
+    >
+  </div>
+  <div class="solution-container">
+    <div class="solution-title" data-i18n="solution-title">Core Features</div>
+    <div class="solution-tag-container">
+      <span class="solution-tag" data-i18n="solution-tag-1"># Smart Nutrition Integration</span>
+      <span class="solution-tag" data-i18n="solution-tag-2"># AI Memory Reconstruction</span>
+      <span class="solution-tag" data-i18n="solution-tag-3"># Intergenerational Community</span>
+    </div>
+  </div>
+    
+  <div class="problems-grid">
+  <!-- Target Audience -->
+  <div class="challenge-card fade-up fade-up-d1">
+    <div class="card-label" data-i18n="card-label-audience">Target Audience</div>
+    <h3 data-i18n="card-title-audience">Solitary Seniors</h3>
+    <p data-i18n="card-body-audience">
+      Seniors with chronic conditions living alone often find cooking for one a "hassle." This leads to poor dietary choices and unhealthy medical reports, creating a gap that requires simple, nutritional intervention.
+    </p>
+  </div>
+
+  <!-- Design Strategy -->
+  <div class="challenge-card fade-up fade-up-d1">
+    <div class="card-label" data-i18n="card-label-strategy">Design Strategy</div>
+    <h3 data-i18n="card-title-strategy">Inclusive Simplicity</h3>
+    <p data-i18n="card-body-strategy">
+      We use <strong>large text, high contrast, and oversized buttons</strong> to accommodate aging vision. By stripping away UI clutter and simplifying the flow, we ensure the experience is intuitive and stress-free.
+    </p>
+  </div>
+
+  <!-- Color Palette -->
+  <div class="challenge-card fade-up fade-up-d1">
+    <div class="card-label" data-i18n="card-label-color">Color Palette</div>
+    <h3 data-i18n="card-title-color">Warmth & Appetite</h3>
+    <p data-i18n="card-body-color">
+      <strong>Appetizing Orange (#FF641E)</strong> on a <strong>Warm Yellow base</strong> creates a cozy, inviting feel. Dark Coffee text ensures maximum readability while maintaining a soft, organic aesthetic.
+    </p>
+  </div>
+</div>
+</div>
+
 <div class="divider"></div>
 
-<!-- SUMMARY + TESTIMONIAL -->
+<!-- User flow -->
+<div class="section">
+  <div class="img-full fade-up" >
+    <img
+      src="../pic/MemoryFeast/MemoryFeast_userflow.png"
+      alt="Full width product screenshot"
+
+    >
+  </div>
+  
+</div>
+
+<div class="divider"></div>
+
 <div class="section">
   <div class="section-label fade-up" data-i18n="section-label-summary">Summary</div>
   <div class="summary-grid">
     <div class="summary-sidebar fade-up">
-      <!-- 領域：Fintech 專業背景 -->
+      <!-- 領域：Elderly Healthcare & FoodTech -->
       <div class="about-info-item">
         <div class="label" data-i18n="summary-industry-label">Industry</div>
-        <div class="value" data-i18n="summary-industry-value">B2B Fintech</div>
+        <div class="value" data-i18n="summary-industry-value">HealthTech</div>
       </div>
 
-      <!-- 角色：強調全棧設計與開發能力 -->
+      <!-- 角色：強調設計與研究 -->
       <div class="about-info-item">
         <div class="label" data-i18n="summary-role-label">Role</div>
         <div class="tags-wrap">
-          <span class="tag" data-i18n="summary-tag-ux">UI/UX Design</span>
-          <span class="tag" data-i18n="summary-tag-fe">Frontend Development</span>
-          <span class="tag" data-i18n="summary-tag-arch">System Architecture</span>
+          <span class="tag" data-i18n="summary-tag-research">UX Research</span>
+          <span class="tag" data-i18n="summary-tag-ui">UI Design</span>
+          <span class="tag" data-i18n="summary-tag-strategy">Product Strategy</span>
         </div>
       </div>
 
-      <!-- 亮點：技術核心與實作能力 -->
+      <!-- 亮點：專案硬核技術與理念 -->
       <div class="about-info-item">
         <div class="label" data-i18n="summary-tech-label">Key Tech</div>
         <div class="tags-wrap">
-          <span class="tag" data-i18n="summary-tag-scraper">Async Web Scraper</span>
-          <span class="tag" data-i18n="summary-tag-pdf">PDF Generation</span>
-          <span class="tag" data-i18n="summary-tag-ds">Design System</span>
-          <span class="tag" data-i18n="summary-tag-rwd">RWD & Dark Mode</span>
+          <span class="tag" data-i18n="summary-tag-ai">AI Nutrition Evaluation</span>
+          <span class="tag" data-i18n="summary-tag-olfactory">Olfactory UX</span>
+          <span class="tag" data-i18n="summary-tag-inclusive">Inclusive Design</span>
         </div>
       </div>
     </div>
@@ -1014,9 +1003,9 @@
       <div class="testimonial-card">
         <div class="testimonial-body">
           <p data-i18n="testimonial-body">
-            <em>VistaAI</em> redefines financial management by merging complex data with conversational intelligence. 
-            Utilizing <strong>asynchronous scrapers</strong> for real-time tracking and <strong>automated PDF reporting</strong>, 
-            it delivers a seamless, <strong>dark-mode-ready</strong> experience—ensuring every insight is as <em>clear as a vision.</em> 
+            <em>MemoryFeast</em> bridges the gap between health and happiness, 
+            using AI to transform nostalgic food memories into medically safe, 
+            nutritious meals—ensuring that for every senior, <em>every bite is a journey home.</em> 
           </p>
         </div>
       </div>
@@ -1026,17 +1015,16 @@
 
 <div class="divider"></div>
 
-
 <!-- NEXT PROJECT -->
 <div class="next-project">
   <div class="next-project-inner">
     <div class="next-project-label" data-i18n="next-label">Next project</div>
-    <h2 class="fade-up">BlitzGerman</h2>
+    <h2 class="fade-up">VistaAI</h2>
     <p class="fade-up fade-up-d1" data-i18n="next-desc">
-      An AI-powered ecosystem designed to demystify complex German grammar. It leverages interactive AI agents and intuitive design to simplify noun genders, case systems, and sentence structures through intelligent synthesis.
+      VistaAI — a B2B Fintech platform for intelligent asset management, empowering financial institutions with AI chatbots for real-time portfolio tracking, automated reporting, and seamless multi-bank balance integration.
     </p>
-    <a href="blitzGerman.html" class="roll-btn" id="next-project-btn">
-      <div class="roll-text"  data-i18n="vista.next.btn">
+    <a href="vistaAI.html" class="roll-btn" id="next-project-btn">
+      <div class="roll-text" data-i18n="memory.next.btn">
         <span style="--i:1">N</span>
         <span style="--i:2">e</span>
         <span style="--i:3">x</span>

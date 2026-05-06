@@ -5,9 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../pic/logo.svg">
-<title>YU_XUAN_MemoryFeast</title>
+<title>YU_XUAN_Forword</title>
 <link rel="stylesheet" href="../styles.css">
-<script type="module" src="../js/i18n/memory.js"></script>
+<script type="module" src="../js/i18n/forword.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -200,15 +200,6 @@
   .cta-link .arrow { font-size: 1rem; }
 
 
-    /* ── CHALLENGES ── */
-  .problems-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 32px;
-  }
-
-
-
   /* STICKY CARD */
   .sticky-card-container{
     padding: 50px 0;
@@ -264,16 +255,6 @@
   .img-grid img:hover { filter: brightness(1); transform: scale(1.01); }
 
 
-  .img-full img {
-     width: 100%;
-    height: 560px;
-    object-fit: cover;
-    border-radius: 12px;
-    display: block;
-    margin: 0 0 48px 0;
-  }
-
-  
   .solution-container{
     display: flex;
     justify-content: space-between;
@@ -304,6 +285,25 @@
   }
 
 
+
+
+  .img-full img {
+    width: 100%;
+    height: 560px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    margin: 0 0 48px 0;
+  }
+
+  /* ── CHALLENGES ── */
+  .problems-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  /* ── CHALLENGES ── */
   /* ── CHALLENGES ── */
   .challenges-grid {
     display: grid;
@@ -410,13 +410,6 @@
     gap: 80px;
     align-items: start;
   }
-/* ── SUMMARY + TESTIMONIAL ── */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.6fr;
-    gap: 80px;
-    align-items: start;
-  }
 
   .testimonial-card {
     background: var(--surface2);
@@ -435,6 +428,7 @@
     color: var(--brand);
     font-style: normal;
   }
+
 
   .testimonial-author {
     display: flex; align-items: center; gap: 14px;
@@ -536,8 +530,8 @@
   }
   .next-project-inner {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 80px 48px;
+    margin: 0;
+    padding: 80px 64px;
     position: relative;
     z-index: 2;
   }
@@ -616,13 +610,26 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .hero { padding: 120px 24px 60px; }
+    .hero-image img {
+      height: auto;          /* 關鍵：取消固定高度 */
+      min-height: auto;      
+      object-fit: contain; 
+    }
+
+    .hero-image { padding: 0 24px; }
+    .section { padding: 60px 24px; }
+    .divider { padding: 0 24px; }
     .img-full img {
         height: auto;          /* 關鍵：取消固定高度 */
         min-height: auto;      
         object-fit: contain;   /* 關鍵：確保圖片完整顯示，不被裁切 */
         margin: 0 0 32px 0;    /* 手機版間距稍微縮小 */
       }
-
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .challenges-grid { grid-template-columns: 1fr; }
+    .problems-grid { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: 1fr; gap: 40px; }
+    .project-links { grid-template-columns: 1fr; }
     .content-grid {
       max-width: 100%; 
       gap: 16px; /* 稍微縮小間距，讓內容更緊湊 */
@@ -639,14 +646,6 @@
       line-height: 1.5;
       letter-spacing: 0.04rem; /* 稍微縮小字距，避免單行字數過少 */
     }
-    .hero-image { padding: 0 24px; }
-    .section { padding: 60px 24px; }
-    .divider { padding: 0 24px; }
-    .problems-grid { grid-template-columns: 1fr; }
-    .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    .challenges-grid { grid-template-columns: 1fr; }
-    .summary-grid { grid-template-columns: 1fr; gap: 40px; }
-    .project-links { grid-template-columns: 1fr; }
     .img-grid.two-col { grid-template-columns: 1fr; }
     .img-grid.three-col { grid-template-columns: 1fr; }
     .content-grid { grid-template-columns: 1fr; gap: 32px;}
@@ -702,16 +701,16 @@
     </a>
     <ul class="nav-links">
         <li>
-            <a href="/W_1_final/about.html" class="nav-link">
-                <div class="text-wrapper" data-i18n-twin="nav-about">
+            <a href="../about.html" class="nav-link">
+                <div class="text-wrapper" data-i18n-twin="nav.about">
                     <span class="text-item">About</span>
                     <span class="text-item">About</span>
                 </div>
             </a>
         </li>
         <li>
-            <a href="/W_1_final/works.html" class="nav-link">
-                <div class="text-wrapper" data-i18n-twin="nav-works"> 
+            <a href="../works.html" class="nav-link">
+                <div class="text-wrapper" data-i18n-twin="nav.works"> 
                     <span class="text-item">Works</span>
                     <span class="text-item">Works</span>
                 </div>
@@ -719,7 +718,7 @@
         </li>
         <li>
           <button id="lang-toggle" class="nav-link" type="button">
-            <div class="text-wrapper" data-i18n-twin="nav-lang"> 
+            <div class="text-wrapper" data-i18n-twin="nav.lang"> 
                 <span class="text-item">中文</span>
                 <span class="text-item">中文</span>
             </div>
@@ -735,16 +734,16 @@
   <div class="nav-overlay" id="navOverlay">
   <ul class="overlay-links">
     <li>
-      <a href="/W_1_final/about.html" class="overlay-link">
-        <div class="text-wrapper" data-i18n-twin="nav-about">
+      <a href="../about.html" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav.about">
           <span class="overlay-text-item">About</span>
           <span class="overlay-text-item">About</span>
         </div>
       </a>
     </li>
     <li>
-      <a href="/W_1_final/works.html" class="overlay-link">
-        <div class="text-wrapper" data-i18n-twin="nav-works">
+      <a href="../works.html" class="overlay-link">
+        <div class="text-wrapper" data-i18n-twin="nav.works">
           <span class="overlay-text-item">Works</span>
           <span class="overlay-text-item">Works</span>
         </div>
@@ -752,7 +751,7 @@
     </li>
     <li>
       <a href="#" id="overlay-lang" class="overlay-link">
-        <div class="text-wrapper" data-i18n-twin="nav-lang">
+        <div class="text-wrapper" data-i18n-twin="nav.lang">
           <span class="overlay-text-item">中文</span>
           <span class="overlay-text-item">中文</span>
         </div>
@@ -767,20 +766,21 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-eyebrow fade-up">
-    <p data-i18n="hero-eyebrow">2024</p>
+    <p data-i18n="forword.hero.eyebrow">2023</p>
     <span class="sep">/</span>
   </div>
 
-  <h1 class="hero-title fade-up fade-up-d1">MemoryFeast</h1>
+  <h1 class="hero-title fade-up fade-up-d1">Forword</h1>
 
   <div class="hero-meta-row fade-up fade-up-d2">
-    <p class="hero-desc" data-i18n="hero-desc">
-      A data-driven nutrition platform designed for Taiwan's post-2025 ultra-aged society. 
-      MemoryFeast integrates physiological data with AI-powered storytelling to transform restrictive dietary management into a joyful journey of culinary connection.
+    <p class="hero-desc" data-i18n="forword.hero.desc">
+      FORWORD leverages AI-generated imagery to combat vocabulary forgetfulness. 
+      By transforming rote memorization into a visual experience, it makes language 
+      learning both highly efficient and engaging.
     </p>
     <div class="hero-location">
-      <strong  data-i18n="hero-location-title">Award-Winning Collaborative Project</strong>
-      <span data-i18n="hero-location-sub">UI Design & UX Optimization | 2-Person Team</span>
+      <strong data-i18n="forword.hero.location.title">Independent Project</strong>
+      <span data-i18n="forword.hero.location.sub">End-to-end: Literature Research & Design</span>
     </div>
   </div>
 </div>
@@ -788,7 +788,7 @@
 <!-- HERO IMAGE -->
 <div class="hero-image fade-up">
   <img
-    src="/W_1_final/pic/MemoryFeast/MemoryFeast_display.png"
+    src="../pic/Forword/Forword_feature_en.png"
     alt="Forword application features"
     loading="eager"
   >
@@ -796,50 +796,60 @@
 
 <!-- ABOUT SECTION -->
 <div class="section">
-  <div class="section-label fade-up" data-i18n="section-label-about">About the project</div>
+  <div class="section-label fade-up" data-i18n="forword.about.label">About the project</div>
   <div class="about-grid">
-  <div class="about-sidebar fade-up">
-    <div class="about-info-item">
-      <div class="label" data-i18n="about-industry-label">Industry</div>
-      <div class="value" data-i18n="about-industry-value">HealthTech</div>
-    </div>
-    
-    <div class="about-info-item">
-      <div class="label" data-i18n="about-role-label">Role</div>
-      <div class="value" data-i18n="about-role-value">UI Design & UX Optimization</div>
-    </div>
+    <div class="about-sidebar fade-up">
+      <div class="about-info-item">
+        <div class="label" data-i18n="forword.about.industry.label">Industry</div>
+        <div class="value" data-i18n="forword.about.industry.value">Language Learning</div>
+      </div>
+      
+      <div class="about-info-item">
+        <div class="label" data-i18n="forword.about.role.label">Role</div>
+        <div class="value" data-i18n="forword.about.role.value">UX Research & UI Design</div>
+      </div>
 
-    <div class="about-info-item">
-      <div class="label" data-i18n="about-features-label">Core Features</div>
-      <div class="tags-wrap">
-        <span class="tag" data-i18n="tag-nutrition">Smart Nutrition Integration</span>
-        <span class="tag" data-i18n="tag-memory">AI Memory Reconstruction</span>
-        <span class="tag" data-i18n="tag-community">Intergenerational Community</span>
+      <div class="about-info-item">
+        <div class="label" data-i18n="forword.about.features.label">Core Features</div>
+        <div class="tags-wrap">
+          <span class="tag" data-i18n="forword.about.tag.repo">Unified Repository</span>
+          <span class="tag" data-i18n="forword.about.tag.social"">Social Learning</span>
+          <span class="tag" data-i18n="forword.about.tag.ai">AI Visual Mnemonics</span>
+        </div>
       </div>
     </div>
+    <div class="about-body fade-up fade-up-d1">
+      <h2 data-i18n="forword.about.heading">Transforming rote memorization into sensory experience</h2>
+      <p data-i18n="forword.about.body1">
+        The name Forword—a blend of "Word" and "Forward"—reflects my core belief: that every word mastered is a step toward a student's goals.
+      </p>
+      <p data-i18n="forword.about.body2">
+       FORWORD harnesses generative AI to bridge the gap between abstract vocabulary and long-term retention. 
+       By transforming student-written sentences into personalized visual stimuli, the platform turns static word lists into emotionally resonant experiences.
+      </p>
+    </div>
   </div>
-
-  <div class="about-body fade-up fade-up-d1">
-    <!-- 標題：強調情感與數據的結合 -->
-    <h2 data-i18n="about-title">Bridging physiological health with emotional well-being</h2>
-    <p data-i18n="about-body-1"> 
-      MemoryFeast is an AI-driven platform addressing Taiwan's post-2025 ultra-aged society. We transform restrictive dietary management into a joyful, storytelling experience by integrating physiological data with personalized nutrition.
-    </p>
-    <p data-i18n="about-body-2">
-      As the UI/UX lead, I optimized complex workflows and simplified health data inputs. My focus was on creating an intuitive interface for memory-driven AI assistance, enabling seniors to "recreate lost flavors" and foster deeper emotional connections.
-    </p>
-  </div>
-</div>
 </div>
 
 <div class="divider"></div>
 
+<!-- <div class="content-grid">
+    <div class="content-title fade-up">
+      <h3>Target Audience</h3>
+    </div>
+    <div class="content-body fade-up fade-up-d1">
+      <p>
+        Our primary audience consists of junior and senior high school students. In an era of short-form content and constant digital distractions, traditional learning methods often fail to maintain their focus. These "digital natives" require highly interactive, visually stimulating, and personalized experiences to stay engaged with their education.
+      </p>
+    </div>
+  </div>
+--> 
 
 <!-- schematic pic -->
 <div class="section">
   <div class="img-full fade-up" >
     <img
-      src="../pic/MemoryFeast/MemoryFeast_schematic.png"
+      src="../pic/Forword/Forword_schematic.png"
       alt="Full width product screenshot"
 
     >
@@ -849,102 +859,98 @@
 </div>
 
 
-
+<!-- CHALLENGES -->
 <div class="section">
   
-  <div class="section-label fade-up" data-i18n="section-label-concept">Concept & Research</div>
-  
+  <div class="section-label fade-up" data-i18n="forword.research.label">Preliminary Research</div>
   <div class="content-grid">
     <div class="content-title fade-up">
-      <h3>MemoryFeast</h3>
+      <h3 data-i18n="forword.research.title">Introduction</h3>
     </div>
     <div class="content-body fade-up fade-up-d1">
-      <p data-i18n="concept-body">
-        As Taiwan becomes a super-aged society, MemoryFeast uses AI to combine health data with nostalgic 
-        flavors. We recreate childhood tastes tailored to modern nutritional needs, ensuring seniors enjoy meals that are both emotionally fulfilling and medically safe.
+      <p data-i18n="forword.research.intro">
+        Through interviews with 10 diverse learners, I replaced assumptions with authentic insights, uncovering the real-world pain points that drive effective vocabulary acquisition.
       </p>
     </div>
   </div>
 
   <div class="problems-grid">
-    <div class="challenge-card fade-up">
-      <div class="card-label" data-i18n="card-label-philosophy">Core Philosophy</div>
-      <h3 data-i18n="card-title-proust">The Proust Effect</h3>
-      <p style="margin-bottom: 16px;" data-i18n="card-body-proust">
-        Harnessing taste and smell to trigger <strong>positive emotional recall</strong>, we use AI to balance nostalgic flavors with precise nutrition, allowing elderly users to eat happily and healthily.
-      </p>
-    </div>
-
-    <div class="challenge-card fade-up fade-up-d1">
-      <div class="card-label" data-i18n="card-label-olfactory">Olfactory Memory</div>
-      <h3 data-i18n="card-title-scent">Scent Over Sight</h3>
-      <p style="margin-bottom: 16px;" data-i18n="card-body-scent">
-        "Odors are more potent than visual or verbal cues in <strong>eliciting emotional memories</strong>... olfactory perception influences how we remember the past."
-      </p>
-      <cite style="margin-top: 8px;">— Rachel S. Herz (Brown University, 2002)</cite>
-    </div>
-
-    <div class="challenge-card fade-up fade-up-d2">
-      <div class="card-label" data-i18n="card-label-psychological">Psychological Impact</div>
-      <h3 data-i18n="card-title-nostalgia">Nostalgic Well-being</h3>
-      <p style="margin-bottom: 16px;" data-i18n="card-body-nostalgia">
-        Nostalgia provides an effective path to <strong>enhancing subjective well-being</strong>, fostering social connections and mitigating feelings of loneliness among the elderly.
-      </p>
-      <cite style="margin-top: 8px;" data-i18n="card-cite-nostalgia">— Polletta & Callahan, 2017; Li et al., 2023</cite>
-    </div>
+  <div class="challenge-card fade-up">
+    <div class="card-label" data-i18n="forword.problem1.label">Problem 1</div>
+    <h3 data-i18n="forword.problem1.title">Scattered Resources</h3>
+    <p style="margin-bottom: 16px;" data-i18n="forword.problem1.body">
+      "I write words in my notebook, on sticky notes, and in my phone; when it's time to study, <strong>I can never find everything.</strong>"
+    </p>
+    <cite style="margin-top: 8px;" data-i18n="forword.problem1.cite">— Participant 3</cite>
   </div>
+
+  <div class="challenge-card fade-up fade-up-d1">
+    <div class="card-label" data-i18n="forword.problem2.label">Problem 2</div>
+    <h3 data-i18n="forword.problem2.title">High Entry Barrier</h3>
+    <p style="margin-bottom: 16px;" data-i18n="forword.problem2.body">
+      "I spend more time typing than studying. Sometimes <strong>I skip adding words</strong> simply because the process takes too long."
+    </p>
+    <cite data-i18n="forword.problem2.cite"">— Participant 8</cite>
+  </div>
+
+  <div class="challenge-card fade-up fade-up-d2">
+    <div class="card-label" data-i18n="forword.problem3.label">Problem 3</div>
+    <h3 data-i18n="forword.problem3.title">Lack of Context</h3>
+    <p style="margin-bottom: 16px;" data-i18n="forword.problem3.body">
+      "Memorizing word lists feels like cramming phone numbers—they <strong>don't stick in my mind</strong> without a real connection."
+    </p>
+    <cite data-i18n="forword.problem3.cite">— Participant 7</cite>
+  </div>
+</div>
+  
 
 </div>
 
-
-
-<!-- FULL WIDTH IMAGE -->
-<div class="section" style="padding-top:0">
-  <div class="section-label fade-up" data-i18n="section-label-design">Design Concept</div>
+<div class="section">
+  <div class="section-label fade-up" data-i18n="forword.design.label">Design Concept</div>
   <div class="img-full fade-up">
     <img
-      src="../pic/MemoryFeast/MemoryFeast.gif"
+      src="../pic/Forword/ForwordDisplay.gif"
       alt="Full width product screenshot"
     >
   </div>
   <div class="solution-container">
-    <div class="solution-title" data-i18n="solution-title">Core Features</div>
+    <div class="solution-title" data-i18n="forword.solution.title"">Core Features</div>
     <div class="solution-tag-container">
-      <span class="solution-tag" data-i18n="solution-tag-1"># Smart Nutrition Integration</span>
-      <span class="solution-tag" data-i18n="solution-tag-2"># AI Memory Reconstruction</span>
-      <span class="solution-tag" data-i18n="solution-tag-3"># Intergenerational Community</span>
+      <span class="solution-tag" data-i18n="forword.solution.tag.repo"># Unified Repository</span>
+      <span class="solution-tag" data-i18n="forword.solution.tag.social"># Social Learning</span>
+      <span class="solution-tag" data-i18n="forword.solution.tag.ai"># AI Visual Mnemonics</span>
     </div>
   </div>
     
   <div class="problems-grid">
-  <!-- Target Audience -->
-  <div class="challenge-card fade-up fade-up-d1">
-    <div class="card-label" data-i18n="card-label-audience">Target Audience</div>
-    <h3 data-i18n="card-title-audience">Solitary Seniors</h3>
-    <p data-i18n="card-body-audience">
-      Seniors with chronic conditions living alone often find cooking for one a "hassle." This leads to poor dietary choices and unhealthy medical reports, creating a gap that requires simple, nutritional intervention.
-    </p>
+    <div class="challenge-card fade-up fade-up-d1">
+      <div class="card-label" data-i18n="forword.design1.label">Target Audience</div>
+      <h3 data-i18n="forword.design1.title">Digital Natives</h3>
+      <p data-i18n="forword.design1.body">
+        For high schoolers raised on short-form content, traditional learning often fails to hold focus. FORWORD addresses this by providing the interactive, visually stimulating, and personalized experiences these students need to stay engaged.
+      </p>
+    </div>
+    <div class="challenge-card fade-up fade-up-d1">
+      <div class="card-label" data-i18n="forword.design2.label">Design Strategy</div>
+      <h3 data-i18n="forword.design2.title">Instant Gratification</h3>
+      <p data-i18n="forword.design2.body">
+        By streamlining input through OCR scanning, we minimize cognitive overload. 
+        This allows students to focus on the "High Reward"—instant AI-generated imagery that transforms rote memorization into a dopamine-driven creative loop.
+      </p>
+    </div>
+    <div class="challenge-card fade-up fade-up-d1">
+      <div class="card-label" data-i18n="forword.design3.label">Color Palette</div>
+      <h3 data-i18n="forword.design3.title">Psychology of Blue</h3>
+      <p data-i18n="forword.design3.body">
+       I chose Sky Blue based on Takashi Ishii's theory that blue acts as a catalyst for memory. 
+       Known as a "Connecting Color," it fosters neural associations and mental clarity, making the UI itself a tool for better information retention.
+      </p>
+    </div>
   </div>
 
-  <!-- Design Strategy -->
-  <div class="challenge-card fade-up fade-up-d1">
-    <div class="card-label" data-i18n="card-label-strategy">Design Strategy</div>
-    <h3 data-i18n="card-title-strategy">Inclusive Simplicity</h3>
-    <p data-i18n="card-body-strategy">
-      We use <strong>large text, high contrast, and oversized buttons</strong> to accommodate aging vision. By stripping away UI clutter and simplifying the flow, we ensure the experience is intuitive and stress-free.
-    </p>
-  </div>
+</div>
 
-  <!-- Color Palette -->
-  <div class="challenge-card fade-up fade-up-d1">
-    <div class="card-label" data-i18n="card-label-color">Color Palette</div>
-    <h3 data-i18n="card-title-color">Warmth & Appetite</h3>
-    <p data-i18n="card-body-color">
-      <strong>Appetizing Orange (#FF641E)</strong> on a <strong>Warm Yellow base</strong> creates a cozy, inviting feel. Dark Coffee text ensures maximum readability while maintaining a soft, organic aesthetic.
-    </p>
-  </div>
-</div>
-</div>
 
 <div class="divider"></div>
 
@@ -952,54 +958,54 @@
 <div class="section">
   <div class="img-full fade-up" >
     <img
-      src="../pic/MemoryFeast/MemoryFeast_userflow.png"
+      src="../pic/Forword/Forword_flow.png"
       alt="Full width product screenshot"
 
     >
   </div>
   
+  
 </div>
+
 
 <div class="divider"></div>
 
+
+<!-- SUMMARY + TESTIMONIAL -->
 <div class="section">
-  <div class="section-label fade-up" data-i18n="section-label-summary">Summary</div>
+  <div class="section-label fade-up" data-i18n="forword.summary.label">Summary</div>
   <div class="summary-grid">
     <div class="summary-sidebar fade-up">
-      <!-- 領域：Elderly Healthcare & FoodTech -->
+      <!-- 領域：定義專案背景 -->
       <div class="about-info-item">
-        <div class="label" data-i18n="summary-industry-label">Industry</div>
-        <div class="value" data-i18n="summary-industry-value">HealthTech</div>
+        <div class="label" data-i18n="forword.summary.industry.label">Industry</div>
+        <div class="value" data-i18n="forword.summary.industry.value">Language Learning</div>
       </div>
 
-      <!-- 角色：強調設計與研究 -->
+      <!-- 角色：強調你的多重能力 -->
       <div class="about-info-item">
-        <div class="label" data-i18n="summary-role-label">Role</div>
+        <div class="label" data-i18n="forword.summary.role.label">Role</div>
         <div class="tags-wrap">
-          <span class="tag" data-i18n="summary-tag-research">UX Research</span>
-          <span class="tag" data-i18n="summary-tag-ui">UI Design</span>
-          <span class="tag" data-i18n="summary-tag-strategy">Product Strategy</span>
+          <span class="tag" data-i18n="forword.summary.tag.ux">UX Research</span>
+          <span class="tag" data-i18n="forword.summary.tag.ui">UI Design</span>
         </div>
       </div>
 
-      <!-- 亮點：專案硬核技術與理念 -->
+      <!-- 亮點：專案最硬核的部分 -->
       <div class="about-info-item">
-        <div class="label" data-i18n="summary-tech-label">Key Tech</div>
+        <div class="label" data-i18n="forword.summary.tech.label">Key Tech</div>
         <div class="tags-wrap">
-          <span class="tag" data-i18n="summary-tag-ai">AI Nutrition Evaluation</span>
-          <span class="tag" data-i18n="summary-tag-olfactory">Olfactory UX</span>
-          <span class="tag" data-i18n="summary-tag-inclusive">Inclusive Design</span>
+          <span class="tag" data-i18n="forword.summary.tag.aigc">AIGC Integration</span>
+          <span class="tag" data-i18n="forword.summary.tag.proto">Interactive Prototype</span>
         </div>
       </div>
     </div>
-    
     <div class="fade-up fade-up-d1">
       <div class="testimonial-card">
         <div class="testimonial-body">
-          <p data-i18n="testimonial-body">
-            <em>MemoryFeast</em> bridges the gap between health and happiness, 
-            using AI to transform nostalgic food memories into medically safe, 
-            nutritious meals—ensuring that for every senior, <em>every bite is a journey home.</em> 
+          <p data-i18n="forword.testimonial">
+            <em>Forword </em>transforms vocabulary learning into a visual journey, 
+            using generative AI to turn student-written sentences into memorable images—ensuring every word learned is<em> a step forward.</em> 
           </p>
         </div>
       </div>
@@ -1012,13 +1018,13 @@
 <!-- NEXT PROJECT -->
 <div class="next-project">
   <div class="next-project-inner">
-    <div class="next-project-label" data-i18n="next-label">Next project</div>
-    <h2 class="fade-up">VistaAI</h2>
-    <p class="fade-up fade-up-d1" data-i18n="next-desc">
-      VistaAI — a B2B Fintech platform for intelligent asset management, empowering financial institutions with AI chatbots for real-time portfolio tracking, automated reporting, and seamless multi-bank balance integration.
+    <div class="next-project-label" data-i18n="forword.next.label">Next project</div>
+    <h2 class="fade-up">MemoryFeast</h2>
+    <p class="fade-up fade-up-d1" data-i18n="forword.next.desc">
+     MemoryFeast is a data-driven meal-ordering platform designed for Taiwan’s post-2025 ultra-aged society. By integrating physiological data to provide personalized nutritional support for seniors managing chronic health, we help users rediscover the joy of connection—turning every meal into a meaningful step toward holistic well-being.
     </p>
-    <a href="vistaAI.html" class="roll-btn" id="next-project-btn">
-      <div class="roll-text" data-i18n="memory.next.btn">
+    <a href="memoryFeast.html" class="roll-btn" id="next-project-btn">
+      <div class="roll-text" data-i18n="forword.next.btn">
         <span style="--i:1">N</span>
         <span style="--i:2">e</span>
         <span style="--i:3">x</span>
@@ -1033,8 +1039,8 @@
 </div>
   <!-- FOOTER -->
   <div class="footer-bottom">
-    <p class="footer-copy" data-i18n="footer-copy">© 2026 YU_XUAN Portfolio. All rights reserved.</p>
-    <a href="#" class="back-top" data-i18n="back-top">Back to top</a>
+    <p class="footer-copy" data-i18n="forword.footer.copy">© 2026 YU_XUAN Portfolio. All rights reserved.</p>
+    <a href="#" class="back-top" data-i18n="forword.footer.back">Back to top</a>
   </div>
 
 

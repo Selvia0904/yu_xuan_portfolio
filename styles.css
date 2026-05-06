@@ -430,8 +430,26 @@ HAMBURGER BUTTON 核心樣式
     backdrop-filter: none !important;
     border-bottom: none;
   }
-
 }
+
+
+
+@media (max-width: 500px) {
+  .contact-cta-title br {
+    display: block; /* 確保換行正常運作 */
+  }
+
+  html[lang="zh-TW"] .contact-cta-title {
+    font-size: 40px;
+    width: 100%; /* 手機版通常建議設為 100% 讓它自然撐開並換行 */
+    display: block; /* 確保它是區塊元素 */
+  }
+}
+
+
+
+
+
 
 /* ================================
    FULL-SCREEN OVERLAY
@@ -990,3 +1008,5 @@ html[lang="zh-TW"] .testimonial-body {
     font-size: 1.4rem;
     line-height: 1.7;
   }
+
+

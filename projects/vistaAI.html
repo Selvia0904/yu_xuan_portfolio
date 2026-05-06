@@ -5,9 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../pic/logo.svg">
-<title>YU_XUAN_Forword</title>
+<title>YU_XUAN_VistaAI</title>
 <link rel="stylesheet" href="../styles.css">
-<script type="module" src="../js/i18n/forword.js"></script>
+<script type="module" src="../js/i18n/vista.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -235,6 +235,103 @@
     border-top: 1px solid var(--border);
   }
 
+
+  /* FEATURE CARD */
+  .features-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 五等分 */
+    gap: 20px;
+    margin-bottom: 0;
+  }
+
+  .nav-card {
+    padding: 24px;
+    border-radius: 12px;
+     background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .nav-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.nav-card p {
+  color: var(--tertiary);
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+  .card-num {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--brand); /* 您的橘色色碼 */
+    margin-bottom: 12px;
+  }
+
+  /* 下方詳細內容排版 */
+  .detail-item {
+    margin-bottom: 120px; /* 增加大塊內容之間的呼吸感 */
+  }
+
+.img-full {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  background: #f5f5f5;
+}
+
+.img-full img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.detail-text {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.detail-text h3 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.detail-text .card-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.detail-text p {
+  color: var(--tertiary);
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.85;
+}
+
+
+
+/* 響應式調整 */
+@media (max-width: 1024px) {
+  .features-nav-grid {
+    grid-template-columns: repeat(3, 1fr); /* 平板改為三欄 */
+  }
+}
+
   /* ── IMAGE GRID ── */
   .img-grid {
     display: grid;
@@ -255,36 +352,6 @@
   .img-grid img:hover { filter: brightness(1); transform: scale(1.01); }
 
 
-  .solution-container{
-    display: flex;
-    justify-content: space-between;
-    padding: 40px;
-  }
-
-  .solution-title {
-    font-family: var(--font-display);
-    font-size: 20px;
-    font-weight: 700;
-  }
-
-
-  .solution-tag-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-
-
-  .solution-tag{
-    display: flex;
-    font-size: 16px;
-    font-family: var(--font-display);
-    color: var(--secondary);
-    width: fit-content;
-  }
-
-
 
 
   .img-full img {
@@ -293,17 +360,21 @@
     object-fit: cover;
     border-radius: 12px;
     display: block;
-    margin: 0 0 48px 0;
   }
 
-  /* ── CHALLENGES ── */
-  .problems-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 32px;
-  }
+.design-system img {
+  width: 100%;
+  /* 如果這個區域想讓圖片大一點，可以維持原比例或稍微調整 */
+  aspect-ratio: 1280 / 832;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
 
-  /* ── CHALLENGES ── */
+.design-system {
+  margin-bottom: 60px;
+}
+
   /* ── CHALLENGES ── */
   .challenges-grid {
     display: grid;
@@ -311,8 +382,6 @@
     gap: 32px;
   }
   .challenge-card {
-    display: flex;
-    flex-direction: column;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -339,33 +408,24 @@
     font-size: 0.9rem;
     font-weight: 300;
     line-height: 1.85;
-    flex-grow: 1; /* 這是關鍵：讓段落撐開空間 */
-    margin-bottom: 16px;
-  }
-
-  .challenge-card cite {
-    margin-top: auto; /* 保險起見，再次確保推至底部 */
-    display: block;   /* 讓 cite 成為區塊元素以方便對齊 */
-    font-style: normal;
-    font-size: 14px;
-    color: var(--tertiary);
   }
 
 
   /* */
   .content-grid{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-    max-width: 600px; /* 根據你的設計稿調整最大寬度 */
-    margin: 0;
-    margin-bottom: 60px;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 48px;
+    align-items: start;
+    width: 100%;
+    max-width: 1200px; /* 根據你的設計稿調整最大寬度 */
+    margin: 0 auto;
+    padding: 20px 0;
   }
 
   .content-title {
     color: var(--text);
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.06rem;
     font-family: var(--font-display);
   }
 
@@ -403,7 +463,7 @@
     color: var(--brand);
   }
 
-  /* ── SUMMARY + TESTIMONIAL ── */
+/* ── SUMMARY + TESTIMONIAL ── */
   .summary-grid {
     display: grid;
     grid-template-columns: 1fr 1.6fr;
@@ -427,31 +487,6 @@
   .testimonial-body em{
     color: var(--brand);
     font-style: normal;
-  }
-
-
-  .testimonial-author {
-    display: flex; align-items: center; gap: 14px;
-  }
-  .author-avatar {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #d4f34a, #7bc832);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: #0c0c0d;
-    flex-shrink: 0;
-  }
-  .author-info .name {
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: var(--text);
-  }
-  .author-info .role {
-    font-size: 0.78rem;
-    color: var(--muted);
   }
 
   /* ── PROJECT LINKS ── */
@@ -530,8 +565,8 @@
   }
   .next-project-inner {
     max-width: 1200px;
-    margin: 0;
-    padding: 80px 64px;
+    margin: 0 auto;
+    padding: 80px 48px;
     position: relative;
     z-index: 2;
   }
@@ -610,6 +645,12 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .hero { padding: 120px 24px 60px; }
+    .hero-image img {
+      height: auto;          /* 關鍵：取消固定高度 */
+      min-height: auto;      
+      object-fit: contain; 
+    }
+
     .hero-image { padding: 0 24px; }
     .section { padding: 60px 24px; }
     .divider { padding: 0 24px; }
@@ -618,33 +659,37 @@
         min-height: auto;      
         object-fit: contain;   /* 關鍵：確保圖片完整顯示，不被裁切 */
         margin: 0 0 32px 0;    /* 手機版間距稍微縮小 */
-      }
+    }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .features-nav-grid {
+        grid-template-columns: 1fr; /* 手機改為一欄 */
+      }
     .challenges-grid { grid-template-columns: 1fr; }
-    .problems-grid { grid-template-columns: 1fr; }
     .summary-grid { grid-template-columns: 1fr; gap: 40px; }
     .project-links { grid-template-columns: 1fr; }
-    .content-grid {
-      max-width: 100%; 
-      gap: 16px; /* 稍微縮小間距，讓內容更緊湊 */
-      margin-bottom: 40px; /* 減少底部間距，適合小螢幕閱讀節奏 */
-    }
-
-    .content-title {
-      font-size: 1.5rem; /* 稍微縮小標題，避免在小手機上折行太嚴重 */
-      line-height: 1.2;
-    }
-
-    .content-body {
-      font-size: 15px; /* 微調字體大小，增加手機上的易讀性 */
-      line-height: 1.5;
-      letter-spacing: 0.04rem; /* 稍微縮小字距，避免單行字數過少 */
-    }
     .img-grid.two-col { grid-template-columns: 1fr; }
     .img-grid.three-col { grid-template-columns: 1fr; }
     .content-grid { grid-template-columns: 1fr; gap: 32px;}
     .takeaway-section { padding: 40px 28px; }
     .next-project-inner { padding: 60px 24px; }
+
+    .sticky-card {
+      /* 1. 降低高度，避免圖片在窄螢幕下被切掉太多 */
+      height: 450px; 
+      /* 2. 稍微調整 top，讓上方留白多一點，看起來不擁擠 */
+      top: 5vh; 
+      border-radius: 20px;
+      /* 3. 縮小卡片間距，手機上滾動距離不宜過長 */
+      margin-bottom: 50px; 
+      width: 95%; /* 讓卡片在小螢幕上寬一點 */
+    }
+
+    .detail-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+
   }
 </style>
 </head>
@@ -695,7 +740,7 @@
     </a>
     <ul class="nav-links">
         <li>
-            <a href="/W_1_final/about.html" class="nav-link">
+            <a href="../about.html" class="nav-link">
                 <div class="text-wrapper" data-i18n-twin="nav.about">
                     <span class="text-item">About</span>
                     <span class="text-item">About</span>
@@ -703,7 +748,7 @@
             </a>
         </li>
         <li>
-            <a href="/W_1_final/works.html" class="nav-link">
+            <a href="../works.html" class="nav-link">
                 <div class="text-wrapper" data-i18n-twin="nav.works"> 
                     <span class="text-item">Works</span>
                     <span class="text-item">Works</span>
@@ -728,7 +773,7 @@
   <div class="nav-overlay" id="navOverlay">
   <ul class="overlay-links">
     <li>
-      <a href="/W_1_final/about.html" class="overlay-link">
+      <a href="../about.html" class="overlay-link">
         <div class="text-wrapper" data-i18n-twin="nav.about">
           <span class="overlay-text-item">About</span>
           <span class="overlay-text-item">About</span>
@@ -736,7 +781,7 @@
       </a>
     </li>
     <li>
-      <a href="/W_1_final/works.html" class="overlay-link">
+      <a href="../works.html" class="overlay-link">
         <div class="text-wrapper" data-i18n-twin="nav.works">
           <span class="overlay-text-item">Works</span>
           <span class="overlay-text-item">Works</span>
@@ -760,21 +805,19 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-eyebrow fade-up">
-    <p data-i18n="forword.hero.eyebrow">2023</p>
+    <p data-i18n="hero-eyebrow">2026</p>
     <span class="sep">/</span>
   </div>
 
-  <h1 class="hero-title fade-up fade-up-d1">Forword</h1>
+  <h1 class="hero-title fade-up fade-up-d1">VistaAI</h1>
 
   <div class="hero-meta-row fade-up fade-up-d2">
-    <p class="hero-desc" data-i18n="forword.hero.desc">
-      FORWORD leverages AI-generated imagery to combat vocabulary forgetfulness. 
-      By transforming rote memorization into a visual experience, it makes language 
-      learning both highly efficient and engaging.
+    <p class="hero-desc" data-i18n="hero-desc">
+      A B2B Fintech platform powered by Google Gemini to simplify asset management. VistaAI integrates real-time portfolio tracking, LLM-driven prompt-based reporting, and multi-bank connectivity into one intuitive, intelligent interface.
     </p>
     <div class="hero-location">
-      <strong data-i18n="forword.hero.location.title">Independent Project</strong>
-      <span data-i18n="forword.hero.location.sub">End-to-end: Literature Research & Design</span>
+      <strong data-i18n="hero-location-title">PoC Development Project</strong>
+      <span data-i18n="hero-location-sub">Product Strategy, UI/UX Design & Frontend Development</span>
     </div>
   </div>
 </div>
@@ -782,224 +825,204 @@
 <!-- HERO IMAGE -->
 <div class="hero-image fade-up">
   <img
-    src="/W_1_final/pic/Forword/Forword_feature_en.png"
-    alt="Forword application features"
+    src="../pic/VistaAI/VistaAI_cover.png"
+    alt="VistaAI dark light mode switch"
     loading="eager"
   >
 </div>
 
 <!-- ABOUT SECTION -->
 <div class="section">
-  <div class="section-label fade-up" data-i18n="forword.about.label">About the project</div>
+  <div class="section-label fade-up" data-i18n="section-label-about">About the project</div>
   <div class="about-grid">
-    <div class="about-sidebar fade-up">
-      <div class="about-info-item">
-        <div class="label" data-i18n="forword.about.industry.label">Industry</div>
-        <div class="value" data-i18n="forword.about.industry.value">Language Learning</div>
-      </div>
-      
-      <div class="about-info-item">
-        <div class="label" data-i18n="forword.about.role.label">Role</div>
-        <div class="value" data-i18n="forword.about.role.value">UX Research & UI Design</div>
-      </div>
-
-      <div class="about-info-item">
-        <div class="label" data-i18n="forword.about.features.label">Core Features</div>
-        <div class="tags-wrap">
-          <span class="tag" data-i18n="forword.about.tag.repo">Unified Repository</span>
-          <span class="tag" data-i18n="forword.about.tag.social"">Social Learning</span>
-          <span class="tag" data-i18n="forword.about.tag.ai">AI Visual Mnemonics</span>
-        </div>
-      </div>
+  <div class="about-sidebar fade-up">
+    <div class="about-info-item">
+      <div class="label" data-i18n="about-industry-label">Industry</div>
+      <div class="value" data-i18n="about-industry-value">B2B Fintech</div>
     </div>
-    <div class="about-body fade-up fade-up-d1">
-      <h2 data-i18n="forword.about.heading">Transforming rote memorization into sensory experience</h2>
-      <p data-i18n="forword.about.body1">
-        The name Forword—a blend of "Word" and "Forward"—reflects my core belief: that every word mastered is a step toward a student's goals.
-      </p>
-      <p data-i18n="forword.about.body2">
-       FORWORD harnesses generative AI to bridge the gap between abstract vocabulary and long-term retention. 
-       By transforming student-written sentences into personalized visual stimuli, the platform turns static word lists into emotionally resonant experiences.
-      </p>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- <div class="content-grid">
-    <div class="content-title fade-up">
-      <h3>Target Audience</h3>
-    </div>
-    <div class="content-body fade-up fade-up-d1">
-      <p>
-        Our primary audience consists of junior and senior high school students. In an era of short-form content and constant digital distractions, traditional learning methods often fail to maintain their focus. These "digital natives" require highly interactive, visually stimulating, and personalized experiences to stay engaged with their education.
-      </p>
-    </div>
-  </div>
---> 
-
-<!-- schematic pic -->
-<div class="section">
-  <div class="img-full fade-up" >
-    <img
-      src="../pic/Forword/Forword_schematic.png"
-      alt="Full width product screenshot"
-
-    >
-  </div>
-  
-  
-</div>
-
-
-<!-- CHALLENGES -->
-<div class="section">
-  
-  <div class="section-label fade-up" data-i18n="forword.research.label">Preliminary Research</div>
-  <div class="content-grid">
-    <div class="content-title fade-up">
-      <h3 data-i18n="forword.research.title">Introduction</h3>
-    </div>
-    <div class="content-body fade-up fade-up-d1">
-      <p data-i18n="forword.research.intro">
-        Through interviews with 10 diverse learners, I replaced assumptions with authentic insights, uncovering the real-world pain points that drive effective vocabulary acquisition.
-      </p>
-    </div>
-  </div>
-
-  <div class="problems-grid">
-  <div class="challenge-card fade-up">
-    <div class="card-label" data-i18n="forword.problem1.label">Problem 1</div>
-    <h3 data-i18n="forword.problem1.title">Scattered Resources</h3>
-    <p style="margin-bottom: 16px;" data-i18n="forword.problem1.body">
-      "I write words in my notebook, on sticky notes, and in my phone; when it's time to study, <strong>I can never find everything.</strong>"
-    </p>
-    <cite style="margin-top: 8px;" data-i18n="forword.problem1.cite">— Participant 3</cite>
-  </div>
-
-  <div class="challenge-card fade-up fade-up-d1">
-    <div class="card-label" data-i18n="forword.problem2.label">Problem 2</div>
-    <h3 data-i18n="forword.problem2.title">High Entry Barrier</h3>
-    <p style="margin-bottom: 16px;" data-i18n="forword.problem2.body">
-      "I spend more time typing than studying. Sometimes <strong>I skip adding words</strong> simply because the process takes too long."
-    </p>
-    <cite data-i18n="forword.problem2.cite"">— Participant 8</cite>
-  </div>
-
-  <div class="challenge-card fade-up fade-up-d2">
-    <div class="card-label" data-i18n="forword.problem3.label">Problem 3</div>
-    <h3 data-i18n="forword.problem3.title">Lack of Context</h3>
-    <p style="margin-bottom: 16px;" data-i18n="forword.problem3.body">
-      "Memorizing word lists feels like cramming phone numbers—they <strong>don't stick in my mind</strong> without a real connection."
-    </p>
-    <cite data-i18n="forword.problem3.cite">— Participant 7</cite>
-  </div>
-</div>
-  
-
-</div>
-
-<div class="section">
-  <div class="section-label fade-up" data-i18n="forword.design.label">Design Concept</div>
-  <div class="img-full fade-up">
-    <img
-      src="../pic/Forword/ForwordDisplay.gif"
-      alt="Full width product screenshot"
-    >
-  </div>
-  <div class="solution-container">
-    <div class="solution-title" data-i18n="forword.solution.title"">Core Features</div>
-    <div class="solution-tag-container">
-      <span class="solution-tag" data-i18n="forword.solution.tag.repo"># Unified Repository</span>
-      <span class="solution-tag" data-i18n="forword.solution.tag.social"># Social Learning</span>
-      <span class="solution-tag" data-i18n="forword.solution.tag.ai"># AI Visual Mnemonics</span>
-    </div>
-  </div>
     
-  <div class="problems-grid">
-    <div class="challenge-card fade-up fade-up-d1">
-      <div class="card-label" data-i18n="forword.design1.label">Target Audience</div>
-      <h3 data-i18n="forword.design1.title">Digital Natives</h3>
-      <p data-i18n="forword.design1.body">
-        For high schoolers raised on short-form content, traditional learning often fails to hold focus. FORWORD addresses this by providing the interactive, visually stimulating, and personalized experiences these students need to stay engaged.
-      </p>
+    <div class="about-info-item">
+      <div class="label" data-i18n="about-role-label">Role</div>
+      <div class="value" data-i18n="about-role-value">Product Strategy & Full-stack Design</div>
     </div>
-    <div class="challenge-card fade-up fade-up-d1">
-      <div class="card-label" data-i18n="forword.design2.label">Design Strategy</div>
-      <h3 data-i18n="forword.design2.title">Instant Gratification</h3>
-      <p data-i18n="forword.design2.body">
-        By streamlining input through OCR scanning, we minimize cognitive overload. 
-        This allows students to focus on the "High Reward"—instant AI-generated imagery that transforms rote memorization into a dopamine-driven creative loop.
-      </p>
-    </div>
-    <div class="challenge-card fade-up fade-up-d1">
-      <div class="card-label" data-i18n="forword.design3.label">Color Palette</div>
-      <h3 data-i18n="forword.design3.title">Psychology of Blue</h3>
-      <p data-i18n="forword.design3.body">
-       I chose Sky Blue based on Takashi Ishii's theory that blue acts as a catalyst for memory. 
-       Known as a "Connecting Color," it fosters neural associations and mental clarity, making the UI itself a tool for better information retention.
-      </p>
+
+    <div class="about-info-item">
+      <div class="label" data-i18n="about-features-label">Core Features</div>
+      <div class="tags-wrap">
+        <span class="tag" data-i18n="tag-chatbot">Conversational AI Chatbot</span>
+        <span class="tag" data-i18n="tag-nav"> Real-time NAV Tracking</span>
+        <span class="tag" data-i18n="tag-report">Prompt-to-Report Engine</span>
+      </div>
     </div>
   </div>
 
+  <div class="about-body fade-up fade-up-d1">
+    <h2 data-i18n="about-title">Simplifying financial oversight with conversational AI</h2>
+    <p data-i18n="about-body-1">
+      VistaAI is a B2B SaaS PoC that transforms complex financial data into actionable insights. Through an advanced AI chatbot, users can monitor portfolios, net asset values, and transaction histories using simple natural language.
+    </p>
+    <p data-i18n="about-body-2">
+      As the sole designer, I architected the entire user journey—from multi-bank API integration to the chatbot interface. I focused on removing the friction from financial reporting, allowing users to generate statements and query balances via a seamless, prompt-driven experience.
+    </p>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!--sticky img card-->
+<div class="section sticky-card-container fade-up">
+    <div class="sticky-card sticky-card-1">
+        <img
+            src="../pic/VistaAI/VistaAI_schematic.png"
+            alt="Dashboard analytics view"
+        >
+    </div>
+    <div class="sticky-card sticky-card-2">
+        <img
+            src="../pic/VistaAI/VistaAI_ipad.png"
+            alt="ipad screens"
+        >
+    </div>
+    <div class="sticky-card sticky-card-3">
+        <img
+            src="../pic/VistaAI/VistaAI_iphone.png"
+            alt="iphone screens"
+        >
+    </div>
 </div>
 
 
 <div class="divider"></div>
 
-<!-- User flow -->
 <div class="section">
-  <div class="img-full fade-up" >
+  <div class="section-label fade-up" data-i18n="section-label-features">Core Features</div>
+  
+  <!-- 1. 快速概覽區：五個卡片 -->
+  <div class="features-nav-grid">
+    <div class="nav-card fade-up">
+      <div class="card-num">01</div>
+      <h3 data-i18n="nav-card-01-title">Asset Overview</h3>
+      <p data-i18n="nav-card-01-desc">Real-time tracking of portfolio trends and P&L across all assets.</p>
+    </div>
+    <div class="nav-card fade-up fade-up-d1">
+      <div class="card-num">02</div>
+      <h3 data-i18n="nav-card-02-title">AI<br>Chatbot</h3>
+      <p data-i18n="nav-card-02-desc">Conversational queries for NAV, reports, and automated asset entry.</p>
+    </div>
+    <div class="nav-card fade-up fade-up-d2">
+      <div class="card-num">03</div>
+      <h3 data-i18n="nav-card-03-title">Asset Management</h3>
+      <p data-i18n="nav-card-03-desc">Unified management for real estate, stocks, and funds.</p>
+    </div>
+    <div class="nav-card fade-up fade-up-d3">
+      <div class="card-num">04</div>
+      <h3 data-i18n="nav-card-04-title">Report<br> Center</h3>
+      <p data-i18n="nav-card-04-desc">Generate, view, and export comprehensive financial statements.</p>
+    </div>
+    <div class="nav-card fade-up fade-up-d4">
+      <div class="card-num">05</div>
+      <h3 data-i18n="nav-card-05-title">Bank Integration</h3>
+      <p data-i18n="nav-card-05-desc">Securely link accounts and manage profile-based financial data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2. 詳細介紹區：照片 + 內容反覆 -->
+<div class="section detail-container">
+
+  <!-- Feature 01 -->
+  <div class="detail-item fade-up">
+    <div class="section-label fade-up" data-i18n="section-label-asset">Asset Overview</div>
+    <div class="img-full">
+      <img src="../pic/VistaAI/VistaAI_home.gif" alt="AI Chatbot Interface">
+    </div>
+    <div class="detail-text">
+      <h3 data-i18n="detail-01-title">Asset Overview</h3>
+      <p data-i18n="detail-01-desc">A comprehensive dashboard that tracks real-time asset fluctuations and stock pool performance through interactive weekly, monthly, and annual charts. It provides a centralized view of upcoming transactions with an automated alert system to flag assets nearing expiration.</p>
+    </div>
+  </div>
+
+  <!-- Feature 02 -->
+  <div class="detail-item fade-up">
+    <div class="section-label fade-up" data-i18n="section-label-chatbot">Conversational AI Assistant</div>
+    <div class="img-full">
+      <img src="../pic/VistaAI/VistaAI_AIchatbot.png" alt="AI Chatbot Interface">
+    </div>
+    <div class="detail-text">
+      <h3 data-i18n="detail-02-title">Conversational AI Assistant</h3>
+      <p data-i18n="detail-02-desc">An intelligent chatbot that processes natural language to fetch latest NAVs or export PDF reports. It also supports voice-to-data entry, automatically syncing spoken asset information into the management system.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Design system -->
+<div class="section">
+  <div class="section-label fade-up" data-i18n="section-label-design">Design System</div>
+  <div class="design-system fade-up" >
     <img
-      src="../pic/Forword/Forword_flow.png"
-      alt="Full width product screenshot"
+      src="../pic/VistaAI/Design System_dark.png"
+      alt="Design system dark"
+
+    >
+  </div>
+
+  <div class="design-system fade-up" >
+    <img
+      src="../pic/VistaAI/Design System_light.png"
+      alt="Design system light"
 
     >
   </div>
   
-  
 </div>
 
 
-<div class="divider"></div>
 
+<div class="divider"></div>
 
 <!-- SUMMARY + TESTIMONIAL -->
 <div class="section">
-  <div class="section-label fade-up" data-i18n="forword.summary.label">Summary</div>
+  <div class="section-label fade-up" data-i18n="section-label-summary">Summary</div>
   <div class="summary-grid">
     <div class="summary-sidebar fade-up">
-      <!-- 領域：定義專案背景 -->
+      <!-- 領域：Fintech 專業背景 -->
       <div class="about-info-item">
-        <div class="label" data-i18n="forword.summary.industry.label">Industry</div>
-        <div class="value" data-i18n="forword.summary.industry.value">Language Learning</div>
+        <div class="label" data-i18n="summary-industry-label">Industry</div>
+        <div class="value" data-i18n="summary-industry-value">B2B Fintech</div>
       </div>
 
-      <!-- 角色：強調你的多重能力 -->
+      <!-- 角色：強調全棧設計與開發能力 -->
       <div class="about-info-item">
-        <div class="label" data-i18n="forword.summary.role.label">Role</div>
+        <div class="label" data-i18n="summary-role-label">Role</div>
         <div class="tags-wrap">
-          <span class="tag" data-i18n="forword.summary.tag.ux">UX Research</span>
-          <span class="tag" data-i18n="forword.summary.tag.ui">UI Design</span>
+          <span class="tag" data-i18n="summary-tag-ux">UI/UX Design</span>
+          <span class="tag" data-i18n="summary-tag-fe">Frontend Development</span>
+          <span class="tag" data-i18n="summary-tag-arch">System Architecture</span>
         </div>
       </div>
 
-      <!-- 亮點：專案最硬核的部分 -->
+      <!-- 亮點：技術核心與實作能力 -->
       <div class="about-info-item">
-        <div class="label" data-i18n="forword.summary.tech.label">Key Tech</div>
+        <div class="label" data-i18n="summary-tech-label">Key Tech</div>
         <div class="tags-wrap">
-          <span class="tag" data-i18n="forword.summary.tag.aigc">AIGC Integration</span>
-          <span class="tag" data-i18n="forword.summary.tag.proto">Interactive Prototype</span>
+          <span class="tag" data-i18n="summary-tag-scraper">Async Web Scraper</span>
+          <span class="tag" data-i18n="summary-tag-pdf">PDF Generation</span>
+          <span class="tag" data-i18n="summary-tag-ds">Design System</span>
+          <span class="tag" data-i18n="summary-tag-rwd">RWD & Dark Mode</span>
         </div>
       </div>
     </div>
+    
     <div class="fade-up fade-up-d1">
       <div class="testimonial-card">
         <div class="testimonial-body">
-          <p data-i18n="forword.testimonial">
-            <em>Forword </em>transforms vocabulary learning into a visual journey, 
-            using generative AI to turn student-written sentences into memorable images—ensuring every word learned is<em> a step forward.</em> 
+          <p data-i18n="testimonial-body">
+            <em>VistaAI</em> redefines financial management by merging complex data with conversational intelligence. 
+            Utilizing <strong>asynchronous scrapers</strong> for real-time tracking and <strong>automated PDF reporting</strong>, 
+            it delivers a seamless, <strong>dark-mode-ready</strong> experience—ensuring every insight is as <em>clear as a vision.</em> 
           </p>
         </div>
       </div>
@@ -1009,16 +1032,17 @@
 
 <div class="divider"></div>
 
+
 <!-- NEXT PROJECT -->
 <div class="next-project">
   <div class="next-project-inner">
-    <div class="next-project-label" data-i18n="forword.next.label">Next project</div>
-    <h2 class="fade-up">MemoryFeast</h2>
-    <p class="fade-up fade-up-d1" data-i18n="forword.next.desc">
-     MemoryFeast is a data-driven meal-ordering platform designed for Taiwan’s post-2025 ultra-aged society. By integrating physiological data to provide personalized nutritional support for seniors managing chronic health, we help users rediscover the joy of connection—turning every meal into a meaningful step toward holistic well-being.
+    <div class="next-project-label" data-i18n="next-label">Next project</div>
+    <h2 class="fade-up">BlitzGerman</h2>
+    <p class="fade-up fade-up-d1" data-i18n="next-desc">
+      An AI-powered ecosystem designed to demystify complex German grammar. It leverages interactive AI agents and intuitive design to simplify noun genders, case systems, and sentence structures through intelligent synthesis.
     </p>
-    <a href="memoryFeast.html" class="roll-btn" id="next-project-btn">
-      <div class="roll-text" data-i18n="forword.next.btn">
+    <a href="blitzGerman.html" class="roll-btn" id="next-project-btn">
+      <div class="roll-text"  data-i18n="vista.next.btn">
         <span style="--i:1">N</span>
         <span style="--i:2">e</span>
         <span style="--i:3">x</span>
@@ -1033,8 +1057,8 @@
 </div>
   <!-- FOOTER -->
   <div class="footer-bottom">
-    <p class="footer-copy" data-i18n="forword.footer.copy">© 2026 YU_XUAN Portfolio. All rights reserved.</p>
-    <a href="#" class="back-top" data-i18n="forword.footer.back">Back to top</a>
+    <p class="footer-copy" data-i18n="footer-copy">© 2026 YU_XUAN Portfolio. All rights reserved.</p>
+    <a href="#" class="back-top" data-i18n="back-top">Back to top</a>
   </div>
 
 

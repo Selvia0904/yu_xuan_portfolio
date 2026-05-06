@@ -717,6 +717,41 @@
   }
 }
 
+
+
+
+  /* 原本的手機版通用樣式 */
+@media (max-width: 500px) {
+  .hero-title {
+    font-size: 28px; 
+  }
+
+  /* 特定針對中文手機版的微調 */
+  html[lang="zh-TW"] .hero-title {
+    font-size: 24px;   /* 比通用手機版再小一點 */
+    line-height: 1.4;  /* 中文字體通常需要稍微大一點的行距才好看 */
+    letter-spacing: 0.02em; /* 中文視情況可以加一點點字距 */
+  }
+
+  html[lang="zh-TW"] .contact-cta-title {
+    font-size: 26px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* CONTACT */
 .home-footer-section{
   position: relative;
@@ -745,6 +780,10 @@
   @media(max-width: 900px){
     #about {
       grid-template-columns: 1fr;
+    }
+
+    .hero-scroll-hint {
+      display: none;
     }
     .project-card { grid-template-columns: 1fr; }
     .project-card.open { max-height: 520px; }

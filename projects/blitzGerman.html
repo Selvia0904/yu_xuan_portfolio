@@ -600,6 +600,12 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .hero { padding: 120px 24px 60px; }
+    .hero-image img {
+      height: auto;          /* 關鍵：取消固定高度 */
+      min-height: auto;      
+      object-fit: contain; 
+    }
+
     .hero-image { padding: 0 24px; }
     .section { padding: 60px 24px; }
     .divider { padding: 0 24px; }
@@ -720,7 +726,7 @@
   <div class="nav-overlay" id="navOverlay">
   <ul class="overlay-links">
     <li>
-      <a href="/W_1_final/about.html" class="overlay-link">
+      <a href="../about.html" class="overlay-link">
         <div class="text-wrapper" data-i18n-twin="nav.about">
           <span class="overlay-text-item">About</span>
           <span class="overlay-text-item">About</span>
@@ -728,7 +734,7 @@
       </a>
     </li>
     <li>
-      <a href="/W_1_final/works.html" class="overlay-link">
+      <a href="../works.html" class="overlay-link">
         <div class="text-wrapper" data-i18n-twin="nav.works">
           <span class="overlay-text-item">Works</span>
           <span class="overlay-text-item">Works</span>
