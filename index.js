@@ -124,13 +124,27 @@ document.addEventListener("DOMContentLoaded", ()=>{
     }
 
     // 6. 點擊選單內的任何連結 (About, Works, Contact, 語言) 後自動關閉
-    // 這裡包含 .overlay-link 以及切換語言的 #overlay-lang
-    navOverlay.querySelectorAll('.overlay-link, #overlay-lang').forEach(link => {
-        link.addEventListener('click', () => {
-            // 稍微延遲一下，讓使用者感覺到點擊後才跳轉/關閉
-            setTimeout(closeMenu, 300); 
+        // 這裡包含 .overlay-link 以及切換語言的 #overlay-lang
+        // 6. 點擊選單內的連結後關閉選單並導航
+    navOverlay.querySelectorAll('.overlay-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            
+            // 如果是 # 開頭（例如語言切換），不處理導航
+            if (!href || href === '#') return;
+            
+            e.preventDefault(); // 阻止瀏覽器預設跳轉
+            
+            closeMenu(); // 先關閉選單（解鎖 scroll）
+            
+            // 等動畫結束後再跳轉
+            setTimeout(() => {
+                window.location.href = href;
+            }, 300);
         });
     });
+
+
 
     // 7. 按下 Escape 鍵關閉
     document.addEventListener('keydown', e => {
