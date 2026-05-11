@@ -16,10 +16,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
 <script src="https://unpkg.com/split-type"></script>
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <style>
 
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: auto; }
 
   body {
     background: var(--bg);
@@ -162,11 +165,9 @@
     object-fit: cover;
     display: block;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s;
-    filter: saturate(0.7) brightness(0.85);
   }
   .hero-img-wrap:hover .hero-img-inner {
     transform: scale(1.5);
-    filter: saturate(1) brightness(1);
   }
 
   /* Text moves on image hover */
@@ -1013,9 +1014,7 @@ gsap.registerPlugin(ScrollTrigger);
 // 統一初始化 Lenis
 // ========================
 const lenis = new Lenis({
-  lerp: 0.1,
-  smoothWheel: true,
-  syncTouch: true 
+  lerp: 0.08, smoothWheel: true, syncTouch: true 
 });
 
 // 連結 GSAP ScrollTrigger
@@ -1133,6 +1132,13 @@ function injectWarpEffect(material) {
   canvas.height = baseHeight * 2;
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+
+  let isVisible = true;
+  const knotObserver = new IntersectionObserver(entries => {
+    isVisible = entries[0].isIntersecting;
+  });
+  knotObserver.observe(canvas);
+
   renderer.setPixelRatio(2);
   renderer.setSize(baseHeight * widthMultiplier, baseHeight);
   renderer.setClearColor(0x000000, 0);
@@ -1249,6 +1255,8 @@ function injectWarpEffect(material) {
 
   function animate() {
     requestAnimationFrame(animate);
+
+    if (!isVisible) return; 
     
     autoRotY += 0.008; // 自動旋轉增量
     currentRY += (targetRY - currentRY) * 0.04; // 滑鼠跟隨平滑化
