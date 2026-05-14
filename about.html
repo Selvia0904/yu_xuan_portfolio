@@ -781,7 +781,7 @@
       <p class="profile-eyebrow" data-i18n="profile.eyebrow">Who I am</p>
       <h2 class="profile-title" data-i18n="profile.title">Profile</h2>
     </div>
-    <a href="./CY_YU_XUAN.pdf" download="CV_YU_XUAN_.pdf" class="roll-btn" id="cv-btn">
+    <a href="./CY_YU_XUAN.pdf" download="CV_YU_XUAN.pdf" class="roll-btn" id="cv-btn">
       <div class="roll-text" data-i18n="profile.cv">
         <span style="--i:1">C</span>
         <span style="--i:2">h</span>
@@ -994,17 +994,6 @@ if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
-
-/* CV Button */
-
-const cvBtn = document.getElementById('cv-btn');
-
-cvBtn.addEventListener('click', () => {
-  const link = document.createElement('a');
-  link.href = './TestCV.pdf';
-  link.download = 'YU_XUAN_CV.pdf';
-  link.click();
-});
 
 
 // 註冊插件
@@ -1366,11 +1355,23 @@ document.addEventListener("DOMContentLoaded", ()=>{
 }
 
 
+document.getElementById('cv-btn').addEventListener('click', function(e) {
+  e.preventDefault();
+  e.stopPropagation(); // 阻止上層的轉場事件
+
+  const a = document.createElement('a');
+  a.href = './CY_YU_XUAN.pdf';
+  a.download = 'CV_YU_XUAN.pdf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
+
 
 
   
 
-})
+});
 
 
 
