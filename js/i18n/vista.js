@@ -75,7 +75,7 @@ const vistaTranslations = {
     "summary-tag-ds": "Design System",
     "summary-tag-rwd": "RWD & Dark Mode",
     "testimonial-body":
-      "VistaAI redefines financial management by merging complex data with conversational intelligence. Utilizing asynchronous scrapers for real-time tracking and automated PDF reporting, it delivers a seamless, dark-mode-ready experience—ensuring every insight is as clear as a vision.",
+      "<em>VistaAI</em> redefines financial management by merging complex data with conversational intelligence. Utilizing asynchronous scrapers for real-time tracking and automated PDF reporting, it delivers a seamless, dark-mode-ready experience—ensuring every insight is <em>as clear as a vision.</em>",
 
     // Next Project
     "next-label": "Next project",
